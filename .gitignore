@@ -2,6 +2,8 @@
 .idea/
 
 ###> symfony/framework-bundle ###
+/composer.json
+/composer.lock
 /.env.local
 /.env.local.php
 /.env.*.local
