@@ -21,13 +21,16 @@ class Campus
     #[ORM\OneToMany(mappedBy: 'campus', targetEntity: Sortie::class)]
     private Collection $sorties;
 
-    #[ORM\OneToMany(mappedBy: 'campus', targetEntity: Participant::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'campus', targetEntity: Participant::class)]
     private Collection $participants;
+
+
 
     public function __construct()
     {
         $this->sorties = new ArrayCollection();
         $this->participants = new ArrayCollection();
+
     }
 
     public function getId(): ?int
@@ -85,25 +88,28 @@ class Campus
         return $this->participants;
     }
 
-    public function addParticipant(Participant $participant): self
+    public function addParticipantss(Participant $participantss): self
     {
-        if (!$this->participants->contains($participant)) {
-            $this->participants->add($participant);
-            $participant->setCampus($this);
+        if (!$this->participants->contains($participantss)) {
+            $this->participants->add($participantss);
+            $participantss->setCampus($this);
         }
 
         return $this;
     }
 
-    public function removeParticipant(Participant $participant): self
+    public function removeParticipantss(Participant $participantss): self
     {
-        if ($this->participants->removeElement($participant)) {
+        if ($this->participants->removeElement($participantss)) {
             // set the owning side to null (unless already changed)
-            if ($participant->getCampus() === $this) {
-                $participant->setCampus(null);
+            if ($participantss->getCampus() === $this) {
+                $participantss->setCampus(null);
             }
         }
 
         return $this;
     }
+
+
+
 }
