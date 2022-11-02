@@ -30,9 +30,15 @@
     <input type="password" id="confirm_password" name="confirm_password" value="{{ user.password }}"/>
 
     <label for="campus">Campus :</label>
-{#    <input type="select" id="campus" name="campus" value="{{ }}"/>#}
+    {#    <input type="select" id="campus" name="campus" value="{{ }}"/>#}
+    <select name="campus">
+        <option id="{{ user.campus.id }}">{{ user.campus.nom }}</option>
+        {% for campus in ListesCampus %}
 
-    <select name="campus">    {% for campus in ListesCampus %}<option value="{{ campus.id }}">{{ campus.nom }}</option>    {% endfor %}</select>
+            {% if campus.id != user.campus.id %}
+            <option id="{{ campus.id }}">{{ campus.nom }}</option>
+        {% endif %}{% endfor %}
+    </select>
 
     {#Affichage image apres upload#}
     <div class="imj">
