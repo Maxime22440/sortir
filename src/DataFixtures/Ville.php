@@ -5,19 +5,20 @@ namespace App\DataFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
-class Campus extends Fixture
+class Ville extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
         // $product = new Product();
         // $manager->persist($product);
-        $chartresDeBretagne = new \App\Entity\Campus();
-        $chartresDeBretagne->setNom('Chartres-de-Bretagne');
-        $manager->persist($chartresDeBretagne);
-        $this->addReference('Chartres-de-Bretagne', $chartresDeBretagne);
+
+        $rennes = new \App\Entity\Ville();
+        $rennes->setNom("Rennes");
+        $rennes->setCodePostal("35000");
 
 
-
+        $manager->persist($rennes);
         $manager->flush();
+        $this->addReference('Rennes', $rennes);
     }
 }
