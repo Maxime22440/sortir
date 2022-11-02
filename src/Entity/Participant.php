@@ -6,24 +6,37 @@ use App\Repository\ParticipantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: ParticipantRepository::class)]
-class Participant
+class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'participants')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Campus $campus = null;
+    #[ORM\Column(length: 180, unique: true)]
+    private ?string $username = null;
+
+    #[ORM\Column]
+    private array $roles = [];
+
+    /**
+     * @var string The hashed password
+     */
+    #[ORM\Column]
+    private ?string $password = null;
 
     #[ORM\OneToMany(mappedBy: 'organisateur', targetEntity: Sortie::class)]
     private Collection $sortiesOrganisees;
 
     #[ORM\ManyToMany(targetEntity: Sortie::class, inversedBy: 'participantsInscrits')]
-    private Collection $sortiesInscrit;
+    private Collection $sortiesParticipe;
+
+    #[ORM\ManyToOne(inversedBy: 'participantss')]
+    private ?Campus $campus = null;
 
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
@@ -31,14 +44,14 @@ class Participant
     #[ORM\Column(length: 255)]
     private ?string $prenom = null;
 
-    #[ORM\Column(length: 10)]
+    #[ORM\Column(length: 20, nullable: true)]
     private ?string $telephone = null;
 
-    #[ORM\Column(length: 180)]
+    #[ORM\Column(length: 180, nullable: true)]
     private ?string $mail = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $motDePasse = null;
+    private ?string $motPasse = null;
 
     #[ORM\Column]
     private ?bool $actif = null;
@@ -46,7 +59,7 @@ class Participant
     public function __construct()
     {
         $this->sortiesOrganisees = new ArrayCollection();
-        $this->sortiesInscrit = new ArrayCollection();
+        $this->sortiesParticipe = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -54,16 +67,83 @@ class Participant
         return $this->id;
     }
 
-    public function getCampus(): ?Campus
+    /**
+     * @deprecated since Symfony 5.3, use getUserIdentifier instead
+     */
+    public function getUsername(): string
     {
-        return $this->campus;
+        return (string) $this->username;
     }
 
-    public function setCampus(?Campus $campus): self
+    public function setUsername(string $username): self
     {
-        $this->campus = $campus;
+        $this->username = $username;
 
         return $this;
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->username;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Returning a salt is only needed, if you are not using a modern
+     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
+     *
+     * @see UserInterface
+     */
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 
     /**
@@ -99,23 +179,35 @@ class Participant
     /**
      * @return Collection<int, Sortie>
      */
-    public function getSortiesInscrit(): Collection
+    public function getSortiesParticipe(): Collection
     {
-        return $this->sortiesInscrit;
+        return $this->sortiesParticipe;
     }
 
-    public function addSortiesInscrit(Sortie $sortiesInscrit): self
+    public function addSortiesParticipe(Sortie $sortiesParticipe): self
     {
-        if (!$this->sortiesInscrit->contains($sortiesInscrit)) {
-            $this->sortiesInscrit->add($sortiesInscrit);
+        if (!$this->sortiesParticipe->contains($sortiesParticipe)) {
+            $this->sortiesParticipe->add($sortiesParticipe);
         }
 
         return $this;
     }
 
-    public function removeSortiesInscrit(Sortie $sortiesInscrit): self
+    public function removeSortiesParticipe(Sortie $sortiesParticipe): self
     {
-        $this->sortiesInscrit->removeElement($sortiesInscrit);
+        $this->sortiesParticipe->removeElement($sortiesParticipe);
+
+        return $this;
+    }
+
+    public function getCampus(): ?Campus
+    {
+        return $this->campus;
+    }
+
+    public function setCampus(?Campus $campus): self
+    {
+        $this->campus = $campus;
 
         return $this;
     }
@@ -149,7 +241,7 @@ class Participant
         return $this->telephone;
     }
 
-    public function setTelephone(string $telephone): self
+    public function setTelephone(?string $telephone): self
     {
         $this->telephone = $telephone;
 
@@ -161,21 +253,21 @@ class Participant
         return $this->mail;
     }
 
-    public function setMail(string $mail): self
+    public function setMail(?string $mail): self
     {
         $this->mail = $mail;
 
         return $this;
     }
 
-    public function getMotDePasse(): ?string
+    public function getMotPasse(): ?string
     {
-        return $this->motDePasse;
+        return $this->motPasse;
     }
 
-    public function setMotDePasse(string $motDePasse): self
+    public function setMotPasse(string $motPasse): self
     {
-        $this->motDePasse = $motDePasse;
+        $this->motPasse = $motPasse;
 
         return $this;
     }
