@@ -36,4 +36,16 @@ class SortiesController extends AbstractController
     }
 
 
+    #[Route('/sorties/createNew',name:'createNew')]
+    public function creationNouvelleSortie():Response
+    {
+
+
+
+
+
+    }
+
+
+
 }
