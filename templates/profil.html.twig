@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Profil{% endblock %}</title>
+    <link rel="icon" href="">
+
+{% block body %}
+    Pseudo :<input type="text" id="Pseudo" name="Pseudo" required minlength="4" maxlength="8" size="10">
+    Prénom :<input type="text" id="Prénom" name="Prénom" required minlength="4" maxlength="8" size="10">
+    Nom : <input type="text" id="Nom" name="Nom" required minlength="4" maxlength="8" size="10">
+    Télephone : <input type="text" id="Télephone" name="Télephone" required minlength="4" maxlength="8" size="10">
+    Email : <input type="text" id="Email" name="Email" required minlength="4" maxlength="8" size="10">
+    Mot de Passe : <input type="text" id="Mot_de_passe" name="Mot_de_passe" required minlength="4" maxlength="8" size="10">
+    <input type="text" id="confirmation_Mot_de_passe" name="confirmation_Mot_de_passe" required minlength="4" maxlength="8" size="10">
+    <input type="text" id="campus" name="campus" required minlength="4" maxlength="8" size="10">
+    <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg">
+
+    <input type="button" id="Enregistrer" name="Enregistrer">
+    <input type="button" id="Annuler" name="Annuler">
