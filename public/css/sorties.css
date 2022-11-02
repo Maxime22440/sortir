@@ -48,6 +48,8 @@ h2 a {
     color: #185875;
 }
 
+
+
 .container td {
     font-weight: normal;
     font-size: 1em;
@@ -96,7 +98,7 @@ h2 a {
 
 .container td:hover {
     background-color: #FFF842;
-    color: #403E10;
+    color: #FFFFFF;
     font-weight: bold;
 
     box-shadow: #7F7C21 -1px 1px, #7F7C21 -2px 2px, #7F7C21 -3px 3px, #7F7C21 -4px 4px, #7F7C21 -5px 5px, #7F7C21 -6px 6px;
