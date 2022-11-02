@@ -19,6 +19,15 @@
             <br>
             <br>
             <br>
+            <h3>Filtrer les sorties</h3>
+
+            <select name="campus">
+
+                {% for campus in ListesCampus %}
+                    <option value="{{ campus.id }}">{{ campus.nom }}</option>
+                {% endfor %}
+            </select>
+
             {% for liste in listes %}
         <div class="container">
 

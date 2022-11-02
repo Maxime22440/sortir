@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\DataFixtures\Sortie;
+use App\Repository\CampusRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -12,16 +13,18 @@ use Symfony\Component\Routing\Annotation\Route;
 class SortiesController extends AbstractController
 {
     #[Route('/sorties', name: 'app_sorties')]
-    public function index(SortieRepository $sortieRepository): Response
+    public function index(SortieRepository $sortieRepository, CampusRepository $campusRepository): Response
     {
 
-        $products = $sortieRepository->findAll();
+        $listes = $sortieRepository->findAll();
+        $campus = $campusRepository->findAll();
         $user = $this->getUser();
 
         return $this->render('sorties/sorties.html.twig', [
             'controller_name' => 'LoginController',
-            'listes' => $products,
+            'listes' => $listes,
             'user' => $user,
+            'ListesCampus' => $campus,
         ]);
 
 

@@ -16,6 +16,20 @@ class Campus extends Fixture
         $manager->persist($chartresDeBretagne);
         $this->addReference('Chartres-de-Bretagne', $chartresDeBretagne);
 
+        $nantes = new \App\Entity\Campus();
+        $nantes->setNom('Nantes');
+        $manager->persist($nantes);
+        $this->addReference('Nantes', $nantes);
+
+        $quimper = new \App\Entity\Campus();
+        $quimper->setNom('Quimper');
+        $manager->persist($quimper);
+        $this->addReference('Quimper', $quimper);
+
+        $niort = new \App\Entity\Campus();
+        $niort->setNom('Niort');
+        $manager->persist($niort);
+        $this->addReference('Niort', $niort);
 
 
         $manager->flush();
