@@ -26,6 +26,7 @@ class ProfilFormType extends AbstractType {
 
             ->add('Enregistrer', ButtonType::class)
             ->add('Annuler', ButtonType::class)
-        ;
-    }
+
+
+    ;}
 }

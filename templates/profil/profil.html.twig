@@ -1,1 +1,36 @@
 {% extends 'base.html.twig' %}
+
+{% block title %}Hello LoginController!{% endblock %}
+
+{% block body %}
+
+    <h1>Mon profil</h1>
+
+<form action="{{ path('app_login') }}" method="post">
+
+{#    <label for="username">Pseudo :</label>#}
+{#    <input type="text" id="username" name="_username" value="{{ }}"/>#}
+
+    <label for="prenom">Prénom :</label>
+    <input type="text" id="prenom" name="prenom" value="{{ user }}"/>
+
+{#    <label for="nom">Nom :</label>#}
+{#    <input type="text" id="nom" name="nom" value="{{  }}"/>#}
+
+{#    <label for="telephone">Télephone :</label>#}
+{#    <input type="text" id="telephone" name="telephone" value="{{  }}"/>#}
+
+{#    <label for="email">Email :</label>#}
+{#    <input type="email" id="email" name="email" value="{{  }}"/>#}
+
+{#    <label for="password">Mot de passe :</label>#}
+{#    <input type="password" id="password" name="password" value="{{  }}"/>#}
+
+{#    <label for="confirm_password">Confirmation :</label>#}
+{#    <input type="password" id="confirm_password" name="confirm_password" value="{{  }}"/>#}
+
+{#    <label for="campus">Campus :</label>#}
+{#    <input type="text" id="campus" name="campus" value="{{  }}"/>#}
+
+
+{% endblock %}

@@ -12,14 +12,11 @@ class ProfilController extends AbstractController
     #[Route('/profil', name: 'app_profil')]
     public function profil(): Response
     {
-
-            dump($this->getUser());
-
-
-
-
+        $user = $this->getUser();
         return $this->render('profil/profil.html.twig', [
             'controller_name' => 'ProfilController',
+            'user' => $user,
         ]);
+
     }
 }
