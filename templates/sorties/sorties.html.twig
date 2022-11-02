@@ -1,21 +1,69 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+{% extends 'base.html.twig' %}
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-    </head>
-    <body>
+
+
+
+        {% block title %}Listes des sorties {% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/sorties.css') }}">
+{% endblock %}
+
+
+
+
         {% block body %}
 
+            <h1>Accueil</h1>
+            <br>
+            <br>
+            <br>
+            <br>
+            {% for liste in listes %}
+        <div class="container">
+
+            <table class="container">
+
+                <thead>
+
+
+                <tr> <th>Nom de la sortie</th> <th>Date de la sortie</th> <th>Clôture</th> <th>inscrits/places</th>
+                    <th>Etat</th> <th>Inscrit</th> <th>Organisateur</th> <th>Actions</th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+
+                <tr> <td>{{ liste.nom }}</td> <td>{{ liste.dateHeureDebut|date('d/m/Y') }}</td> <td>{{ liste.dateLimiteInscription|date('d/m/Y') }}</td>
+                    <td>{{ liste.participantsInscrits.count }}</td> <td>{{ liste.etat.libelle }}</td>
+                    <td>{% if liste.participantsInscrits is not null %}
+
+                        {%  if liste.participantsInscrits.contains( user) %}
+                            X
+                        {% else %}
+
+                        {% endif %}
+                        {% endif %}</td>
+
+                    <td>
+                        {{ liste.organisateur.userIdentifier }}
+                    </td>
+                    <td>
+                        action
+                    </td>
+
+                </tr>
+                </tbody>
+
+
+            </table>
+
+        </div>
+        {% endfor %}
+
         {% endblock %}
-    </body>
-</html>
+
+
+
+
