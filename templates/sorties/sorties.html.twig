@@ -1,20 +1,17 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+{% extends 'base.html.twig' %}
 
-        <link rel="stylesheet" href="{{ asset('css/sorties.css') }}">
 
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-    </head>
-    <body>
+
+        {% block title %}Listes des sorties {% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/sorties.css') }}">
+{% endblock %}
+
+
+
+
         {% block body %}
 
             <h1>Accueil</h1>
@@ -24,10 +21,6 @@
             <br>
             {% for liste in listes %}
         <div class="container">
-
-
-
-
 
             <table class="container">
 
@@ -74,5 +67,3 @@
 
 
 
-    </body>
-</html>
