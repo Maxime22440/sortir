@@ -3,9 +3,10 @@
 namespace App\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class Sortie extends Fixture
+class Sortie extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
@@ -22,6 +23,16 @@ class Sortie extends Fixture
         $sortiePiscine->setOrganisateur($this->getReference('roman'));
         $sortiePiscine->addParticipantsInscrit($this->getReference('roman'));
         $sortiePiscine->setCampus($this->getReference('Chartres-de-Bretagne'));
+        $sortiePiscine->setLieu($this->getReference('Mairie de Rennes'));
+        $manager->persist($sortiePiscine);
         $manager->flush();
+        $this->addReference('sortiePiscine', $sortiePiscine);
+    }
+
+    public function getDependencies()
+    {
+        return[
+            Lieu::class,
+        ];
     }
 }
