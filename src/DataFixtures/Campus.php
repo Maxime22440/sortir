@@ -11,6 +11,11 @@ class Campus extends Fixture
     {
         // $product = new Product();
         // $manager->persist($product);
+        $chartresDeBretagne = new \App\Entity\Campus();
+        $chartresDeBretagne->setNom('Chartres-de-Bretagne');
+        $manager->persist($chartresDeBretagne);
+        $this->addReference('Chartres-de-Bretagne', $chartresDeBretagne);
+
 
 
         $manager->flush();

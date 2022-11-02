@@ -12,6 +12,13 @@ class Ville extends Fixture
         // $product = new Product();
         // $manager->persist($product);
 
+        $rennes = new \App\Entity\Ville();
+        $rennes->setNom("Rennes");
+        $rennes->setCodePostal("35000");
+
+
+        $manager->persist($rennes);
         $manager->flush();
+        $this->addReference('Rennes', $rennes);
     }
 }

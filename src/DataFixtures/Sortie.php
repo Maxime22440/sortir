@@ -11,7 +11,17 @@ class Sortie extends Fixture
     {
         // $product = new Product();
         // $manager->persist($product);
-
+        $sortiePiscine = new \App\Entity\Sortie();
+        $sortiePiscine->setNom('sortiePiscine');
+        $sortiePiscine->setDateHeureDebut(new \DateTime('2023-01-10 09:15:35'));
+        $sortiePiscine->setDuree(3600);
+        $sortiePiscine->setDateLimiteInscription(new \DateTime('2023-01-15 09:15:35'));
+        $sortiePiscine->setNbInscriptionsMax(20);
+        $sortiePiscine->setInfosSortie('on va trop se marrer');
+        $sortiePiscine->setEtat($this->getReference('Ouvert'));
+        $sortiePiscine->setOrganisateur($this->getReference('roman'));
+        $sortiePiscine->addParticipantsInscrit($this->getReference('roman'));
+        $sortiePiscine->setCampus($this->getReference('Chartres-de-Bretagne'));
         $manager->flush();
     }
 }
