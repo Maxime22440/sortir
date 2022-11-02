@@ -50,6 +50,7 @@ class Sortie
     private ?Participant $organisateur = null;
 
     #[ORM\ManyToMany(targetEntity: Participant::class, mappedBy: 'sortiesParticipe')]
+    #[ORM\JoinColumn(nullable: true)]
     private Collection $participantsInscrits;
 
 
@@ -198,7 +199,7 @@ class Sortie
     {
         if (!$this->participantsInscrits->contains($participantsInscrit)) {
             $this->participantsInscrits->add($participantsInscrit);
-            $participantsInscrit->addSortiesInscrit($this);
+            $participantsInscrit->addSortiesParticipe($this);
         }
 
         return $this;
@@ -207,7 +208,7 @@ class Sortie
     public function removeParticipantsInscrit(Participant $participantsInscrit): self
     {
         if ($this->participantsInscrits->removeElement($participantsInscrit)) {
-            $participantsInscrit->removeSortiesInscrit($this);
+            $participantsInscrit->removeSortiesParticipe($this);
         }
 
         return $this;

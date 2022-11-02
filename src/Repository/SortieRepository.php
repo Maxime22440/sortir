@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -38,6 +39,22 @@ class SortieRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    public function findAllSorties()
+    {
+        $qb = $this->createQueryBuilder('sorties');
+
+        $qb->addSelect('seasons')
+            ->leftJoin('serie.seasons', 'seasons')
+            ->orderBy('serie.firstAirDate', 'DESC')
+            ->addOrderBy('serie.name', 'ASC');
+
+        $query = $qb->getQuery();
+        $query->setMaxResults(20);
+
+        return new Paginator($query);
+    }
+
 
 //    /**
 //     * @return Sortie[] Returns an array of Sortie objects
