@@ -33,6 +33,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $sortiesOrganisees;
 
     #[ORM\ManyToMany(targetEntity: Sortie::class, inversedBy: 'participantsInscrits')]
+    #[ORM\JoinColumn(nullable: true)]
     private Collection $sortiesParticipe;
 
     #[ORM\ManyToOne(inversedBy: 'participantss')]
@@ -49,9 +50,6 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 180, nullable: true)]
     private ?string $mail = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $motPasse = null;
 
     #[ORM\Column]
     private ?bool $actif = null;
@@ -260,17 +258,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getMotPasse(): ?string
-    {
-        return $this->motPasse;
-    }
 
-    public function setMotPasse(string $motPasse): self
-    {
-        $this->motPasse = $motPasse;
-
-        return $this;
-    }
 
     public function isActif(): ?bool
     {
@@ -283,4 +271,6 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+
 }
