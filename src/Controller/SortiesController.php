@@ -10,6 +10,7 @@ use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -87,6 +88,29 @@ class SortiesController extends AbstractController
         return $this->render('sorties/createNew.html.twig', [
             'sortieForm' => $sortieForm->createView()
         ]);
+
+    }
+
+    public function listVillesEnFonctionDuCampus(Request $request, EntityManagerInterface $em):Response
+    {
+
+        $villeRepository = $em->getRepository("AppBundle:Ville");
+
+        $villes = $villeRepository->createQueryBuilder("q")
+            ->where("q.campus = :campusid")
+            ->setParameter("campusid", $request->query->get("campusid"))
+            ->getQuery()
+            ->getResult();
+
+        $responseArray = [];
+        foreach($villes as $ville){
+            $responseArray[] = [
+                "id"=>$ville->getId(),
+                "name"=>$ville->getName()
+            ];
+        }
+
+        return new JsonResponse($responseArray);
 
     }
 
