@@ -3,6 +3,11 @@
 namespace App\Controller;
 
 use App\DataFixtures\Sortie;
+use App\Entity\Campus;
+use App\Form\FilterType;
+use App\Form\modele\Filter;
+use App\Form\modele\SortiesType;
+use App\Repository\CampusRepository;
 use App\Entity\Etat;
 use App\Form\CreateNewFormType;
 use App\Form\modele\formModele;
@@ -18,16 +23,26 @@ use Symfony\Component\Routing\Annotation\Route;
 class SortiesController extends AbstractController
 {
     #[Route('/sorties', name: 'app_sorties')]
+    public function index(SortieRepository $sortieRepository, CampusRepository $campusRepository, Request $request): Response
     public function index(SortieRepository $sortieRepository): Response
     {
-
-        $products = $sortieRepository->findAll();
+        $filter = new Filter();
+        $listes = $sortieRepository->findAll();
+        $campus = $campusRepository->findAll();
         $user = $this->getUser();
+        $filterForm = $this->createForm(FilterType::class,$filter);
+        $filterForm->handleRequest($request);
+
+
+
 
         return $this->render('sorties/sorties.html.twig', [
             'controller_name' => 'LoginController',
             'listes' => $products,
             'user' => $user,
+            'ListesCampus' => $campus,
+            'filterForm' => $filterForm->createView(),
+
         ]);
 
 
@@ -113,6 +128,8 @@ class SortiesController extends AbstractController
         return new JsonResponse($responseArray);
 
     }
+
+
 
 
 
