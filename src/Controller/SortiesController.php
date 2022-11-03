@@ -3,28 +3,40 @@
 namespace App\Controller;
 
 use App\DataFixtures\Sortie;
+use App\Entity\Campus;
+use App\Form\FilterType;
+use App\Form\modele\Filter;
+use App\Form\modele\SortiesType;
 use App\Repository\CampusRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class SortiesController extends AbstractController
 {
     #[Route('/sorties', name: 'app_sorties')]
-    public function index(SortieRepository $sortieRepository, CampusRepository $campusRepository): Response
+    public function index(SortieRepository $sortieRepository, CampusRepository $campusRepository, Request $request): Response
     {
-
+        $filter = new Filter();
         $listes = $sortieRepository->findAll();
         $campus = $campusRepository->findAll();
         $user = $this->getUser();
+        $filterForm = $this->createForm(FilterType::class,$filter);
+        $filterForm->handleRequest($request);
+
+
+
 
         return $this->render('sorties/sorties.html.twig', [
             'controller_name' => 'LoginController',
             'listes' => $listes,
             'user' => $user,
             'ListesCampus' => $campus,
+            'filterForm' => $filterForm->createView(),
+
         ]);
 
 
@@ -46,6 +58,8 @@ class SortiesController extends AbstractController
             'sortie' => $sortie
         ]);
     }
+
+
 
 
 }
