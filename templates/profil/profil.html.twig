@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+{% block title %}Hello LoginController!{% endblock %}
+{% block body %}
+    <h1>Mon profil</h1>
+<form action="{{ path('app_login') }}" method="post">
+    <label for="username">Pseudo :</label>
+    <input type="text" id="username" name="_username" value="{{ user.username }}"/>
+    <label for="prenom">Prénom :</label>
+    <input type="text" id="prenom" name="prenom" value="{{ user.prenom }}"/>
+    <label for="nom">Nom :</label>
+    <input type="text" id="nom" name="nom" value="{{ user.nom }}"/>
+    <label for="telephone">Télephone :</label>
+    <input type="text" id="telephone" name="telephone" value="{{ user.telephone }}"/>
+    <label for="email">Email :</label>
+    <input type="email" id="email" name="email" value="{{ user.mail }}"/>
+    <label for="password">Mot de passe :</label>
+    <input type="password" id="password" name="password" value="{{ user.password }}"/>
+    <label for="confirm_password">Confirmation :</label>
+    <input type="password" id="confirm_password" name="confirm_password" value="{{ user.password }}"/>
+
+    <label for="campus">Campus :</label>
+    {#    <input type="select" id="campus" name="campus" value="{{ }}"/>#}
+
+    <select name="campus">
+        <option id="{{ user.campus.id }}">{{ user.campus.nom }}</option>
+        {% for campus in ListesCampus %}
+
+            {% if campus.id != user.campus.id %}
+                <option id="{{ campus.id }}">{{ campus.nom }}</option>
+            {% endif %}{% endfor %}
+    </select>
+
+    {#Affichage image apres upload#}
+    <div class="imj">
+        Inserer une image : <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg""
+        onchange="loadFile(event)">
+        <div class="image">
+            <img id="output" />
+            <script>
+                var loadFile = function(event) {
+                    var output = document.getElementById('output');
+                    output.src = URL
+                        .createObjectURL(event.target.files[0]);
+                    output.onload = function() {
+                        URL.revokeObjectURL(output.src) // free memory
+                    }
+                }
+            </script>
+        </div>
+        <input type="button" id="enregistrer" name="enregistrer" value="Enregistrer">
+        <input type="button" id="annuler" name="annuler" value="Annuler">
+{% endblock %}

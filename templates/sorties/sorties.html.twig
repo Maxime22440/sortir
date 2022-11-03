@@ -19,6 +19,36 @@
             <br>
             <br>
             <br>
+            <h3>Filtrer les sorties</h3>
+
+            <select name="campus">
+
+                {% for campus in ListesCampus %}
+                    <option value="{{ campus.id }}">{{ campus.nom }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <input type="search" placeholder="search">
+            <br>
+            <p> Entre </p>
+            <input type="date" name="firstDate" min="2020-04-01" />
+            <p> Et </p>
+            <input type="date" name="SecondDate"  max="2024-04-30" />
+            <br>
+            <br>
+            <input type="checkbox" id="sortieOrganisateur" name="sortieOrganisateur"   >
+            <label for="scales">Sorties dont je suis l'organisateur/trice</label>
+            <br>
+            <input type="checkbox" id="sortieInscrit" name="sortieInscrit" checked>
+            <label for="scales">Sorties auxquelles je suis inscrit/e</label>
+            <br>
+            <input type="checkbox" id="sortieNonInscrit" name="sortieNonInscrit" checked>
+            <label for="scales">Sorties auxquelles je ne suis pas inscrit/e</label>
+            <br>
+            <input type="checkbox" id="sortiesPasses" name="sortiesPasses" checked>
+            <label for="scales">Sorties passées</label>
+
+
             {% for liste in listes %}
         <div class="container">
 
