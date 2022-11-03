@@ -8,7 +8,11 @@ use App\Form\FilterType;
 use App\Form\modele\Filter;
 use App\Form\modele\SortiesType;
 use App\Repository\CampusRepository;
+use App\Entity\Etat;
+use App\Form\CreateNewFormType;
+use App\Form\modele\formModele;
 use App\Repository\SortieRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,6 +23,7 @@ class SortiesController extends AbstractController
 {
     #[Route('/sorties', name: 'app_sorties')]
     public function index(SortieRepository $sortieRepository, CampusRepository $campusRepository, Request $request): Response
+    public function index(SortieRepository $sortieRepository): Response
     {
         $filter = new Filter();
         $listes = $sortieRepository->findAll();
@@ -32,7 +37,7 @@ class SortiesController extends AbstractController
 
         return $this->render('sorties/sorties.html.twig', [
             'controller_name' => 'LoginController',
-            'listes' => $listes,
+            'listes' => $products,
             'user' => $user,
             'ListesCampus' => $campus,
             'filterForm' => $filterForm->createView(),
@@ -58,6 +63,48 @@ class SortiesController extends AbstractController
             'sortie' => $sortie
         ]);
     }
+
+
+    #[Route('/sorties/createNew',name:'createNew')]
+    public function creationNouvelleSortie(Request $request, EntityManagerInterface $em):Response
+    {
+
+
+        $user = $this->getUser();
+        $sortie = new \App\Entity\Sortie();
+        $etat = new Etat();
+        $etat->setLibelle('Ouvert');
+        //remplir les champs lieu, campus, organisateur, participants incscrits, etat
+        $sortie->setOrganisateur($user);
+        $sortie->addParticipantsInscrit($user);
+        $sortie->setEtat($etat);
+
+
+        $sortieForm = $this->createForm(CreateNewFormType::class,$sortie);
+
+
+        //récupération si il y a des données
+        $sortieForm->handleRequest($request);
+
+
+        if($sortieForm->isSubmitted() && $sortieForm->isValid()){
+
+
+            $em->persist($sortie);
+            $em->flush();
+
+            $this->addFlash('success','La sortie a été créée');
+
+            return $this->redirectToRoute('app_sorties');
+
+        }
+
+        return $this->render('sorties/createNew.html.twig', [
+            'sortieForm' => $sortieForm->createView()
+        ]);
+
+    }
+
 
 
 
