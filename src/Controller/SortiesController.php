@@ -3,9 +3,14 @@
 namespace App\Controller;
 
 use App\DataFixtures\Sortie;
+use App\Entity\Etat;
+use App\Form\CreateNewFormType;
+use App\Form\modele\formModele;
 use App\Repository\SortieRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -46,12 +51,42 @@ class SortiesController extends AbstractController
 
 
     #[Route('/sorties/createNew',name:'createNew')]
-    public function creationNouvelleSortie():Response
+    public function creationNouvelleSortie(Request $request, EntityManagerInterface $em):Response
     {
 
 
+        $user = $this->getUser();
+        $sortie = new \App\Entity\Sortie();
+        $etat = new Etat();
+        $etat->setLibelle('Ouvert');
+        //remplir les champs lieu, campus, organisateur, participants incscrits, etat
+        $sortie->setOrganisateur($user);
+        $sortie->addParticipantsInscrit($user);
+        $sortie->setEtat($etat);
 
 
+        $sortieForm = $this->createForm(CreateNewFormType::class,$sortie);
+
+
+        //récupération si il y a des données
+        $sortieForm->handleRequest($request);
+
+
+        if($sortieForm->isSubmitted() && $sortieForm->isValid()){
+
+
+            $em->persist($sortie);
+            $em->flush();
+
+            $this->addFlash('success','La sortie a été créée');
+
+            return $this->redirectToRoute('app_sorties');
+
+        }
+
+        return $this->render('sorties/createNew.html.twig', [
+            'sortieForm' => $sortieForm->createView()
+        ]);
 
     }
 
