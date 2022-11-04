@@ -8,6 +8,7 @@
 
 
         {% if app.user %}
+            <li><a href="{{ path('app_logout') }}">Créer Une Sortie</a></li>
         <li><a href="{{ path('app_logout') }}">Se déconnecter</a></li>
         {% else %}
         <li><a href="{{ path('app_login') }}">Se connecter</a></li>
