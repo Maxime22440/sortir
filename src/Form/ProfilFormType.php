@@ -26,6 +26,10 @@ class ProfilFormType extends AbstractType
             ->add('prenom', TextType::class)
             ->add('telephone', TextType::class)
             ->add('mail', EmailType::class)
+            ->add('campus', EntityType::class,[
+                'class'=> Campus::class,
+                'choice_label'=>'nom'
+            ])
             ->add('password2',RepeatedType::class,[
                 'mapped'=> false,
                 'type' => PasswordType::class,
