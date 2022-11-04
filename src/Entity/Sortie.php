@@ -16,7 +16,7 @@ class Sortie
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'sorties')]
+    #[ORM\ManyToOne(cascade: ["persist"], inversedBy: 'sorties')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Etat $etat = null;
 

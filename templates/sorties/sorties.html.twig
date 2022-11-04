@@ -21,16 +21,18 @@
             <br>
             <h3>Filtrer les sorties</h3>
 
-            <select name="campus">
 
-                {% for campus in ListesCampus %}
-                    <option value="{{ campus.id }}">{{ campus.nom }}</option>
-                {% endfor %}
-            </select>
 
-            <input type="search" placeholder="search">
+            {{ form_start(filterForm) }}
 
-            {% for liste in listes %}
+            {{ form_widget(filterForm) }}
+
+            <button>Filtrer</button>
+
+            {{ form_end(filterForm) }}
+
+
+
         <div class="container">
 
             <table class="container">
@@ -44,7 +46,7 @@
                 </thead>
 
                 <tbody>
-
+            {% for liste in listes %}
 
                 <tr> <td>{{ liste.nom }}</td> <td>{{ liste.dateHeureDebut|date('d/m/Y') }}</td> <td>{{ liste.dateLimiteInscription|date('d/m/Y') }}</td>
                     <td>{{ liste.participantsInscrits.count }}</td> <td>{{ liste.etat.libelle }}</td>
@@ -65,13 +67,15 @@
                     </td>
 
                 </tr>
+                
+            {% endfor %}
                 </tbody>
 
 
             </table>
 
         </div>
-        {% endfor %}
+
 
         {% endblock %}
 
