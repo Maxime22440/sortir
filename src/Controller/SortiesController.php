@@ -12,7 +12,6 @@ use App\Entity\Etat;
 use App\Form\CreateNewFormType;
 use App\Form\modele\formModele;
 use App\Repository\SortieRepository;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,7 +23,7 @@ class SortiesController extends AbstractController
 {
     #[Route('/sorties', name: 'app_sorties')]
     public function index(SortieRepository $sortieRepository, CampusRepository $campusRepository, Request $request): Response
-
+    public function index(SortieRepository $sortieRepository): Response
     {
         $filter = new Filter();
         $listes = $sortieRepository->findAll();
@@ -135,7 +134,30 @@ class SortiesController extends AbstractController
     }
 
 
+    #[Route('/sorties/ListeLieuxDUneVille/{id}',name:'apiVilles')]
+    public function ListeLieuxDUneVille(Request $request, EntityManagerInterface $em, LieuRepository $lieuRepository, int $id =0):Response
+    {
 
+//        $ville = $villeRepository->createQueryBuilder("q")
+//            ->where("q.ville = :villeId")
+//            ->setParameter("villeId", $id)
+//            ->getQuery()
+//            ->getResult();  On ne fait pas de querybuilder dans les controlleurs. On utilise les méthodes du repository comme ci-dessous
 
+        $lieux = $lieuRepository->findBy(['ville' => $id]);
+
+//        dd($lieux);
+
+//        $responseArray = [];
+//        foreach($lieux as $lieu){
+//            $responseArray[] = [
+//                "id"=>$ville->getId(),
+//                "name"=>$ville->getName()
+//            ];
+//        }  Méthode dépréciée. Utiliser plutot les annotations #[Groups(['nomDuGroupe'])] directement dans les entités.
+
+        return $this->json($lieux,200,[],['groups'=>'lieuxDUneVille']); //Dans le quatrième paramètre on peut passer un tableau d'annotations diverses
+
+    }
 
 }
