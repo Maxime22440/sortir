@@ -55,7 +55,6 @@ class SortiesController extends AbstractController
                 'controller_name' => 'LoginController',
                 'listes' => $listes,
                 'user' => $user,
-                'ListesCampus' => $campus,
                 'filterForm' => $filterForm->createView(),
 
             ]);
