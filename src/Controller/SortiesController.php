@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\DataFixtures\Sortie;
 use App\Entity\Campus;
-use App\Entity\Ville;
 use App\Form\FilterType;
 use App\Form\modele\Filter;
 use App\Form\modele\SortiesType;
@@ -12,14 +11,10 @@ use App\Repository\CampusRepository;
 use App\Entity\Etat;
 use App\Form\CreateNewFormType;
 use App\Form\modele\formModele;
-use App\Repository\EtatRepository;
-use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
-use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,14 +23,43 @@ class SortiesController extends AbstractController
 {
     #[Route('/sorties', name: 'app_sorties')]
     public function index(SortieRepository $sortieRepository, CampusRepository $campusRepository, Request $request): Response
-
+    public function index(SortieRepository $sortieRepository): Response
     {
         $filter = new Filter();
         $listes = $sortieRepository->findAll();
         $campus = $campusRepository->findAll();
         $user = $this->getUser();
+
+       $userId = $user->getId();
+
         $filterForm = $this->createForm(FilterType::class,$filter);
         $filterForm->handleRequest($request);
+
+        $filtreData = new Filter();
+            $filtreData->setCampus($filterForm->getData()->getCampus());
+            $filtreData->setRecherche($filterForm->getData()->getRecherche());
+            $filtreData->setFirstdate($filterForm->getData()->getFirstdate());
+            $filtreData->setSecondDate($filterForm->getData()->getSecondDate());
+            $filtreData->setSortieOrganisateur($filterForm->getData()->getSortieOrganisateur());
+            $filtreData->setSortieInscrit($filterForm->getData()->getSortieInscrit());
+            $filtreData->setSortieNonInscrit($filterForm->getData()->getSortieNonInscrit());
+            $filtreData->setSortiesPasses($filterForm->getData()->getSortiesPasses());
+
+        if ($filterForm->isSubmitted() && $filterForm->isValid()) {
+            dump($sortieRepository->findWithFilter($filtreData,$userId));
+            $listes = $sortieRepository->findWithFilter($filtreData,$userId);
+
+            dump($listes);
+            return $this->render('sorties/sorties.html.twig', [
+                'controller_name' => 'LoginController',
+                'listes' => $listes,
+                'user' => $user,
+                'ListesCampus' => $campus,
+                'filterForm' => $filterForm->createView(),
+
+            ]);
+
+        }
 
 
 
@@ -71,20 +95,20 @@ class SortiesController extends AbstractController
 
 
     #[Route('/sorties/createNew',name:'createNew')]
-    public function creationNouvelleSortie(Request $request, EntityManagerInterface $em, EtatRepository $er):Response
+    public function creationNouvelleSortie(Request $request, EntityManagerInterface $em):Response
     {
 
 
         $user = $this->getUser();
         $sortie = new \App\Entity\Sortie();
-        $etat = $er->findOneBy(['libelle' => 'Ouvert']);
+        $etat = new Etat();
+        $etat->setLibelle('Ouvert');
         //remplir les champs lieu, campus, organisateur, participants incscrits, etat
         $sortie->setOrganisateur($user);
         $sortie->addParticipantsInscrit($user);
         $sortie->setEtat($etat);
 
 
-        dump($sortie);
         $sortieForm = $this->createForm(CreateNewFormType::class,$sortie);
 
 
@@ -103,6 +127,7 @@ class SortiesController extends AbstractController
             return $this->redirectToRoute('app_sorties');
 
         }
+
         return $this->render('sorties/createNew.html.twig', [
             'sortieForm' => $sortieForm->createView()
         ]);

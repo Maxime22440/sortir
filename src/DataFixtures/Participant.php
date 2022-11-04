@@ -28,6 +28,18 @@ class Participant extends Fixture
         $manager->persist($roman);
         $this->addReference('roman', $roman);
 
+        $maxime = new \App\Entity\Participant();
+        $maxime->setNom('rousseau');
+        $maxime->setUsername('meeter');
+        $maxime->setPrenom('maxime');
+        $maxime->setMail('maxime.rousseau99@gmail.com');
+        $maxime->setPassword($this->hasher->hashPassword($maxime, 'maxime'));
+        $maxime->setTelephone('07 81 72 66 21');
+        $maxime->setActif(true);
+        $maxime->setCampus($this->getReference('Nantes'));
+        $manager->persist($maxime);
+        $this->addReference('maxime', $maxime);
+
         $manager->flush();
     }
 }

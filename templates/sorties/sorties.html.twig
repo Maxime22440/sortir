@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+èyè{% extends 'base.html.twig' %}
 
 
 
@@ -32,7 +32,7 @@
             {{ form_end(filterForm) }}
 
 
-            {% for liste in listes %}
+
         <div class="container">
 
             <table class="container">
@@ -46,7 +46,7 @@
                 </thead>
 
                 <tbody>
-
+            {% for liste in listes %}
 
                 <tr> <td>{{ liste.nom }}</td> <td>{{ liste.dateHeureDebut|date('d/m/Y') }}</td> <td>{{ liste.dateLimiteInscription|date('d/m/Y') }}</td>
                     <td>{{ liste.participantsInscrits.count }}</td> <td>{{ liste.etat.libelle }}</td>
@@ -67,13 +67,15 @@
                     </td>
 
                 </tr>
+                
+            {% endfor %}
                 </tbody>
 
 
             </table>
 
         </div>
-        {% endfor %}
+
 
         {% endblock %}
 
