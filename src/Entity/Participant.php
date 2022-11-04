@@ -36,7 +36,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinColumn(nullable: true)]
     private Collection $sortiesParticipe;
 
-    #[ORM\ManyToOne(inversedBy: 'participantss')]
+    #[ORM\ManyToOne(inversedBy: 'participants')]
     private ?Campus $campus = null;
 
     #[ORM\Column(length: 255)]

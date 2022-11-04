@@ -1,11 +1,52 @@
 {% extends "base.html.twig" %}
 {% block body %}
     <h1>Créer une sortie</h1>
+
+
+
+
     {{ form_start(sortieForm) }}
     {{ form_widget(sortieForm) }}
+
+
     <button>Ajouter</button>
     {{ form_end(sortieForm) }}
 
 
+    <ul>
+        <li>
+            <a href="{{ path('app_sorties') }}">Retour à la liste de sorties</a>
+        </li>
+    </ul>
+{% endblock %}
 
+  {#fetch("{{ path('apiVilles') }}/" + citySelector).then(response => response.json()).then(data => { updateSelect(data) });#}
+
+
+{% block javascripts %}
+
+    <script>
+        $('#selectVille').change(function () {
+            let citySelector = $(this);
+
+            {#function updateSelect(data){#}
+            {#    #}
+            {#    //construire un select en javascript#}
+            {#    #}
+            {#}#}
+
+            $.ajax({
+                url: "{{ path('apiVilles') }}/"+citySelector.val(),    //apiVilles/cityid ?
+                type: "GET",
+                dataType: "JSON",
+                data: {
+                    cityid: citySelector.val()
+                },
+
+
+            });
+            alert('hello');
+
+        });
+    </script>
 {% endblock %}

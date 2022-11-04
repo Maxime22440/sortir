@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\DataFixtures\Sortie;
 use App\Entity\Campus;
+use App\Entity\Ville;
 use App\Form\FilterType;
 use App\Form\modele\Filter;
 use App\Form\modele\SortiesType;
@@ -11,7 +12,10 @@ use App\Repository\CampusRepository;
 use App\Entity\Etat;
 use App\Form\CreateNewFormType;
 use App\Form\modele\formModele;
+use App\Repository\EtatRepository;
+use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
+use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,7 +28,7 @@ class SortiesController extends AbstractController
 {
     #[Route('/sorties', name: 'app_sorties')]
     public function index(SortieRepository $sortieRepository, CampusRepository $campusRepository, Request $request): Response
-    public function index(SortieRepository $sortieRepository): Response
+
     {
         $filter = new Filter();
         $listes = $sortieRepository->findAll();
@@ -38,7 +42,7 @@ class SortiesController extends AbstractController
 
         return $this->render('sorties/sorties.html.twig', [
             'controller_name' => 'LoginController',
-            'listes' => $products,
+            'listes' => $listes,
             'user' => $user,
             'ListesCampus' => $campus,
             'filterForm' => $filterForm->createView(),
@@ -67,20 +71,20 @@ class SortiesController extends AbstractController
 
 
     #[Route('/sorties/createNew',name:'createNew')]
-    public function creationNouvelleSortie(Request $request, EntityManagerInterface $em):Response
+    public function creationNouvelleSortie(Request $request, EntityManagerInterface $em, EtatRepository $er):Response
     {
 
 
         $user = $this->getUser();
         $sortie = new \App\Entity\Sortie();
-        $etat = new Etat();
-        $etat->setLibelle('Ouvert');
+        $etat = $er->findOneBy(['libelle' => 'Ouvert']);
         //remplir les champs lieu, campus, organisateur, participants incscrits, etat
         $sortie->setOrganisateur($user);
         $sortie->addParticipantsInscrit($user);
         $sortie->setEtat($etat);
 
 
+        dump($sortie);
         $sortieForm = $this->createForm(CreateNewFormType::class,$sortie);
 
 
@@ -99,38 +103,37 @@ class SortiesController extends AbstractController
             return $this->redirectToRoute('app_sorties');
 
         }
-
         return $this->render('sorties/createNew.html.twig', [
             'sortieForm' => $sortieForm->createView()
         ]);
 
     }
 
-    public function listVillesEnFonctionDuCampus(Request $request, EntityManagerInterface $em):Response
+
+    #[Route('/sorties/ListeLieuxDUneVille/{id}',name:'apiVilles')]
+    public function ListeLieuxDUneVille(Request $request, EntityManagerInterface $em, LieuRepository $lieuRepository, int $id =0):Response
     {
 
-        $villeRepository = $em->getRepository("AppBundle:Ville");
+//        $ville = $villeRepository->createQueryBuilder("q")
+//            ->where("q.ville = :villeId")
+//            ->setParameter("villeId", $id)
+//            ->getQuery()
+//            ->getResult();  On ne fait pas de querybuilder dans les controlleurs. On utilise les méthodes du repository comme ci-dessous
 
-        $villes = $villeRepository->createQueryBuilder("q")
-            ->where("q.campus = :campusid")
-            ->setParameter("campusid", $request->query->get("campusid"))
-            ->getQuery()
-            ->getResult();
+        $lieux = $lieuRepository->findBy(['ville' => $id]);
 
-        $responseArray = [];
-        foreach($villes as $ville){
-            $responseArray[] = [
-                "id"=>$ville->getId(),
-                "name"=>$ville->getName()
-            ];
-        }
+//        dd($lieux);
 
-        return new JsonResponse($responseArray);
+//        $responseArray = [];
+//        foreach($lieux as $lieu){
+//            $responseArray[] = [
+//                "id"=>$ville->getId(),
+//                "name"=>$ville->getName()
+//            ];
+//        }  Méthode dépréciée. Utiliser plutot les annotations #[Groups(['nomDuGroupe'])] directement dans les entités.
+
+        return $this->json($lieux,200,[],['groups'=>'lieuxDUneVille']); //Dans le quatrième paramètre on peut passer un tableau d'annotations diverses
 
     }
-
-
-
-
 
 }
