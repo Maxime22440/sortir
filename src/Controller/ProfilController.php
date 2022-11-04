@@ -5,43 +5,59 @@ namespace App\Controller;
 use App\Entity\Participant;
 use App\Form\ProfilFormType;
 use App\Repository\CampusRepository;
+use App\Repository\ParticipantRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Exception\ORMException;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 
 class ProfilController extends AbstractController
 {
 
-//    #[Route('/profil', name: 'app_profil')]
-//    public function profil(CampusRepository $campusRepository): Response
-//    {
-//        $profil =new Participant();
-//
-//        $profilForm = $this->createForm(ProfilFormType::class, $this->getUser());
-//
-//        if ($profilForm->isSubmitted() && $profilForm->isValid()) {
-//
-//
-//            $em->persist($profil);
-//            $em->flush();
-//
-//            return $this->redirectToRoute('app_sorties');
-//        }
-//
-//        return $this->render('profil/profil.html.twig', [
-//            'profilForm' => $profilForm->createView()
-//        ]);
-//    }
 
-
-    #[Route('/profil', name: 'app_profil')]
-    public function update(CampusRepository $em, Participant $participant): Response
+    /**
+     * @throws OptimisticLockException
+     * @throws ORMException
+     */
+    #[Route('/profil', name: 'app_profil',methods: ['GET', 'POST'])]
+    public function update(Request $request,CampusRepository $campusRepository,UserPasswordHasherInterface $hasher, ParticipantRepository $participantRepository, EntityManagerInterface $em): Response
     {
-        $profilForm = $this->createForm(profilFormType::class, $participant);
+
+
+        $user = $this->getUser();
+
+
+
+        $profilForm = $this->createForm(profilFormType::class, $user);
+        $profilForm->handleRequest($request);
+
 
         if ($profilForm->isSubmitted() && $profilForm->isValid()) {
 
+
+
+            $newPassword = $profilForm->get('password2')->getData();
+
+            //$encoded = $hasher->hashPassword($user,$newPassword);
+           // $user->setPassword($encoded);
+            //$participantRepository->save($user);
+
+
+            $user->setPassword(
+                $hasher->hashPassword(
+                    $user,
+                    $newPassword
+
+                )
+            );
+            $em->persist($user);
             $em->flush();
 
             $this->addFlash('success', 'Le profil a bien été modifié');
@@ -50,9 +66,11 @@ class ProfilController extends AbstractController
         }
 
         return $this->render('profil/profil.html.twig', [
-            'participant' => $participant,
-            '$profilForm' => $profilForm->createView()
+            'profilForm' => $profilForm->createView(),
+            'campus' => $campusRepository
         ]);
     }
+
+
 
 }
