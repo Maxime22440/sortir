@@ -11,7 +11,9 @@ use App\Repository\CampusRepository;
 use App\Entity\Etat;
 use App\Form\CreateNewFormType;
 use App\Form\modele\formModele;
+use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
+use Container0vTxDus\getCampusRepositoryService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,7 +25,7 @@ class SortiesController extends AbstractController
 {
     #[Route('/sorties', name: 'app_sorties')]
     public function index(SortieRepository $sortieRepository, CampusRepository $campusRepository, Request $request): Response
-    public function index(SortieRepository $sortieRepository): Response
+
     {
         $filter = new Filter();
         $listes = $sortieRepository->findAll();
@@ -103,6 +105,9 @@ class SortiesController extends AbstractController
         $sortie = new \App\Entity\Sortie();
         $etat = new Etat();
         $etat->setLibelle('Ouvert');
+        $campus= new Campus();
+
+
         //remplir les champs lieu, campus, organisateur, participants incscrits, etat
         $sortie->setOrganisateur($user);
         $sortie->addParticipantsInscrit($user);
@@ -117,6 +122,8 @@ class SortiesController extends AbstractController
 
 
         if($sortieForm->isSubmitted() && $sortieForm->isValid()){
+
+
 
 
             $em->persist($sortie);
