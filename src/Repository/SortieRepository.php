@@ -3,9 +3,12 @@
 namespace App\Repository;
 
 use App\Entity\Sortie;
+use App\Form\modele\Filter;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
+use http\Client\Curl\User;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @extends ServiceEntityRepository<Sortie>
@@ -40,20 +43,83 @@ class SortieRepository extends ServiceEntityRepository
         }
     }
 
-    public function findAllSorties()
+
+
+    public function findWithFilter(Filter $filter,  $userId )
     {
-        $qb = $this->createQueryBuilder('sorties');
 
-        $qb->addSelect('seasons')
-            ->leftJoin('serie.seasons', 'seasons')
-            ->orderBy('serie.firstAirDate', 'DESC')
-            ->addOrderBy('serie.name', 'ASC');
 
-        $query = $qb->getQuery();
-        $query->setMaxResults(20);
+       $campusId = $filter->getCampus()->getId();
+       $recherche = $filter->getRecherche();
+       $premiereDate = $filter->getFirstdate();
+       $deuxiemeDate = $filter->getSecondDate();
+       $sortieOrganisateur = $filter->getSortieOrganisateur();
+       $sortieInscrit = $filter->getSortieInscrit();
+       $sortieNonInscrit = $filter->getSortieNonInscrit();
+       $sortiesPasses = $filter->getSortiesPasses();
+       $localDate =  date("Y-m-d H:i:s");
 
-        return new Paginator($query);
+
+        $querry = $this->createQueryBuilder('sortie')
+            ->addSelect('sortie')
+            ->andWhere('sortie.campus = :campus')
+            ->setParameter('campus', $campusId);
+
+
+        if (!$recherche == null){
+
+
+            $querry->andWhere('sortie.nom = :recherche')
+                ->setParameter('recher  che',$recherche);
+        }
+
+        if ($sortiesPasses == null){
+
+
+            $querry->andWhere('sortie.dateHeureDebut BETWEEN :premiereDate AND :deuxiemeDate')
+                ->setParameter('premiereDate',$premiereDate)
+                ->setParameter('deuxiemeDate',$deuxiemeDate);
+        }
+        if (!$sortiesPasses == null){
+
+
+            $querry->andWhere('sortie.dateLimiteInscription <= :LocalDate')
+                ->setParameter('LocalDate',$localDate);
+
+        }
+
+        if (!$sortieOrganisateur == null){
+
+
+            $querry->andWhere('sortie.organisateur = :userId')
+                ->setParameter('userId',$userId);
+
+        }
+
+        if ((!$sortieInscrit == null) and ($sortieNonInscrit == null) ){
+
+
+            $querry->addSelect('sortie')
+                ->leftJoin('sortie.participantsInscrits','p')
+                ->andWhere('p.id = :userId2')
+            ->setParameter('userId2',$userId);
+        }
+        if ((!$sortieNonInscrit == null) and ($sortieInscrit == null)){
+
+
+            $querry->addSelect('sortie')
+                ->leftJoin('sortie.participantsInscrits','p')
+                ->andWhere('p.id NOT IN (:userId3)')
+                ->setParameter('userId3',$userId);
+        }
+
+
+
+
+        return $querry->getQuery()->getResult();
     }
+
+
 
 
 //    /**
@@ -80,4 +146,5 @@ class SortieRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
 }
