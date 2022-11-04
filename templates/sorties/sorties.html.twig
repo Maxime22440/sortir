@@ -1,4 +1,4 @@
-èyè{% extends 'base.html.twig' %}
+{% extends 'base.html.twig' %}
 
 
 
@@ -40,16 +40,24 @@
                 <thead>
 
 
-                <tr> <th>Nom de la sortie</th> <th>Date de la sortie</th> <th>Clôture</th> <th>inscrits/places</th>
-                    <th>Etat</th> <th>Inscrit</th> <th>Organisateur</th> <th>Actions</th>
+                <tr> <th>Nom de la sortie</th>
+                    <th>Date de la sortie</th>
+                    <th>Clôture</th>
+                    <th>inscrits/places</th>
+                    <th>Etat</th>
+                    <th>Inscrit</th>
+                    <th>Organisateur</th>
                 </tr>
                 </thead>
 
                 <tbody>
             {% for liste in listes %}
 
-                <tr> <td>{{ liste.nom }}</td> <td>{{ liste.dateHeureDebut|date('d/m/Y') }}</td> <td>{{ liste.dateLimiteInscription|date('d/m/Y') }}</td>
-                    <td>{{ liste.participantsInscrits.count }}</td> <td>{{ liste.etat.libelle }}</td>
+                <tr> <td>{{ liste.nom }}</td>
+                    <td>{{ liste.dateHeureDebut|date('d/m/Y') }}</td>
+                    <td>{{ liste.dateLimiteInscription|date('d/m/Y') }}</td>
+                    <td>{{ liste.participantsInscrits.count }}</td>
+                    <td>{{ liste.etat.libelle }}</td>
                     <td>{% if liste.participantsInscrits is not null %}
 
                         {%  if liste.participantsInscrits.contains( user) %}
@@ -63,18 +71,25 @@
                         {{ liste.organisateur.userIdentifier }}
                     </td>
                     <td>
-                        action
+{#                        <a href="{{ path('createNew') }}">Afficher</a>#}
+{#                        <a href="{{ path('createNew') }}">S'inscrire</a>#}
+{#                        <a href="{{ path('createNew') }}">Se désister</a>#}
+                        <a href="{{ path('createNew') }}">Modifier</a>
+{#                        <a href="{{ path('createNew') }}">Publier</a>#}
                     </td>
 
                 </tr>
-                
+
             {% endfor %}
+
                 </tbody>
 
 
             </table>
-
+            <a href="{{ path('createNew') }}">Créer une sortie</a>
         </div>
+
+
 
 
         {% endblock %}

@@ -40,6 +40,18 @@ class Participant extends Fixture
         $manager->persist($maxime);
         $this->addReference('maxime', $maxime);
 
+        $thibaut = new \App\Entity\Participant();
+        $thibaut->setNom('jolivet');
+        $thibaut->setUsername('titi');
+        $thibaut->setPrenom('thibaut');
+        $thibaut->setMail('jolivet.thibaut979@gmail.com');
+        $thibaut->setPassword($this->hasher->hashPassword($thibaut, 'thibaut'));
+        $thibaut->setTelephone('07 83 10 22 77');
+        $thibaut->setActif(true);
+        $thibaut->setCampus($this->getReference('Quimper'));
+        $manager->persist($thibaut);
+        $this->addReference('thibaut', $thibaut);
+
         $manager->flush();
     }
 }

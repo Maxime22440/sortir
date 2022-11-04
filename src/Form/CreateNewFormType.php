@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form;
+
 
 use App\Entity\Campus;
 use App\Entity\Lieu;
@@ -13,17 +13,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CreateNewFormType extends AbstractType
 {
-
-
-
-
-
-
-
-
-
-
-
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
