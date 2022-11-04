@@ -12,12 +12,12 @@
 
     {{ form_start(profilForm) }}
 
-    {{ form_widget(profilForm.password, {
-        label: 'Password'
-    }) }}
+    {{ form_widget(profilForm)}}
 
-    <button type="submit" class="btn">Enregistrer</button>
-    <button>Annuler</button>
+    <button>Enregistrer</button>
+
+        <input type="button" onclick="window.location.href = '{{ path('app_sorties') }}';" value="Cliquez ici"/>
+
 
 
     {{ form_end(profilForm) }}

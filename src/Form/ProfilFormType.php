@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Campus;
 use App\Entity\Participant;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -24,9 +26,8 @@ class ProfilFormType extends AbstractType
             ->add('prenom', TextType::class)
             ->add('telephone', TextType::class)
             ->add('mail', EmailType::class)
-
-
-            ->add('password',RepeatedType::class,[
+            ->add('password2',RepeatedType::class,[
+                'mapped'=> false,
                 'type' => PasswordType::class,
                 'invalid_message' => 'Veuillez renseigner le meme mot de passe.',
                 'options' => ['attr' => ['class' => 'password-field']],
@@ -45,7 +46,7 @@ class ProfilFormType extends AbstractType
                     ]),
                 ],
             ])
-            //->add('campus')
+
         ;
     }
 
