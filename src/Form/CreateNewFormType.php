@@ -48,8 +48,7 @@ class CreateNewFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
 
-        $campus=$this->security->getUser()->getCampus();
-
+        $campus = $this->security->getUser()->getCampus();
 
 
         $builder
@@ -59,79 +58,82 @@ class CreateNewFormType extends AbstractType
             ->add('dateLimiteInscription')
             ->add('nbInscriptionsMax')
             ->add('infosSortie')
-
-            ->add('campus',EntityType::class,[
+            ->add('campus', EntityType::class, [
                 'class' => Campus::class,
-                'query_builder'=>function (EntityRepository $er){
+                'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('c');
                 },
                 'data' => $campus,
-                'choice_label'=>'nom',
+                'choice_label' => 'nom',
 //                'disabled' => true,
-                ])
-
-            ->add('ville',EntityType::class,[
+            ])
+            ->add('ville', EntityType::class, [
                 'class' => Ville::class,
 
-                'query_builder'=>function (EntityRepository $er){
-                    return $er->createQueryBuilder('v')->orderBy('v.nom','ASC');
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('v')->orderBy('v.nom', 'ASC');
                 },
-                'choice_label'=>'nom',
-                'mapped'=>false,
-                'expanded'=>false,
-                'multiple'=>false,
+                'choice_label' => 'nom',
+                'mapped' => false,
+                'expanded' => false,
+                'multiple' => false,
                 'placeholder' => 'Choose an option',
             ])
-
-
-
-
-
-        ;
-
-
-
-        //On veut les lieux en fonction de la ville
-
-        $builder->addEventListener(FormEvents::PRE_SET_DATA,function (FormEvent $event) {
-
-//            if (null !== $event->getData()->getVille()) {
-//                // we don't need to add the friend field because
-//                // the message will be addressed to a fixed friend
-//                return;
-//            }
-
-
-
-            $form = $event->getForm();
-
-            $lieu = [
+            ->add('lieu', EntityType::class, [
                 'class' => Lieu::class,
-                'query_builder' => function (EntityRepository $er){
-                    return $er->createQueryBuilder('l')->orderBy('l.nom','ASC');
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('l')->orderBy('l.nom', 'ASC');
                 },
-                'choice_label'=>'nom',
-                'expanded'=>false,
-                'multiple'=>false
+                'choice_label' => 'nom',
+                'expanded' => false,
+                'multiple' => false
 
-            ];
-
-
-//            $form->add('lieu', EntityType::class, $lieu);
+            ]);
 
 
-                $form->add('nouveauFormulaire', LieuType::class);
-
-
-        });
     }
 
 
 
 
+
+
+
+
+
+        //On veut les lieux en fonction de la ville
+
+//        $builder->addEventListener(FormEvents::PRE_SET_DATA,function (FormEvent $event) {
+//
+////            if (null !== $event->getData()->getVille()) {
+////                // we don't need to add the friend field because
+////                // the message will be addressed to a fixed friend
+////                return;
+////            }
+//
+//            $form = $event->getForm();
+//
+//            $lieu = [
+//                'class' => Lieu::class,
+//                'query_builder' => function (EntityRepository $er){
+//                    return $er->createQueryBuilder('l')->orderBy('l.nom','ASC');
+//                },
+//                'choice_label'=>'nom',
+//                'expanded'=>false,
+//                'multiple'=>false
+//
+//            ];
+//
+//            $form->add('lieu', EntityType::class, $lieu);
+//
+//
+////                $form->add('nouveauFormulaire', LieuType::class);
+//
+//
+//        });
+//    }
+
     protected function addElements(FormInterface $form, Ville $ville = null){
-
-
 
         $form->add('ville', EntityType::class,[
             'required'=>true,
@@ -145,7 +147,6 @@ class CreateNewFormType extends AbstractType
 
 
     }
-
 
     public function configureOptions(OptionsResolver $resolver): void
     {
