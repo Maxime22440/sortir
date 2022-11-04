@@ -23,14 +23,13 @@ class SortiesController extends AbstractController
 {
     #[Route('/sorties', name: 'app_sorties')]
     public function index(SortieRepository $sortieRepository, CampusRepository $campusRepository, Request $request): Response
-    public function index(SortieRepository $sortieRepository): Response
     {
         $filter = new Filter();
         $listes = $sortieRepository->findAll();
         $campus = $campusRepository->findAll();
         $user = $this->getUser();
 
-       $userId = $user->getId();
+
 
         $filterForm = $this->createForm(FilterType::class,$filter);
         $filterForm->handleRequest($request);
@@ -88,7 +87,7 @@ class SortiesController extends AbstractController
             throw $this->createNotFoundException('Page not found');
         }
 
-        return $this->render('sortie/detail.html.twig', [
+        return $this->render('sorties/detail.html.twig', [
             'sortie' => $sortie
         ]);
     }

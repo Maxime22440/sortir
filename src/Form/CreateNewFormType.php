@@ -12,6 +12,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -37,12 +39,12 @@ class CreateNewFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nom')
-            ->add('dateHeureDebut')
-            ->add('duree')
-            ->add('dateLimiteInscription')
-            ->add('nbInscriptionsMax')
-            ->add('infosSortie')
+            ->add('nom',TextType::class)
+            ->add('dateHeureDebut',IntegerType::class)
+            ->add('duree',IntegerType::class)
+            ->add('dateLimiteInscription',IntegerType::class)
+            ->add('nbInscriptionsMax',IntegerType::class)
+            ->add('infosSortie',TextType::class)
 
             ->add('ville',EntityType::class,[
                 'class' => Ville::class,
@@ -56,8 +58,6 @@ class CreateNewFormType extends AbstractType
                 'multiple'=>false,
                 'placeholder' => 'Choose an option',
             ])
-
-
         ;
 
 
@@ -123,4 +123,5 @@ class CreateNewFormType extends AbstractType
             'data_class' => Sortie::class,
         ]);
     }
+
 }
