@@ -88,22 +88,22 @@ class Campus
         return $this->participants;
     }
 
-    public function addParticipantss(Participant $participantss): self
+    public function addParticipants(Participant $participants): self
     {
-        if (!$this->participants->contains($participantss)) {
-            $this->participants->add($participantss);
-            $participantss->setCampus($this);
+        if (!$this->participants->contains($participants)) {
+            $this->participants->add($participants);
+            $participants->setCampus($this);
         }
 
         return $this;
     }
 
-    public function removeParticipantss(Participant $participantss): self
+    public function removeParticipants(Participant $participants): self
     {
-        if ($this->participants->removeElement($participantss)) {
+        if ($this->participants->removeElement($participants)) {
             // set the owning side to null (unless already changed)
-            if ($participantss->getCampus() === $this) {
-                $participantss->setCampus(null);
+            if ($participants->getCampus() === $this) {
+                $participants->setCampus(null);
             }
         }
 
