@@ -247,7 +247,7 @@ class SortiesController extends AbstractController
 
             }
 
-            if ($cancelForm->get('garderSorite')->isClicked()) {
+            if ($cancelForm->get('garderSortie')->isClicked()) {
 
 
                 $this->addFlash('success', 'Vous n\'avez pas annulé de sortie');
