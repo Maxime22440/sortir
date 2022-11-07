@@ -101,11 +101,11 @@
 
                             {% if 'now'|date('d/m/Y') < liste.dateLimiteInscription|date('d/m/Y') and not (liste.participantsInscrits.contains( user) and liste.organisateur.id == app.user.id) %}
                                 <a href="#">Afficher</a>
-                                <a href="#">S'inscrire</a>
+                                <a href="{{ path('inscription',{'id': liste.id})}}">S'inscrire</a>
                             {% endif %}
 
 
-                                {% if 'now'|date('d/m/Y') < liste.dateLimiteInscription|date('d/m/Y') and liste.participantsInscrits.contains( user) and not  liste.organisateur.id == app.user.id %}
+                                {% if 'now'|date('d/m/Y') < liste.dateLimiteInscription|date('d/m/Y') and liste.participantsInscrits.contains( user) and liste.organisateur.id != app.user.id %}
                                     <a href="">Afficher</a>
                                     <a href="#">Se désister</a>
                                 {% endif %}

@@ -187,7 +187,7 @@ class SortiesController extends AbstractController
     }
 
 
-    #[Route('/sorties/inscription//{id}', name:'inscription',requirements: ['id' => '\d+'])]
+    #[Route('/sorties/inscription/{id}', name:'inscription',requirements: ['id' => '\d+'])]
     public function inscription(Request $request,EntityManagerInterface $em, SortieRepository $sortieRepository, int $id):Response{
 
         $user = $this->getUser();
@@ -196,8 +196,11 @@ class SortiesController extends AbstractController
         $sortieAModifier->addParticipantsInscrit($user);
 
         $em->persist($sortieAModifier);
+        $em->persist($user);
+        $em->flush();
 
 
+        $this->addFlash('success', "Vous vous êtes inscrit à la sortie ".$sortieAModifier->getNom()."!");
         return $this->redirectToRoute('app_sorties');
     }
 
