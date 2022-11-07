@@ -31,6 +31,10 @@ class Etat extends Fixture
         $manager->persist($enCreation);
         $this->addReference('En Création', $enCreation);
 
+        $annulee = new \App\Entity\Etat();
+        $annulee->setLibelle('Annulée');
+        $manager->persist($annulee);
+        $this->addReference('Annulée', $annulee);
 
 
         $manager->flush();
