@@ -6,38 +6,42 @@ use App\Entity\Campus;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Entity\Ville;
-use App\Repository\LieuRepository;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Security;
 
 class CreateNewFormType extends AbstractType
 {
 
     private $entityManager;
+    private Security $security;
 
-    public function __construct(EntityManagerInterface $entityManager)
+
+
+    public function __construct(EntityManagerInterface $entityManager, Security $security)
     {
         $this->entityManager = $entityManager;
+        $this->security= $security;
     }
+
 
     private function getLieuRepository(): EntityRepository
     {
         return $this->entityManager->getRepository(Lieu::class);
     }
 
-
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+
+        $campus=$this->security->getUser()->getCampus();
+
         $builder
             ->add('nom')
             ->add('dateHeureDebut')
@@ -45,6 +49,16 @@ class CreateNewFormType extends AbstractType
             ->add('dateLimiteInscription')
             ->add('nbInscriptionsMax')
             ->add('infosSortie')
+
+            ->add('campus',EntityType::class,[
+                'class' => Campus::class,
+                'query_builder'=>function (EntityRepository $er){
+                    return $er->createQueryBuilder('c');
+                },
+                'data' => $campus,
+                'choice_label'=>'nom',
+//                'disabled' => true,
+                ])
 
             ->add('ville',EntityType::class,[
                 'class' => Ville::class,
@@ -58,11 +72,10 @@ class CreateNewFormType extends AbstractType
                 'multiple'=>false,
                 'placeholder' => 'Choose an option',
             ])
+
         ;
 
-
         //On veut les lieux en fonction de la ville
-
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA,function (FormEvent $event) {
 
@@ -71,6 +84,7 @@ class CreateNewFormType extends AbstractType
 //                // the message will be addressed to a fixed friend
 //                return;
 //            }
+
 
 
             $form = $event->getForm();
@@ -87,21 +101,15 @@ class CreateNewFormType extends AbstractType
             ];
 
 
-            $form->add('lieu', EntityType::class, $lieu);
+//            $form->add('lieu', EntityType::class, $lieu);
+
+//                $form->add('nouveauFormulaire', LieuType::class);
 
         });
     }
 
 
-    function onPreSubmit(FormEvent $event){
-
-
-    }
-
-
     protected function addElements(FormInterface $form, Ville $ville = null){
-
-
 
         $form->add('ville', EntityType::class,[
             'required'=>true,
@@ -112,8 +120,6 @@ class CreateNewFormType extends AbstractType
         ]);
 
         $lieux = [];
-
-
     }
 
 
@@ -123,5 +129,4 @@ class CreateNewFormType extends AbstractType
             'data_class' => Sortie::class,
         ]);
     }
-
 }
