@@ -14,6 +14,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -94,12 +95,12 @@ class CreateNewFormType extends AbstractType
                 'expanded' => false,
                 'multiple' => false
 
-            ]);
+            ])
 
 
 
-//        ->add('save', SubmitType::class, ['label' => 'Create Task'])
-//        ->add('saveAndAdd', SubmitType::class, ['label' => 'Enregistrer']);
+        ->add('Enregistrer', SubmitType::class, ['label' => 'Enregistrer'])
+        ->add('Enregistrer_et_publier', SubmitType::class, ['label' => 'Publier la sortie']);
 
     }
 
