@@ -21,31 +21,43 @@ class ProfilFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('username', TextType::class)
-            ->add('nom', TextType::class)
-            ->add('prenom', TextType::class)
-            ->add('telephone', TextType::class)
-            ->add('mail', EmailType::class)
+            ->add('username', TextType::class,[
+                'label' => false
+            ])
+            ->add('nom', TextType::class,[
+                'label' => false
+            ])
+            ->add('prenom', TextType::class,[
+                'label' => false
+            ])
+            ->add('telephone', TextType::class,[
+                'label' => false
+            ])
+            ->add('mail', EmailType::class,[
+                'label' => false
+            ])
             ->add('campus', EntityType::class,[
                 'class'=> Campus::class,
-                'choice_label'=>'nom'
+                'choice_label'=>'nom',
+                'label' => false
             ])
             ->add('password2',RepeatedType::class,[
+
                 'mapped'=> false,
                 'type' => PasswordType::class,
                 'invalid_message' => 'Veuillez renseigner le meme mot de passe.',
                 'options' => ['attr' => ['class' => 'password-field']],
                 'required' => true,
-                'first_options'  => ['label' => 'Mot de passe '],
-                'second_options' => ['label' => 'Confirmation '],
+                'first_options'  => ['label' => false],
+                'second_options' => ['label' => false],
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Please enter a password',
+                        'message' => 'Entrer un mot de passe',
                     ]),
                     new Length([
                         'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        'minMessage' => 'votre mot de passe doit comporter au moins {{ limit }} caractères',
                         'max' => 4096,
                     ]),
                 ],

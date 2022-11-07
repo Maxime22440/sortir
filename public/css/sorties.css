@@ -2,8 +2,8 @@ body {
     font-family: 'Open Sans', sans-serif;
     font-weight: 300;
     line-height: 1.42em;
-    color:#FFF;
-    background-color:#1F2739;
+    color: #000000;
+    background-color: #ffffff;
 }
 
 h1 {
@@ -11,97 +11,53 @@ h1 {
     font-weight: 300;
     line-height:1em;
     text-align: center;
-    color: #FFF;
-}
-
-h2 {
-    font-size:1em;
-    font-weight: 300;
-    text-align: center;
-    display: block;
-    line-height:1em;
-    padding-bottom: 2em;
-    color: 000000;
-}
-
-h2 a {
-    font-weight: 700;
-    text-transform: uppercase;
-    color: #FB667A;
-    text-decoration: none;
-}
-
-.blue { color: #185875; }
-.yellow { color: #FFF842; }
-
-.container th h1 {
-    font-weight: bold;
-    font-size: 1em;
-    text-align: left;
-    color: #185875;
-}
-
-.container td {
-    font-weight: normal;
-    font-size: 1em;
-    -webkit-box-shadow: 0 2px 2px -2px #0E1119;
-    -moz-box-shadow: 0 2px 2px -2px #0E1119;
-    box-shadow: 0 2px 2px -2px #0E1119;
-}
-
-.container {
-    text-align: left;
-    overflow: hidden;
-    width: 80%;
-    margin: 0 auto;
-    display: table;
-    padding: 0 0 8em 0;
-}
-
-.container td, .container th {
-    padding-bottom: 2%;
-    padding-top: 2%;
-    padding-left:2%;
-}
-
-/* Background-color of the odd rows */
-.container tr:nth-child(odd) {
-    background-color: #323C50;
-}
-
-/* Background-color of the even rows */
-.container tr:nth-child(even) {
-    background-color: #2C3446;
-}
-
-.container th {
-    background-color: #1F2739;
-}
-
-.container td:first-child { color: #FFF; }
-
-.container tr:hover {
-    background-color: #464A52;
-    -webkit-box-shadow: 0 6px 6px -6px #0E1119;
-    -moz-box-shadow: 0 6px 6px -6px #0E1119;
-    box-shadow: 0 6px 6px -6px #0E1119;
-}
-
-.container td:hover {
-    background-color: #FFF;
     color: #000000;
-    font-weight: bold;
-
-    box-shadow: #FFF -1px 1px, #FFF -2px 2px, #FFF -3px 3px, #FFF -4px 4px, #FFF -5px 5px, #FFF -6px 6px;
-    transform: translate3d(6px, -6px, 0);
-
-    transition-delay: 0s;
-    transition-duration: 0.4s;
-    transition-property: all;
-
+}
+html,
+body,
+.intro {
+    height: 50%;
 }
 
-@media (max-width: 800px) {
-    .container td:nth-child(4),
-    .container th:nth-child(4) { display: none; }
+
+table td,
+table th {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
+
+
+button {
+    width: 150px;
+    padding: 10px;
+    border: none;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    background-color: #095484;
+    font-size: 16px;
+    color: #fff;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #0666a3;
+}
+
+div.formFilter{
+    display: flex;
+    justify-content: center;
+
+
+}
+#element1{display:block;margin-right:10px;}
+#element2{display:block;}
+
+#element3{display:inline-block;margin-right:10px;}
+#element4{display:inline-block;}
+
+
+#element5{display:block;}
+#element6{display:block;}
+#element7{display:block;}
+#element8{display:block;}

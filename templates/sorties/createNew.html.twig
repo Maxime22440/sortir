@@ -18,33 +18,33 @@
     </ul>
 {% endblock %}
 
-  {#fetch("{{ path('apiVilles') }}/" + citySelector).then(response => response.json()).then(data => { updateSelect(data) });#}
+{#  fetch("{{ path('apiVilles') }}/" + citySelector).then(response => response.json()).then(data => { updateSelect(data) });#}
 
 
 {% block javascripts %}
 
     <script>
-        $('#selectVille').change(function () {
-            let citySelector = $(this);
 
-            {#function updateSelect(data){#}
-            {#    #}
-            {#    //construire un select en javascript#}
-            {#    #}
-            {#}#}
+        function init (){
 
-            $.ajax({
-                url: "{{ path('apiVilles') }}/"+citySelector.val(),    //apiVilles/cityid ?
-                type: "GET",
-                dataType: "JSON",
-                data: {
-                    cityid: citySelector.val()
-                },
+            let selectVille = document.getElementById('create_new_form_ville');
+            selectVille.addEventListener('change', function (){
+
+                fetch("{{ path('apiVilles') }}/" + this.value)
+                    .then(response => response.json())
+                    .then(data => { updateSelect(data) });
+            })
+        }
+
+        function updateSelect(data){
+            console.log(data);
+
+        }
 
 
-            });
-            alert('hello');
 
-        });
+
+
+        window.onload= init;
     </script>
 {% endblock %}

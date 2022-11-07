@@ -71,6 +71,19 @@ class ProfilController extends AbstractController
         ]);
     }
 
+    #[Route('/profilAffichage', name: 'app_profil_affichage')]
+    public function SelectProfil(Request $request,CampusRepository $campusRepository , EntityManagerInterface $em): Response
+    {
 
+
+
+
+
+
+        return $this->render('profil/affichageProfil.html.twig', [
+
+            'campus' => $campusRepository
+        ]);
+    }
 
 }

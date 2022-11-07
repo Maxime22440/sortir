@@ -4,8 +4,12 @@ namespace App\Form;
 
 use App\Entity\Campus;
 use App\Entity\Lieu;
+use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Entity\Ville;
+use App\Repository\LieuRepository;
+use Doctrine\DBAL\Types\TextType;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -32,15 +36,20 @@ class CreateNewFormType extends AbstractType
     }
 
 
+
+
+
     private function getLieuRepository(): EntityRepository
     {
         return $this->entityManager->getRepository(Lieu::class);
     }
 
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
 
-        $campus=$this->security->getUser()->getCampus();
+        $campus = $this->security->getUser()->getCampus();
+
 
         $builder
             ->add('nom')
@@ -49,65 +58,80 @@ class CreateNewFormType extends AbstractType
             ->add('dateLimiteInscription')
             ->add('nbInscriptionsMax')
             ->add('infosSortie')
-
-            ->add('campus',EntityType::class,[
+            ->add('campus', EntityType::class, [
                 'class' => Campus::class,
-                'query_builder'=>function (EntityRepository $er){
+                'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('c');
                 },
                 'data' => $campus,
-                'choice_label'=>'nom',
+                'choice_label' => 'nom',
 //                'disabled' => true,
-                ])
-
-            ->add('ville',EntityType::class,[
+            ])
+            ->add('ville', EntityType::class, [
                 'class' => Ville::class,
 
-                'query_builder'=>function (EntityRepository $er){
-                    return $er->createQueryBuilder('v')->orderBy('v.nom','ASC');
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('v')->orderBy('v.nom', 'ASC');
                 },
-                'choice_label'=>'nom',
-                'mapped'=>false,
-                'expanded'=>false,
-                'multiple'=>false,
+                'choice_label' => 'nom',
+                'mapped' => false,
+                'expanded' => false,
+                'multiple' => false,
                 'placeholder' => 'Choose an option',
             ])
+            ->add('lieu', EntityType::class, [
+                'class' => Lieu::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('l')->orderBy('l.nom', 'ASC');
+                },
+                'choice_label' => 'nom',
+                'expanded' => false,
+                'multiple' => false
 
-        ;
+            ]);
+
+
+    }
+
+
+
+
+
+
+
+
 
         //On veut les lieux en fonction de la ville
 
-        $builder->addEventListener(FormEvents::PRE_SET_DATA,function (FormEvent $event) {
-
-//            if (null !== $event->getData()->getVille()) {
-//                // we don't need to add the friend field because
-//                // the message will be addressed to a fixed friend
-//                return;
-//            }
-
-
-
-            $form = $event->getForm();
-
-            $lieu = [
-                'class' => Lieu::class,
-                'query_builder' => function (EntityRepository $er){
-                    return $er->createQueryBuilder('l')->orderBy('l.nom','ASC');
-                },
-                'choice_label'=>'nom',
-                'expanded'=>false,
-                'multiple'=>false
-
-            ];
-
-
+//        $builder->addEventListener(FormEvents::PRE_SET_DATA,function (FormEvent $event) {
+//
+////            if (null !== $event->getData()->getVille()) {
+////                // we don't need to add the friend field because
+////                // the message will be addressed to a fixed friend
+////                return;
+////            }
+//
+//            $form = $event->getForm();
+//
+//            $lieu = [
+//                'class' => Lieu::class,
+//                'query_builder' => function (EntityRepository $er){
+//                    return $er->createQueryBuilder('l')->orderBy('l.nom','ASC');
+//                },
+//                'choice_label'=>'nom',
+//                'expanded'=>false,
+//                'multiple'=>false
+//
+//            ];
+//
 //            $form->add('lieu', EntityType::class, $lieu);
-
-//                $form->add('nouveauFormulaire', LieuType::class);
-
-        });
-    }
-
+//
+//
+////                $form->add('nouveauFormulaire', LieuType::class);
+//
+//
+//        });
+//    }
 
     protected function addElements(FormInterface $form, Ville $ville = null){
 
@@ -120,8 +144,9 @@ class CreateNewFormType extends AbstractType
         ]);
 
         $lieux = [];
-    }
 
+
+    }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
