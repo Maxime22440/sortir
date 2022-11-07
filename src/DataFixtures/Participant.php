@@ -5,15 +5,22 @@ namespace App\DataFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Faker;
+
+ use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 
 class Participant extends Fixture
 {
+
     public function __construct(private UserPasswordHasherInterface $hasher)
     {
     }
 
+
     public function load(ObjectManager $manager): void
     {
+        $faker = Faker\Factory::create('fr_FR');
+
         // $product = new Product();
         // $manager->persist($product);
         $roman = new \App\Entity\Participant();
@@ -54,16 +61,17 @@ class Participant extends Fixture
 
 
 
-        for($i=0;$i<100;$i++){
+        for($i=0;$i<30;$i++){
             $user = new \App\Entity\Participant();
-            $user->setNom('Henry');
-            $user->setPrenom('Dess');
-            $user->setUsername('user'.$i);
-            $user->setMail('bonjour.aurevoir@cordialement.com');
-            $user->setPassword('123');
-            $user->setTelephone('0102030400');
+            $user->setNom($faker->lastName);
+            $user->setPrenom($faker->firstName);
+            $user->setUsername($faker->userName);
+            $user->setMail($faker->email);
+            $user->setPassword($this->hasher->hashPassword($user, 'faker'.$i));
+            $user->setTelephone($faker->phoneNumber);
             $user->setActif(true);
-            $user->setCampus($this->getReference('Chartres-de-Bretagne'));
+            if ($i % 2==0) $user->setCampus($this->getReference('Chartres-de-Bretagne'));
+            else  $user->setCampus($this->getReference('Nantes'));
             $manager->persist($user);
 
         }
@@ -71,4 +79,6 @@ class Participant extends Fixture
 
         $manager->flush();
     }
+
+
 }
