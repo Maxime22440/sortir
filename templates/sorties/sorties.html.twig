@@ -96,7 +96,9 @@
                             {{ liste.organisateur.userIdentifier }}
                         </td>
                         <td>
-                            action
+                            {% if not liste.organisateur.userIdentifier == user.userIdentifier %}
+                            <a href="{{ path ('inscription')}}">S'inscrire</a>
+                            {% endif %}
                         </td>
 
                     </tr>
