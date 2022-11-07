@@ -58,6 +58,9 @@ class CreateNewFormType extends AbstractType
             ->add('dateLimiteInscription')
             ->add('nbInscriptionsMax')
             ->add('infosSortie')
+
+
+
             ->add('campus', EntityType::class, [
                 'class' => Campus::class,
                 'query_builder' => function (EntityRepository $er) {
@@ -67,6 +70,9 @@ class CreateNewFormType extends AbstractType
                 'choice_label' => 'nom',
 //                'disabled' => true,
             ])
+
+
+
             ->add('ville', EntityType::class, [
                 'class' => Ville::class,
 
@@ -90,6 +96,10 @@ class CreateNewFormType extends AbstractType
 
             ]);
 
+
+
+//        ->add('save', SubmitType::class, ['label' => 'Create Task'])
+//        ->add('saveAndAdd', SubmitType::class, ['label' => 'Enregistrer']);
 
     }
 
