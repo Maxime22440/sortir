@@ -14,67 +14,103 @@
 
         {% block body %}
 
-            <h1>Accueil</h1>
-            <br>
-            <br>
-            <br>
-            <br>
-            <h3>Filtrer les sorties</h3>
 
 
+            <h1>Liste Des Sorties</h1>
+            <br>
+            <br>
+            <br>
+            <br>
 
+
+<div class="formFilter">
+    <div class="row">
+        <div class="col">
             {{ form_start(filterForm) }}
+            <div id="element1">{{ form_row(filterForm.campus) }}</div>
+            <div id="element2">  {{ form_row(filterForm.recherche) }}</div>
+            <br>
+            <div id="element3"> {{ form_row(filterForm.Firstdate) }}</div>
+            <div id="element4"> {{ form_row(filterForm.SecondDate) }}</div>
 
-            {{ form_widget(filterForm) }}
+        </div>
+
+        <div class="col">
+
+            <div id="element5">{{ form_row(filterForm.sortieOrganisateur) }}</div>
+            <div id="element6">{{ form_row(filterForm.sortieInscrit) }}</div>
+            <div id="element7"> {{ form_row(filterForm.sortieNonInscrit) }}</div>
+            <div id="element8">{{ form_row(filterForm.sortiesPasses) }}</div>
+            <br>
 
             <button>Filtrer</button>
 
             {{ form_end(filterForm) }}
-
-
-
-        <div class="container">
-
-            <table class="container">
-
-                <thead>
-
-
-                <tr> <th>Nom de la sortie</th> <th>Date de la sortie</th> <th>Clôture</th> <th>inscrits/places</th>
-                    <th>Etat</th> <th>Inscrit</th> <th>Organisateur</th> <th>Actions</th>
-                </tr>
-                </thead>
-
-                <tbody>
-            {% for liste in listes %}
-
-                <tr> <td>{{ liste.nom }}</td> <td>{{ liste.dateHeureDebut|date('d/m/Y') }}</td> <td>{{ liste.dateLimiteInscription|date('d/m/Y') }}</td>
-                    <td>{{ liste.participantsInscrits.count }}</td> <td>{{ liste.etat.libelle }}</td>
-                    <td>{% if liste.participantsInscrits is not null %}
-
-                        {%  if liste.participantsInscrits.contains( user) %}
-                            X
-                        {% else %}
-
-                        {% endif %}
-                        {% endif %}</td>
-
-                    <td>
-                        {{ liste.organisateur.userIdentifier }}
-                    </td>
-                    <td>
-                        action
-                    </td>
-
-                </tr>
-                
-            {% endfor %}
-                </tbody>
-
-
-            </table>
-
         </div>
+    </div>
+
+
+
+
+
+            </div>
+            <br><br>
+
+
+<section class="intro">
+    <div class="gradient-custom-2 h-100">
+        <div class="mask d-flex align-items-center h-100">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-12">
+                        <div class="table-responsive">
+                            <table class="table table-dark table-bordered mb-0">
+                                <thead>
+                    <tr>
+                        <th scope="col">Nom de la sortie</th>
+                        <th scope="col">Date de la sortie</th>
+                        <th scope="col">Clôture</th>
+                        <th scope="col">inscrits/places</th>
+                        <th scope="col">Etat</th>
+                        <th scope="col">Inscrit</th>
+                        <th scope="col">Organisateur</th>
+                        <th scope="col">Actions</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for liste in listes %}
+
+                    <tr> <th scope="row">{{ liste.nom }}</th> <td>{{ liste.dateHeureDebut|date('d/m/Y') }}</td> <td>{{ liste.dateLimiteInscription|date('d/m/Y') }}</td>
+                        <td>{{ liste.participantsInscrits.count }}</td> <td>{{ liste.etat.libelle }}</td>
+                        <td>{% if liste.participantsInscrits is not null %}
+
+                                {%  if liste.participantsInscrits.contains( user) %}
+                                    X
+                                {% else %}
+
+                                {% endif %}
+                            {% endif %}</td>
+
+                        <td>
+                            {{ liste.organisateur.userIdentifier }}
+                        </td>
+                        <td>
+                            action
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 
         {% endblock %}

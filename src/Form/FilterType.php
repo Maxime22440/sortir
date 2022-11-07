@@ -24,25 +24,36 @@ class FilterType extends AbstractType
         $builder
             ->add('campus', EntityType::class,[
                 'class'=> Campus::class,
-                'choice_label'=>'nom'
+                'choice_label'=>'nom',
+                'label' => 'Campus'
             ])
             ->add('recherche', TextType::class,[
                 'required' => false
             ])
-            ->add('Firstdate', DateType::class)
-            ->add('SecondDate', DateType::class)
+            ->add('Firstdate', DateType::class,[
+                'label' => 'Entre',
+                'widget' => 'single_text',
+            ])
+            ->add('SecondDate', DateType::class,[
+                'label' => 'Et',
+                'widget' => 'single_text',
+            ])
             ->add('sortieOrganisateur', CheckboxType::class,[
+                'label' => 'Sorties dont je suis l organisateur/trice',
                 'required' => false
 
             ])
             ->add('sortieInscrit',CheckboxType::class,[
+                'label' => 'Sorties auxquelles je suis inscrit/e',
                 'required' => false
             ])
             ->add('sortieNonInscrit', CheckboxType::class,[
+                'label' => 'Sorties auxquelles je ne suis pas inscrit/e',
                 'required' => false
 
             ])
             ->add('sortiesPasses', CheckboxType::class,[
+                'label' => 'Sorties passées',
                 'required' => false
             ])
 

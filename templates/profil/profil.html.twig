@@ -1,24 +1,141 @@
 {% extends 'base.html.twig' %}
-{% block title %}Hello LoginController!{% endblock %}
+
+
+{% block title %}Modification Profil{% endblock %}
 
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('css/profil.css') }}">
+
+
 {% endblock %}
 
+
 {% block body %}
-    <h1>Mon profil</h1>
 
 
 
-    {{ form_start(profilForm) }}
-
-    {{ form_widget(profilForm)}}
-
-    <button>Enregistrer</button>
-
-        <input type="button" onclick="window.location.href = '{{ path('app_sorties') }}';" value="Cliquez ici"/>
 
 
 
-    {{ form_end(profilForm) }}
+
+    <div class="container emp-profile">
+
+            {{ form_start(profilForm) }}
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="profile-img">
+                            <img src="https://www.kindpng.com/picc/m/311-3119342_werner-heisenberg-png-download-transparent-png.png" alt=""/>
+
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="profile-head">
+                        <h5>
+                            {{ app.user.nom }}  {{ app.user.prenom }}
+                        </h5>
+                        <h6>
+                            Etudiant à l'ENI
+                        </h6>
+                        <br>
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Informations</a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+
+                </div>
+                <div class="col-md-8">
+                    <div class="tab-content profile-tab" id="myTabContent">
+                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Username</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{ form_row(profilForm.username) }}</p>
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Nom</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{ form_row(profilForm.nom) }}</p>
+                                </div>
+                            </div>  <div class="row">
+                                <div class="col-md-6">
+                                    <label>Prénom</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{ form_row(profilForm.prenom) }}</p>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Email</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{ form_row(profilForm.mail) }}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Téléphone</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{ form_row(profilForm.telephone) }}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Campus</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{ form_row(profilForm.campus) }}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Mot de Passe</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{ form_row(profilForm.password2.first) }}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Confirmation</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{ form_row(profilForm.password2.second) }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <br>
+                    <input type="submit" value="Enregistrer" class="bnValider">
+                    &ensp;
+                    <input type="button" onclick="window.location.href = '{{ path('app_sorties') }}';" value="Annuler" class="bnAnnuler"/>
+
+                </div>
+
+            </div>
+            {{ form_rest(profilForm) }}
+            {{ form_end(profilForm) }}
+
+
+    </div>
+
+
 {% endblock %}
