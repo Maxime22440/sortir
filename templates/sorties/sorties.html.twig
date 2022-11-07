@@ -98,11 +98,10 @@
                         </td>
                         <td>
 
-                            {% if 'now'|date('d/m/Y') < liste.dateLimiteInscription|date('d/m/Y') and not liste.participantsInscrits.contains( user) and not liste.organisateur.id == app.user.id %}
+
+                            {% if 'now'|date('d/m/Y') < liste.dateLimiteInscription|date('d/m/Y') and not (liste.participantsInscrits.contains( user) and liste.organisateur.id == app.user.id) %}
                                 <a href="#">Afficher</a>
-
-                                <a href="{{ path ('inscription')}}">S'inscrire</a>
-
+                                <a href="#">S'inscrire</a>
                             {% endif %}
 
 
