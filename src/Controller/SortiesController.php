@@ -33,24 +33,24 @@ class SortiesController extends AbstractController
         $campus = $campusRepository->findAll();
         $user = $this->getUser();
 
-       $userId = $user->getId();
+        $userId = $user->getId();
 
-        $filterForm = $this->createForm(FilterType::class,$filter);
+        $filterForm = $this->createForm(FilterType::class, $filter);
         $filterForm->handleRequest($request);
 
         $filtreData = new Filter();
-            $filtreData->setCampus($filterForm->getData()->getCampus());
-            $filtreData->setRecherche($filterForm->getData()->getRecherche());
-            $filtreData->setFirstdate($filterForm->getData()->getFirstdate());
-            $filtreData->setSecondDate($filterForm->getData()->getSecondDate());
-            $filtreData->setSortieOrganisateur($filterForm->getData()->getSortieOrganisateur());
-            $filtreData->setSortieInscrit($filterForm->getData()->getSortieInscrit());
-            $filtreData->setSortieNonInscrit($filterForm->getData()->getSortieNonInscrit());
-            $filtreData->setSortiesPasses($filterForm->getData()->getSortiesPasses());
+        $filtreData->setCampus($filterForm->getData()->getCampus());
+        $filtreData->setRecherche($filterForm->getData()->getRecherche());
+        $filtreData->setFirstdate($filterForm->getData()->getFirstdate());
+        $filtreData->setSecondDate($filterForm->getData()->getSecondDate());
+        $filtreData->setSortieOrganisateur($filterForm->getData()->getSortieOrganisateur());
+        $filtreData->setSortieInscrit($filterForm->getData()->getSortieInscrit());
+        $filtreData->setSortieNonInscrit($filterForm->getData()->getSortieNonInscrit());
+        $filtreData->setSortiesPasses($filterForm->getData()->getSortiesPasses());
 
         if ($filterForm->isSubmitted() && $filterForm->isValid()) {
-            dump($sortieRepository->findWithFilter($filtreData,$userId));
-            $listes = $sortieRepository->findWithFilter($filtreData,$userId);
+            dump($sortieRepository->findWithFilter($filtreData, $userId));
+            $listes = $sortieRepository->findWithFilter($filtreData, $userId);
 
             dump($listes);
             return $this->render('sorties/sorties.html.twig', [
@@ -64,8 +64,6 @@ class SortiesController extends AbstractController
         }
 
 
-
-
         return $this->render('sorties/sorties.html.twig', [
             'controller_name' => 'LoginController',
             'listes' => $listes,
@@ -76,11 +74,10 @@ class SortiesController extends AbstractController
         ]);
 
 
-
     }
 
 
-    #[Route('/sorties/detail/{id}', name: 'app_detail_sortie',requirements: ['id' => '\d+'])]
+    #[Route('/sorties/detail/{id}', name: 'app_detail_sortie', requirements: ['id' => '\d+'])]
     public function detail(SortieRepository $sortieRepository, int $id): Response
     {
         // Récupérer la sortie à afficher en base de données
@@ -96,15 +93,15 @@ class SortiesController extends AbstractController
     }
 
 
-    #[Route('/sorties/createNew',name:'createNew')]
-    public function creationNouvelleSortie(Request $request, EntityManagerInterface $em):Response
+    #[Route('/sorties/createNew', name: 'createNew')]
+    public function creationNouvelleSortie(Request $request, EntityManagerInterface $em): Response
     {
 
 
         $user = $this->getUser();
         $sortie = new \App\Entity\Sortie();
 
-        $campus= new Campus();
+        $campus = new Campus();
 
 
         //remplir les champs lieu, campus, organisateur, participants incscrits, etat
@@ -112,16 +109,15 @@ class SortiesController extends AbstractController
         $sortie->addParticipantsInscrit($user);
 
 
-
-        $sortieForm = $this->createForm(CreateNewFormType::class,$sortie);
+        $sortieForm = $this->createForm(CreateNewFormType::class, $sortie);
 
 
         //récupération si il y a des données
         $sortieForm->handleRequest($request);
 
 
-        if($sortieForm->isSubmitted() && $sortieForm->isValid()){
-            if($sortieForm->get('Enregistrer')->isClicked()){
+        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+            if ($sortieForm->get('Enregistrer')->isClicked()) {
                 $etat = new Etat();
                 $etat->setLibelle('En Création');
 
@@ -129,13 +125,13 @@ class SortiesController extends AbstractController
                 $em->persist($sortie);
                 $em->flush();
 
-                $this->addFlash('success','La sortie a été créée');
+                $this->addFlash('success', 'La sortie a été créée');
 
                 return $this->redirectToRoute('app_sorties');
 
             }
 
-            if( $sortieForm->get('Enregistrer_et_publier')->isClicked()){
+            if ($sortieForm->get('Enregistrer_et_publier')->isClicked()) {
 
                 $etat = new Etat();
                 $etat->setLibelle('Ouvert');
@@ -144,12 +140,11 @@ class SortiesController extends AbstractController
                 $em->persist($sortie);
                 $em->flush();
 
-                $this->addFlash('success','La sortie a été créée');
+                $this->addFlash('success', 'La sortie a été créée');
 
                 return $this->redirectToRoute('app_sorties');
 
             }
-
 
 
         }
@@ -161,8 +156,8 @@ class SortiesController extends AbstractController
     }
 
 
-    #[Route('/sorties/ListeLieuxDUneVille/{id}',name:'apiVilles')]
-    public function ListeLieuxDUneVille(Request $request, EntityManagerInterface $em, LieuRepository $lieuRepository, int $id =0):Response
+    #[Route('/sorties/ListeLieuxDUneVille/{id}', name: 'apiVilles')]
+    public function ListeLieuxDUneVille(Request $request, EntityManagerInterface $em, LieuRepository $lieuRepository, int $id = 0): Response
     {
 
 //        $ville = $villeRepository->createQueryBuilder("q")
@@ -183,13 +178,14 @@ class SortiesController extends AbstractController
 //            ];
 //        }  Méthode dépréciée. Utiliser plutot les annotations #[Groups(['nomDuGroupe'])] directement dans les entités.
 
-        return $this->json($lieux,200,[],['groups'=>'lieuxDUneVille']); //Dans le quatrième paramètre on peut passer un tableau d'annotations diverses
+        return $this->json($lieux, 200, [], ['groups' => 'lieuxDUneVille']); //Dans le quatrième paramètre on peut passer un tableau d'annotations diverses
 
     }
 
 
-    #[Route('/sorties/inscription/{id}', name:'inscription',requirements: ['id' => '\d+'])]
-    public function inscription(Request $request,EntityManagerInterface $em, SortieRepository $sortieRepository, int $id):Response{
+    #[Route('/sorties/inscription/{id}', name: 'inscription', requirements: ['id' => '\d+'])]
+    public function inscription(Request $request, EntityManagerInterface $em, SortieRepository $sortieRepository, int $id): Response
+    {
 
         $user = $this->getUser();
         $sortieAModifier = $sortieRepository->find($id);
@@ -199,14 +195,15 @@ class SortiesController extends AbstractController
         $em->persist($sortieAModifier);
         $em->persist($user);
         $em->flush();
-        $nomsortie=$sortieAModifier->getNom();
+        $nomsortie = $sortieAModifier->getNom();
 
         $this->addFlash('success', "Vous vous êtes inscrit à la sortie $nomsortie!");
         return $this->redirectToRoute('app_sorties');
     }
 
-    #[Route('/sorties/desistement/{id}', name:'desistement',requirements: ['id' => '\d+'])]
-    public function desistement(Request $request,EntityManagerInterface $em, SortieRepository $sortieRepository, int $id):Response{
+    #[Route('/sorties/desistement/{id}', name: 'desistement', requirements: ['id' => '\d+'])]
+    public function desistement(Request $request, EntityManagerInterface $em, SortieRepository $sortieRepository, int $id): Response
+    {
 
         $user = $this->getUser();
         $sortieAModifier = $sortieRepository->find($id);
@@ -217,27 +214,57 @@ class SortiesController extends AbstractController
         $em->persist($user);
         $em->flush();
 
-        $nomsortie=$sortieAModifier->getNom();
+        $nomsortie = $sortieAModifier->getNom();
 
         $this->addFlash('success', "Vous vous êtes désinscrit de la sortie $nomsortie !");
         return $this->redirectToRoute('app_sorties');
     }
 
 
-
-    #[Route('/sorties/annulation/{id}', name: 'ecranAnnulation', requirements: ['id'=> '\d+'])]
-    public function annulation(Request $request,EntityManagerInterface $em, SortieRepository $sortieRepository, int $id):Response{
+    #[Route('/sorties/annulation/{id}', name: 'ecranAnnulation', requirements: ['id' => '\d+'])]
+    public function annulation(Request $request, EntityManagerInterface $em, SortieRepository $sortieRepository, int $id): Response
+    {
 
 
         $cancelForm = $this->createForm(CancelFormType::class);
+        $sortieAAnnuler = $sortieRepository->find($id);
+        $nomsortie = $sortieAAnnuler->getNom();
+
+        $cancelForm->handleRequest($request);
+        if ($cancelForm->isSubmitted() && $cancelForm->isValid()) {
+            if ($cancelForm->get('annulerSortie')->isClicked()) {
+                $etat = new Etat();
+                $etat->setLibelle('Annulé');
 
 
-        return $this->render('sorties/confirmationAnnulationSortie.html.twig', [
-            'cancelForm' => $cancelForm->createView()
-        ]);
+                $sortieAAnnuler->setEtat($etat);
+                $em->persist($sortieAAnnuler);
+                $em->flush();
+
+                $this->addFlash('success', "La sortie $nomsortie a été annulée.");
+
+                return $this->redirectToRoute('app_sorties');
+
+            }
+
+            if ($cancelForm->get('garderSorite')->isClicked()) {
+
+
+                $this->addFlash('success', 'Vous n\'avez pas annulé de sortie');
+                return $this->redirectToRoute('app_sorties');
+
+            }
+
+        }
+
+
+            return $this->render('sorties/confirmationAnnulationSortie.html.twig', [
+                'cancelForm' => $cancelForm->createView(),
+                'sortie' => $sortieAAnnuler
+            ]);
+
+
 
 
     }
-
-
 }
