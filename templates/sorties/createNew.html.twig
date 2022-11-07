@@ -17,8 +17,6 @@
             <div class="col-md-8">
                             <div class="tab-content profile-tab" id="myTabContent">
                                 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-
-
                                     <div class="row">
                                     <label>Nom de la sortie</label>
                                             <p>{{ form_row(sortieForm.nom) }}</p>
@@ -87,9 +85,7 @@
 </div>{#Fin div Background#}
 
 
-
 {% endblock %}
-
 
 
 {#  fetch("{{ path('apiVilles') }}/" + citySelector).then(response => response.json()).then(data => { updateSelect(data) });#}
@@ -113,12 +109,8 @@
             console.log(data);
 
         }
-
-
         window.onload= init;
     </script>
 
  </div>
-
-
 {% endblock %}
