@@ -1,0 +1,131 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block title %} Profile{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/profil.css') }}">
+
+
+{% endblock %}
+
+{% block body %}
+
+
+
+
+
+
+
+    <div class="container-sm emp-profile">
+
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="profile-img">
+                    <img src="https://www.kindpng.com/picc/m/311-3119342_werner-heisenberg-png-download-transparent-png.png" alt=""/>
+
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="profile-head">
+                    <h5>
+                        {{ app.user.nom }}  {{ app.user.prenom }}
+                    </h5>
+                    <h6>
+                        Etudiant à l'ENI
+                    </h6>
+
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Informations</a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+
+            </div>
+            <div class="col-md-8">
+                <div class="tab-content profile-tab" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Username</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p>{{ app.user.userIdentifier }}</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Nom</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p>{{ app.user.nom }} </p>
+                            </div>
+                        </div>  <div class="row">
+                            <div class="col-md-6">
+                                <label>Prénom</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p> {{ app.user.prenom }}</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Email</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p>{{ app.user.mail }} </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Téléphone</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p> {{ app.user.telephone }}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Campus</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p>{{ app.user.campus.nom }} </p>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                    <br>
+
+
+                </div>
+                <br>
+
+                <div>
+
+                    <input type="button" onclick="window.location.href = '{{ path('app_profil') }}';" value="Modifier le Profil" class="bn3"/>
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+
+    </div>
+
+
+{% endblock %}
