@@ -52,6 +52,23 @@ class Participant extends Fixture
         $manager->persist($thibaut);
         $this->addReference('thibaut', $thibaut);
 
+
+
+        for($i=0;$i<100;$i++){
+            $user = new \App\Entity\Participant();
+            $user->setNom('Henry');
+            $user->setPrenom('Dess');
+            $user->setUsername('user'.$i);
+            $user->setMail('bonjour.aurevoir@cordialement.com');
+            $user->setPassword('123');
+            $user->setTelephone('0102030400');
+            $user->setActif(true);
+            $user->setCampus($this->getReference('Chartres-de-Bretagne'));
+            $manager->persist($user);
+
+        }
+
+
         $manager->flush();
     }
 }
