@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\DataFixtures\Sortie;
 use App\Entity\Campus;
+use App\Form\CancelFormType;
 use App\Form\FilterType;
 use App\Form\modele\Filter;
 use App\Form\modele\SortiesType;
@@ -198,13 +199,45 @@ class SortiesController extends AbstractController
         $em->persist($sortieAModifier);
         $em->persist($user);
         $em->flush();
+        $nomsortie=$sortieAModifier->getNom();
 
+        $this->addFlash('success', "Vous vous êtes inscrit à la sortie $nomsortie!");
+        return $this->redirectToRoute('app_sorties');
+    }
 
-        $this->addFlash('success', "Vous vous êtes inscrit à la sortie ".$sortieAModifier->getNom()."!");
+    #[Route('/sorties/desistement/{id}', name:'desistement',requirements: ['id' => '\d+'])]
+    public function desistement(Request $request,EntityManagerInterface $em, SortieRepository $sortieRepository, int $id):Response{
+
+        $user = $this->getUser();
+        $sortieAModifier = $sortieRepository->find($id);
+        $user->removeSortiesParticipe($sortieAModifier);
+        $sortieAModifier->removeParticipantsInscrit($user);
+
+        $em->persist($sortieAModifier);
+        $em->persist($user);
+        $em->flush();
+
+        $nomsortie=$sortieAModifier->getNom();
+
+        $this->addFlash('success', "Vous vous êtes désinscrit de la sortie $nomsortie !");
         return $this->redirectToRoute('app_sorties');
     }
 
 
+
+    #[Route('/sorties/annulation/{id}', name: 'ecranAnnulation', requirements: ['id'=> '\d+'])]
+    public function annulation(Request $request,EntityManagerInterface $em, SortieRepository $sortieRepository, int $id):Response{
+
+
+        $cancelForm = $this->createForm(CancelFormType::class);
+
+
+        return $this->render('sorties/confirmationAnnulationSortie.html.twig', [
+            'cancelForm' => $cancelForm->createView()
+        ]);
+
+
+    }
 
 
 }

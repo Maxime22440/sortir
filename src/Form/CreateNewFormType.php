@@ -86,6 +86,8 @@ class CreateNewFormType extends AbstractType
                 'multiple' => false,
                 'placeholder' => 'Choose an option',
             ])
+
+
             ->add('lieu', EntityType::class, [
                 'class' => Lieu::class,
                 'query_builder' => function (EntityRepository $er) {
