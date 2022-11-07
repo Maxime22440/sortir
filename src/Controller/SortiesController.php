@@ -87,7 +87,7 @@ class SortiesController extends AbstractController
             throw $this->createNotFoundException('Page not found');
         }
 
-        return $this->render('sortie/detail.html.twig', [
+        return $this->render('sorties/detail.html.twig', [
             'sortie' => $sortie
         ]);
     }

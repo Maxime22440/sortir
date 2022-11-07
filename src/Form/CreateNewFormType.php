@@ -14,7 +14,10 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -53,17 +56,27 @@ class CreateNewFormType extends AbstractType
 
 
         $builder
-            ->add('nom')
-            ->add('dateHeureDebut')
-            ->add('duree')
-            ->add('dateLimiteInscription')
-            ->add('nbInscriptionsMax')
-            ->add('infosSortie')
-
-
-
+            ->add('nom',\Symfony\Component\Form\Extension\Core\Type\TextType::class, [
+                'label' => false
+            ])
+            ->add('dateHeureDebut',DateTimeType::class,[
+                'label' => false
+            ])
+            ->add('duree', TimeType::class,[
+                'label' => false
+            ])
+            ->add('dateLimiteInscription',DateTimeType::class,[
+                'label'=> false
+            ])
+            ->add('nbInscriptionsMax',NumberType::class,[
+                'label' => false
+            ])
+            ->add('infosSortie',TextareaType::class,[
+                'label' => false
+            ])
             ->add('campus', EntityType::class, [
                 'class' => Campus::class,
+                'label' => false,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('c');
                 },
@@ -71,11 +84,9 @@ class CreateNewFormType extends AbstractType
                 'choice_label' => 'nom',
 //                'disabled' => true,
             ])
-
-
-
             ->add('ville', EntityType::class, [
                 'class' => Ville::class,
+                'label' => false,
 
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('v')->orderBy('v.nom', 'ASC');
@@ -84,12 +95,11 @@ class CreateNewFormType extends AbstractType
                 'mapped' => false,
                 'expanded' => false,
                 'multiple' => false,
-                'placeholder' => 'Choose an option',
+                'placeholder' => 'Sélectionner une ville',
             ])
-
-
             ->add('lieu', EntityType::class, [
                 'class' => Lieu::class,
+                'label' => false,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('l')->orderBy('l.nom', 'ASC');
                 },
@@ -97,12 +107,8 @@ class CreateNewFormType extends AbstractType
                 'expanded' => false,
                 'multiple' => false
 
-            ])
+            ]);
 
-
-
-        ->add('Enregistrer', SubmitType::class, ['label' => 'Enregistrer'])
-        ->add('Enregistrer_et_publier', SubmitType::class, ['label' => 'Publier la sortie']);
 
     }
 

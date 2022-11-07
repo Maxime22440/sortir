@@ -1,27 +1,94 @@
 {% extends "base.html.twig" %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/createNew.css') }}">
+
+
+{% endblock %}
+
 {% block body %}
-    <h1>Créer une sortie</h1>
 
-
+<div class="container info">
+    <title>{% block title %}Créer une sortie{% endblock %}</title>
 
 
     {{ form_start(sortieForm) }}
-    {{ form_widget(sortieForm) }}
+<div class="background">
+        <div class="col-md-4">
+            <div class="col-md-8">
+                            <div class="tab-content profile-tab" id="myTabContent">
+                                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                    <div class="row">
+                                    <label>Nom de la sortie</label>
+                                            <p>{{ form_row(sortieForm.nom) }}</p>
+                                    </div>
+
+                                    <div class="row">
+                                    <label>Date et heure de début</label>
+                                            <p>{{ form_row(sortieForm.dateHeureDebut) }}</p>
+                                    </div>
+
+                                    <div class="row">
+                                    <label>Durée</label>
+                                            <p>{{ form_row(sortieForm.duree) }}</p>
+                                    </div>
+
+                                    <div class="row">
+                                    <label>Date limite d'inscriptions</label>
+                                            <p>{{ form_row(sortieForm.dateLimiteInscription) }}</p>
+                                    </div>
+
+                                    <div class="row">
+                                    <label>Nombre d'inscriptions maximum</label>
+                                            <p>{{ form_row(sortieForm.nbInscriptionsMax) }}</p>
+                                    </div>
+
+                                    <div class="row">
+                                    <label>Informations sur la sortie</label>
+                                            <p>{{ form_row(sortieForm.infosSortie) }}</p>
+                                    </div>
+
+                                    <div class="row">
+                                    <label>Campus</label>
+                                            <p>{{ form_row(sortieForm.campus) }}</p>
+                                    </div>
+
+                                    <div class="row">
+                                    <label>Ville</label>
+                                            <p>{{ form_row(sortieForm.ville) }}</p>
+                                    </div>
+
+                                    <div class="row">
+                                    <label>Lieu</label>
+                                            <p>{{ form_row(sortieForm.lieu) }}</p>
+                                    </div>
+
+                                {{ form_widget(sortieForm) }}
+                                <div class="button">
+                                    <ul>
+                                        <input type="button" onclick="window.location.href = '';" value="Publier" class="btnPublier"/>
+
+                                    </ul>
+
+                                    <ul>
+                                        <input type="button" onclick="window.location.href = '';" value="Enregistrer" class="btnEnregistrer"/>
+                                    </ul>
+                                </div>
+                                    {{ form_end(sortieForm) }}
+                                    <ul>
+                                            <input type="button" onclick="window.location.href = '{{ path('app_sorties') }}';" value="Annuler" class="btnAnnuler"/>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+</div>{#Fin div Background#}
 
 
-
-    {{ form_end(sortieForm) }}
-
-
-    <ul>
-        <li>
-            <a href="{{ path('app_sorties') }}">Retour à la liste de sorties</a>
-        </li>
-    </ul>
 {% endblock %}
 
-{#  fetch("{{ path('apiVilles') }}/" + citySelector).then(response => response.json()).then(data => { updateSelect(data) });#}
 
+{#  fetch("{{ path('apiVilles') }}/" + citySelector).then(response => response.json()).then(data => { updateSelect(data) });#}
 
 {% block javascripts %}
 
@@ -42,11 +109,8 @@
             console.log(data);
 
         }
-
-
-
-
-
         window.onload= init;
     </script>
+
+ </div>
 {% endblock %}
