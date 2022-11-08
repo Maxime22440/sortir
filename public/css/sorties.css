@@ -30,10 +30,11 @@ body,
 
 
 
-
-.container {
-    margin-right: auto;
-    margin-left: auto;
+.tab {
+    margin-right: 190px;
+    margin-left: 190px;
+    /*background-color: ;*/
+    border: 1px solid;
 }
 
 
@@ -42,6 +43,8 @@ table th {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    text-align: center;
+    margin: 30px;
 }
 
 .card {
@@ -52,10 +55,11 @@ table th {
     border-radius: .5rem;
 }
 
-thead {
-    top: 0;
+.headTab {
+    top: 0px;
     position: sticky;
 }
+
 
 
 button {
@@ -87,13 +91,11 @@ div.formFilter{
 }
 
 .formFilter{
-    margin-left: 200px;
+    margin-left: 300px;
     margin-bottom: 10px;
 }
 
-.container{
-    background-color: ;
-}
+
 
 #element1{display:inline-block;margin-right:10px;}
 #element2{display:inline-block;}

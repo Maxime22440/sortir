@@ -93,15 +93,15 @@
             <br><br>
 
 
-<div class="container">
+<div class="tab">
     <div class="table-responsive">
         <table class="table table-bordered table-sm table-striped m-10px">
-            <thead>
+            <thead class="headTab">
                     <tr>
                         <th scope="col">Nom de la sortie</th>
                         <th scope="col">Date de la sortie</th>
                         <th scope="col">Clôture</th>
-                        <th scope="col">inscrits/places</th>
+                        <th scope="col">Inscrits / Places</th>
                         <th scope="col">Etat</th>
                         <th scope="col">Inscrit</th>
                         <th scope="col">Organisateur</th>
@@ -119,8 +119,11 @@
                     {% endfor %}
                     {% for liste in listes %}
 
-                    <tr> <th scope="row">{{ liste.nom }}</th> <td>{{ liste.dateHeureDebut|date('d/m/Y') }}</td> <td>{{ liste.dateLimiteInscription|date('d/m/Y') }}</td>
-                        <td>{{ liste.participantsInscrits.count }}/{{ liste.nbInscriptionsMax }}</td> <td>{{ liste.etat.libelle }}</td>
+                    <tr> <th scope="row">{{ liste.nom }}</th>
+                        <td>{{ liste.dateHeureDebut|date('d/m/Y') }}</td>
+                        <td>{{ liste.dateLimiteInscription|date('d/m/Y') }}</td>
+                        <td>{{ liste.participantsInscrits.count }}/{{ liste.nbInscriptionsMax }}</td>
+                        <td>{{ liste.etat.libelle }}</td>
                         <td>{% if liste.participantsInscrits is not null %}
 
                                 {%  if liste.participantsInscrits.contains( user) %}
