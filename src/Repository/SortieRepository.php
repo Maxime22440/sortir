@@ -48,7 +48,7 @@ class SortieRepository extends ServiceEntityRepository
     {
 
 
-        $campusId = $filter->getCampus()->getId();
+
         $recherche = $filter->getRecherche();
         $premiereDate = $filter->getFirstdate();
         $deuxiemeDate = $filter->getSecondDate();
