@@ -119,14 +119,18 @@ class SortiesController extends AbstractController
 
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
             if ($sortieForm->get('Enregistrer')->isClicked()) {
+
                 $etat = new Etat();
                 $etat->setLibelle('En Création');
 
                 $sortie->setEtat($etat);
+                $nomSortie = $sortie->getNom();
+
+
                 $em->persist($sortie);
                 $em->flush();
 
-                $this->addFlash('success', 'La sortie a été créée');
+                $this->addFlash('success', "La sortie $nomSortie a été créée");
 
                 return $this->redirectToRoute('app_sorties');
 
@@ -138,10 +142,11 @@ class SortiesController extends AbstractController
                 $etat->setLibelle('Ouvert');
 
                 $sortie->setEtat($etat);
+                $nomSortie = $sortie->getNom();
                 $em->persist($sortie);
                 $em->flush();
 
-                $this->addFlash('success', 'La sortie a été créée');
+                $this->addFlash('success', "La sortie $nomSortie a été créée");
 
                 return $this->redirectToRoute('app_sorties');
 
@@ -232,13 +237,18 @@ class SortiesController extends AbstractController
         $nomsortie = $sortieAAnnuler->getNom();
 
         $cancelForm->handleRequest($request);
+
         if ($cancelForm->isSubmitted() && $cancelForm->isValid()) {
             if ($cancelForm->get('annulerSortie')->isClicked()) {
-                $etat = new Etat();
-                $etat->setLibelle('Annulé');
 
 
-                $sortieAAnnuler->setEtat($etat);
+                //plutot récupérer l'état en base et le modifier
+
+
+                $etatSortie = $sortieAAnnuler->getEtat();
+                $etatSortie->setLibelle('annulé');
+                $sortieAAnnuler->setEtat($etatSortie);
+
                 $em->persist($sortieAAnnuler);
                 $em->flush();
 
