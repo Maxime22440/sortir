@@ -11,11 +11,7 @@
 {% endblock %}
 
 {% block body %}
-    {% for message in app.flashes('success') %}
-        <div class="alert alert-success">
-            {{ message }}
-        </div>
-    {% endfor %}
+
 
     <div class="container-sm emp-profile">
 
@@ -30,7 +26,7 @@
             <div class="col-md-6">
                 <div class="profile-head">
                     <h5>
-                        {{ app.user.nom }}  {{ app.user.prenom }}
+                        {{ user.nom }}  {{ user.prenom }}
                     </h5>
                     <h6>
                         Etudiant à l'ENI
@@ -58,7 +54,7 @@
                                 <label>Username</label>
                             </div>
                             <div class="col-md-6">
-                                <p>{{ app.user.userIdentifier }}</p>
+                                <p>{{ user.userIdentifier }}</p>
                             </div>
                         </div>
 
@@ -67,14 +63,14 @@
                                 <label>Nom</label>
                             </div>
                             <div class="col-md-6">
-                                <p>{{ app.user.nom }} </p>
+                                <p>{{ user.nom }} </p>
                             </div>
                         </div>  <div class="row">
                             <div class="col-md-6">
                                 <label>Prénom</label>
                             </div>
                             <div class="col-md-6">
-                                <p> {{ app.user.prenom }}</p>
+                                <p> {{ user.prenom }}</p>
                             </div>
                         </div>
 
@@ -83,7 +79,7 @@
                                 <label>Email</label>
                             </div>
                             <div class="col-md-6">
-                                <p>{{ app.user.mail }} </p>
+                                <p>{{ user.mail }} </p>
                             </div>
                         </div>
                         <div class="row">
@@ -91,7 +87,7 @@
                                 <label>Téléphone</label>
                             </div>
                             <div class="col-md-6">
-                                <p> {{ app.user.telephone }}</p>
+                                <p> {{ user.telephone }}</p>
                             </div>
                         </div>
                         <div class="row">
@@ -99,7 +95,7 @@
                                 <label>Campus</label>
                             </div>
                             <div class="col-md-6">
-                                <p>{{ app.user.campus.nom }} </p>
+                                <p>{{ user.campus.nom }} </p>
                             </div>
                         </div>
 
@@ -113,8 +109,7 @@
                 <br>
 
                 <div>
-                    <a href="{{ path('app_profil') }}"><input type="button"  value="Modifier le Profil" class="bn3"/></a>
-
+                    <a href="{{ path('app_sorties') }}"><input type="button"  value="Retour" class="bn3"/></a>
 
                 </div>
 

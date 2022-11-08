@@ -13,10 +13,27 @@ h1 {
     text-align: center;
     color: #000000;
 }
+
+.recherche{
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.row{
+    margin-bottom: 15px;
+}
 html,
 body,
 .intro {
     height: 50%;
+}
+
+
+
+
+.container {
+    margin-right: auto;
+    margin-left: auto;
 }
 
 
@@ -25,6 +42,19 @@ table th {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+}
+
+.card {
+    border-radius: .5rem;
+}
+
+.table-scroll {
+    border-radius: .5rem;
+}
+
+thead {
+    top: 0;
+    position: sticky;
 }
 
 
@@ -39,19 +69,30 @@ button {
     font-size: 16px;
     color: #fff;
     cursor: pointer;
+    margin-left: 800px;
 }
 button:hover {
     background-color: #0666a3;
+}
+table {
+    border: 1px solid;
+    margin: 5px;
+    width: 100%;
+    border-collapse: collapse;
 }
 
 div.formFilter{
     display: flex;
     justify-content: center;
-
-
 }
-#element1{display:block;margin-right:10px;}
-#element2{display:block;}
+
+.formFilter{
+    margin-left: 300px;
+    margin-bottom: 10px;
+}
+
+#element1{display:inline-block;margin-right:10px;}
+#element2{display:inline-block;}
 
 #element3{display:inline-block;margin-right:10px;}
 #element4{display:inline-block;}
@@ -61,3 +102,8 @@ div.formFilter{
 #element6{display:block;}
 #element7{display:block;}
 #element8{display:block;}
+
+.otherUser{
+    color: #000000;
+    text-decoration: none;
+}

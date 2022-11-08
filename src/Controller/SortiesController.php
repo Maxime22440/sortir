@@ -47,6 +47,7 @@ class SortiesController extends AbstractController
         $filtreData->setSortieInscrit($filterForm->getData()->getSortieInscrit());
         $filtreData->setSortieNonInscrit($filterForm->getData()->getSortieNonInscrit());
         $filtreData->setSortiesPasses($filterForm->getData()->getSortiesPasses());
+        $listes = $sortieRepository->findAll();
 
         if ($filterForm->isSubmitted() && $filterForm->isValid()) {
             dump($sortieRepository->findWithFilter($filtreData, $userId));
@@ -188,7 +189,7 @@ class SortiesController extends AbstractController
     }
 
 
-    #[Route('/sorties/inscription/{id}', name: 'inscription', requirements: ['id' => '\d+'])]
+        #[Route('/sorties/inscription/{id}', name: 'inscription', requirements: ['id' => '\d+'])]
     public function inscription(Request $request, EntityManagerInterface $em, SortieRepository $sortieRepository, int $id): Response
     {
 

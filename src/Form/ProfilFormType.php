@@ -47,14 +47,12 @@ class ProfilFormType extends AbstractType
                 'type' => PasswordType::class,
                 'invalid_message' => 'Veuillez renseigner le meme mot de passe.',
                 'options' => ['attr' => ['class' => 'password-field']],
-                'required' => true,
+                'required' => false,
                 'first_options'  => ['label' => false],
                 'second_options' => ['label' => false],
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
-                    new NotBlank([
-                        'message' => 'Entrer un mot de passe',
-                    ]),
+
                     new Length([
                         'min' => 6,
                         'minMessage' => 'votre mot de passe doit comporter au moins {{ limit }} caractères',
