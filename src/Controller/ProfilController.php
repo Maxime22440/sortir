@@ -18,9 +18,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 
+
 class ProfilController extends AbstractController
 {
-
 
     /**
      * @throws OptimisticLockException
@@ -41,28 +41,31 @@ class ProfilController extends AbstractController
 
         if ($profilForm->isSubmitted() && $profilForm->isValid()) {
 
+            if($profilForm->get('password2')->isEmpty()){
+                $user->setPassword($user->getPassword());
+            }
+            else{
+                $newPassword = $profilForm->get('password2')->getData();
 
 
-            $newPassword = $profilForm->get('password2')->getData();
-
-            //$encoded = $hasher->hashPassword($user,$newPassword);
-           // $user->setPassword($encoded);
-            //$participantRepository->save($user);
 
 
-            $user->setPassword(
-                $hasher->hashPassword(
-                    $user,
-                    $newPassword
 
-                )
-            );
+                $user->setPassword(
+                    $hasher->hashPassword(
+                        $user,
+                        $newPassword
+
+                    )
+                );
+            }
+
             $em->persist($user);
             $em->flush();
 
             $this->addFlash('success', 'Le profil a bien été modifié');
 
-            return $this->redirectToRoute('app_sorties');
+            return $this->redirectToRoute('app_profil_affichage');
         }
 
         return $this->render('profil/profil.html.twig', [
@@ -85,5 +88,23 @@ class ProfilController extends AbstractController
             'campus' => $campusRepository
         ]);
     }
+    #[Route('/profilAutreUtilisateur/{id}', name: 'app_other_profil_affichage',requirements: ['id' => '\d+'])]
+    public function SelectOtherProfile(CampusRepository $campusRepository, ParticipantRepository $participantRepository , int $id): Response
+    {
+
+
+        $utilisateur = $participantRepository->find($id);
+
+        if ($utilisateur === null) {
+            throw $this->createNotFoundException('Page not found');
+        }
+
+        return $this->render('profil/affichageProfilAutreUtilisateur.html.twig', [
+
+            'campus' => $campusRepository,
+            'user' => $utilisateur
+        ]);
+    }
+
 
 }

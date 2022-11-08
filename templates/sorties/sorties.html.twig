@@ -93,10 +93,10 @@
             <br><br>
 
 
-<div class="container mt-5">
-            <div class="table-responsive">
-                            <table class="table table-striped table-dark text-white table-hover">
-                                <thead>
+<div class="container">
+    <div class="table-responsive">
+        <table class="table table-bordered table-sm table-striped m-10px">
+            <thead>
                     <tr>
                         <th scope="col">Nom de la sortie</th>
                         <th scope="col">Date de la sortie</th>
@@ -110,6 +110,13 @@
                     </tr>
                     </thead>
                     <tbody>
+                    {% for label, messages in app.flashes %}
+                        {% for message in messages %}
+                            <div class="flash flash-{{ label }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
                     {% for liste in listes %}
 
                     <tr> <th scope="row">{{ liste.nom }}</th> <td>{{ liste.dateHeureDebut|date('d/m/Y') }}</td> <td>{{ liste.dateLimiteInscription|date('d/m/Y') }}</td>
@@ -124,22 +131,34 @@
                             {% endif %}</td>
 
                         <td>
-                            {{ liste.organisateur.userIdentifier }}
+                            {% if (liste.organisateur.id == app.user.id)%}
+                                <a href="{{ path('app_profil_affichage') }}" class="otherUser">{{ liste.organisateur.userIdentifier }}</a>
+                                {% else %}
+                                <a href="{{ path('app_other_profil_affichage',{'id': liste.organisateur.id})}}" class="otherUser">{{ liste.organisateur.userIdentifier }}</a>
+                            {% endif %}
+
+
                         </td>
                         <td>
 
 
                             {% if ('now'|date('d/m/Y') < liste.dateLimiteInscription|date('d/m/Y') ) and not ( liste.participantsInscrits.contains(app.user) ) and  (liste.organisateur.id != app.user.id )%}
                                 <a href="#">Afficher</a>
-                                <a href="#">S'inscrire</a>
+                                <a href="{{path('inscription',{'id': liste.id})}}">S'inscrire</a>
                             {% endif %}
 
 
                                 {% if ('now'|date('d/m/Y') < liste.dateLimiteInscription|date('d/m/Y') )and (liste.participantsInscrits.contains(app.user)) and  ( liste.organisateur.id != app.user.id )%}
                                     <a href="">Afficher</a>
-                                    <a href="#">Se désister</a>
+                                    <a href="{{path('desistement',{'id': liste.id})}}">Se désister</a>
                                 {% endif %}
 
+
+
+                            {% if ('now'|date('d/m/Y') < liste.dateHeureDebut|date('d/m/Y') ) and ( liste.organisateur.id == app.user.id )%}
+
+                                <a href="{{path('ecranAnnulation',{'id': liste.id})}}">Annuler</a>
+                            {% endif %}
 
 
 
@@ -158,9 +177,9 @@
                     {% endfor %}
 
                     </tbody>
-                </table>
-                        </div>
-     </div>
+        </table>
+    </div>
+</div>
         {% endblock %}
 
 
