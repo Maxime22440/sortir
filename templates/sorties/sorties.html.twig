@@ -22,68 +22,68 @@
             <br>
             <br>
 
-<div class="formFilter">
-    <div class="row">
-        <div class="colRecherche">
-            {{ form_start(filterForm) }}
-
-        <div class="recherche">
-            <div class="col-md-6">
-                <label>Campus : </label>
-                <div id="element1">{{ form_row(filterForm.campus) }}</div>
-            </div>
-        </div>
-
-            <div class="recherche">
-                <label>Le nom de la sortie contiens : </label>
-                <div id="element2">  {{ form_row(filterForm.recherche) }}</div>
-
-            </div>
-
-            <div class="recherche">
-                <label>Entre : </label> <div id="element3"> {{ form_row(filterForm.Firstdate) }}</div>
-                <label>Et : </label> <div id="element4"> {{ form_row(filterForm.SecondDate) }}</div>
-            </div>
-        </div>
-
-
-
-        <div class="colFiltre">
-            <div class="tab-content profile-tab" id="myTabContent">
-                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-
-            <div class="row">
-                <div class="col-md-6">
-                    <label>Sortie dont je suis l'organisateur/trice</label>
-                </div>
-                    <div class="col-md-6" id="element5">{{ form_row(filterForm.sortieOrganisateur) }}</div>
-            </div>
-
+            <div class="formFilter">
                 <div class="row">
-                    <div class="col-md-6">
-                        <label>Sortie auquelles je suis inscrit</label>
-                    </div>
-                        <div class="col-md-6" id="element6">{{ form_row(filterForm.sortieInscrit) }}</div>
-                    </div>
+                    <div class="colRecherche">
+                        {{ form_start(filterForm) }}
 
-                <div class="row">
-                    <div class="col-md-6">
-                        <label>Sortie auquelles je ne suis pas inscrits</label>
-                    </div>
-                        <div class="col-md-6"id="element7">{{ form_row(filterForm.sortiesPasses) }}</div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label>Sorties pasées</label>
+                        <div class="recherche">
+                            <div class="col-md-6">
+                                <label>Campus : </label>
+                                <div id="element1">{{ form_row(filterForm.campus) }}</div>
+                            </div>
                         </div>
-                            <div class="col-md-6" id="element8">{{ form_row(filterForm.sortieNonInscrit) }}</div>
+
+                        <div class="recherche">
+                            <label>Le nom de la sortie contiens : </label>
+                            <div id="element2">  {{ form_row(filterForm.recherche) }}</div>
+
+                        </div>
+
+                        <div class="recherche">
+                            <label>Entre : </label> <div id="element3"> {{ form_row(filterForm.Firstdate) }}</div>
+                            <label>Et : </label> <div id="element4"> {{ form_row(filterForm.SecondDate) }}</div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="colFiltre">
+                        <div class="tab-content profile-tab" id="myTabContent">
+                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Sortie dont je suis l'organisateur/trice</label>
+                                    </div>
+                                    <div class="col-md-6" id="element5">{{ form_row(filterForm.sortieOrganisateur) }}</div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Sortie auquelles je suis inscrit</label>
+                                    </div>
+                                    <div class="col-md-6" id="element6">{{ form_row(filterForm.sortieInscrit) }}</div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Sortie auquelles je ne suis pas inscrits</label>
+                                    </div>
+                                    <div class="col-md-6"id="element7">{{ form_row(filterForm.sortiesPasses) }}</div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Sorties pasées</label>
+                                    </div>
+                                    <div class="col-md-6" id="element8">{{ form_row(filterForm.sortieNonInscrit) }}</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-                </div>
-            </div>
-        </div>
 
             <button>Rechercher</button>
 
@@ -93,96 +93,96 @@
             <br><br>
 
 
-<div class="tab">
-    <div class="table-responsive">
-        <table class="table table-bordered table-sm table-striped m-10px">
-            <thead class="headTab">
-                    <tr>
-                        <th scope="col">Nom de la sortie</th>
-                        <th scope="col">Date de la sortie</th>
-                        <th scope="col">Clôture</th>
-                        <th scope="col">Inscrits / Places</th>
-                        <th scope="col">Etat</th>
-                        <th scope="col">Inscrit</th>
-                        <th scope="col">Organisateur</th>
-                        <th scope="col">Actions</th>
+            <div class="tab">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-sm table-striped m-10px">
+                        <thead class="headTab">
+                        <tr>
+                            <th scope="col">Nom de la sortie</th>
+                            <th scope="col">Date de la sortie</th>
+                            <th scope="col">Clôture</th>
+                            <th scope="col">Inscrits / Places</th>
+                            <th scope="col">Etat</th>
+                            <th scope="col">Inscrit</th>
+                            <th scope="col">Organisateur</th>
+                            <th scope="col">Actions</th>
 
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for label, messages in app.flashes %}
-                        {% for message in messages %}
-                            <div class="flash flash-{{ label }}">
-                                {{ message }}
-                            </div>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for label, messages in app.flashes %}
+                            {% for message in messages %}
+                                <div class="flash flash-{{ label }}">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
                         {% endfor %}
-                    {% endfor %}
-                    {% for liste in listes %}
+                        {% for liste in listes %}
 
-                    <tr> <th scope="row">{{ liste.nom }}</th>
-                        <td>{{ liste.dateHeureDebut|date('d/m/Y') }}</td>
-                        <td>{{ liste.dateLimiteInscription|date('d/m/Y') }}</td>
-                        <td>{{ liste.participantsInscrits.count }}/{{ liste.nbInscriptionsMax }}</td>
-                        <td>{{ liste.etat.libelle }}</td>
-                        <td>{% if liste.participantsInscrits is not null %}
+                            <tr><th scope="row">{{ liste.nom }}</th>
+                                <td>{{ liste.dateHeureDebut|date('d/m/Y') }}</td>
+                                <td>{{ liste.dateLimiteInscription|date('d/m/Y') }}</td>
+                                <td>{{ liste.participantsInscrits.count }}/{{ liste.nbInscriptionsMax }}</td>
+                                <td>{{ liste.etat.libelle }}</td>
+                                <td>{% if liste.participantsInscrits is not null %}
 
-                                {%  if liste.participantsInscrits.contains( user) %}
-                                    X
-                                {% else %}
+                                        {%  if liste.participantsInscrits.contains( user) %}
+                                            X
+                                        {% else %}
 
-                                {% endif %}
-                            {% endif %}</td>
+                                        {% endif %}
+                                    {% endif %}</td>
 
-                        <td>
-                            {% if (liste.organisateur.id == app.user.id)%}
-                                <a href="{{ path('app_profil_affichage') }}" class="otherUser">{{ liste.organisateur.userIdentifier }}</a>
-                                {% else %}
-                                <a href="{{ path('app_other_profil_affichage',{'id': liste.organisateur.id})}}" class="otherUser">{{ liste.organisateur.userIdentifier }}</a>
-                            {% endif %}
-
-
-                        </td>
-                        <td>
+                                <td>
+                                    {% if (liste.organisateur.id == app.user.id)%}
+                                        <a href="{{ path('app_profil_affichage') }}" class="otherUser">{{ liste.organisateur.userIdentifier }}</a>
+                                    {% else %}
+                                        <a href="{{ path('app_other_profil_affichage',{'id': liste.organisateur.id})}}" class="otherUser">{{ liste.organisateur.userIdentifier }}</a>
+                                    {% endif %}
 
 
-                            {% if ('now'|date('d/m/Y') < liste.dateLimiteInscription|date('d/m/Y') ) and not ( liste.participantsInscrits.contains(app.user) ) and  (liste.organisateur.id != app.user.id )%}
-                                <a href="#">Afficher</a>
-                                <a href="{{path('inscription',{'id': liste.id})}}">S'inscrire</a>
-                            {% endif %}
+                                </td>
+                                <td>
 
 
-                                {% if ('now'|date('d/m/Y') < liste.dateLimiteInscription|date('d/m/Y') )and (liste.participantsInscrits.contains(app.user)) and  ( liste.organisateur.id != app.user.id )%}
-                                    <a href="">Afficher</a>
-                                    <a href="{{path('desistement',{'id': liste.id})}}">Se désister</a>
-                                {% endif %}
+                                    {% if ('now'|date('d/m/Y') < liste.dateLimiteInscription|date('d/m/Y') ) and not ( liste.participantsInscrits.contains(app.user) ) and  (liste.organisateur.id != app.user.id )%}
+                                        <a href="#">Afficher</a>
+                                        <a href="{{path('inscription',{'id': liste.id})}}">S'inscrire</a>
+                                    {% endif %}
 
 
-
-                            {% if ('now'|date('d/m/Y') < liste.dateHeureDebut|date('d/m/Y') ) and ( liste.organisateur.id == app.user.id )%}
-
-                                <a href="{{path('ecranAnnulation',{'id': liste.id})}}">Annuler</a>
-                            {% endif %}
+                                    {% if ('now'|date('d/m/Y') < liste.dateLimiteInscription|date('d/m/Y') )and (liste.participantsInscrits.contains(app.user)) and  ( liste.organisateur.id != app.user.id )%}
+                                        <a href="">Afficher</a>
+                                        <a href="{{path('desistement',{'id': liste.id})}}">Se désister</a>
+                                    {% endif %}
 
 
 
-                            {% if liste.organisateur.id == app.user.id and liste.etat.libelle == 'En Cours'%}
-                                <a href="">Mofifier</a>
-                                <a href="">Publier</a>
-                            {% endif %}
+                                    {% if ('now'|date('d/m/Y') < liste.dateHeureDebut|date('d/m/Y') ) and ( liste.organisateur.id == app.user.id )%}
 
-                            {% if liste.organisateur.id == app.user.id and liste.etat.libelle == 'Ouvert'%}
-                                <a href="">Afficher</a>
-                            {% endif %}
+                                        <a href="{{path('ecranAnnulation',{'id': liste.id})}}">Annuler</a>
+                                    {% endif %}
 
-                        </td>
 
-                    </tr>
-                    {% endfor %}
 
-                    </tbody>
-        </table>
-    </div>
-</div>
+                                    {% if liste.organisateur.id == app.user.id and liste.etat.libelle == 'En Cours'%}
+                                        <a href="">Mofifier</a>
+                                        <a href="">Publier</a>
+                                    {% endif %}
+
+                                    {% if liste.organisateur.id == app.user.id and liste.etat.libelle == 'Ouvert'%}
+                                        <a href="">Afficher</a>
+                                    {% endif %}
+
+                                </td>
+
+                            </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         {% endblock %}
 
 

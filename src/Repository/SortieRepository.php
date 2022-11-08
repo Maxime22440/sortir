@@ -48,7 +48,6 @@ class SortieRepository extends ServiceEntityRepository
     {
 
 
-
         $recherche = $filter->getRecherche();
         $premiereDate = $filter->getFirstdate();
         $deuxiemeDate = $filter->getSecondDate();
