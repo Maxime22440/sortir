@@ -12,6 +12,7 @@ use App\Repository\CampusRepository;
 use App\Entity\Etat;
 use App\Form\CreateNewFormType;
 use App\Form\modele\formModele;
+use App\Repository\EtatRepository;
 use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
 use Container0vTxDus\getCampusRepositoryService;
@@ -95,7 +96,7 @@ class SortiesController extends AbstractController
 
 
     #[Route('/sorties/createNew', name: 'createNew')]
-    public function creationNouvelleSortie(Request $request, EntityManagerInterface $em): Response
+    public function creationNouvelleSortie(Request $request, EntityManagerInterface $em, EtatRepository $etatRepository): Response
     {
 
 
@@ -120,8 +121,10 @@ class SortiesController extends AbstractController
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
             if ($sortieForm->get('Enregistrer')->isClicked()) {
 
-                $etat = new Etat();
-                $etat->setLibelle('En Création');
+
+                //requeter le bon état en base et le setter manuellement
+                $etat = $etatRepository->findOneBy(['libelle'=>'En Création']);
+                $sortie->setEtat($etat);
 
                 $sortie->setEtat($etat);
                 $nomSortie = $sortie->getNom();
@@ -138,8 +141,8 @@ class SortiesController extends AbstractController
 
             if ($sortieForm->get('Enregistrer_et_publier')->isClicked()) {
 
-                $etat = new Etat();
-                $etat->setLibelle('Ouvert');
+                $etat = $etatRepository->findOneBy(['libelle'=>'ouvert']);
+                $sortie->setEtat($etat);
 
                 $sortie->setEtat($etat);
                 $nomSortie = $sortie->getNom();
@@ -228,7 +231,7 @@ class SortiesController extends AbstractController
 
 
     #[Route('/sorties/annulation/{id}', name: 'ecranAnnulation', requirements: ['id' => '\d+'])]
-    public function annulation(Request $request, EntityManagerInterface $em, SortieRepository $sortieRepository, int $id): Response
+    public function annulation(Request $request, EntityManagerInterface $em, SortieRepository $sortieRepository, int $id, EtatRepository $etatRepository): Response
     {
 
 
@@ -242,13 +245,8 @@ class SortiesController extends AbstractController
             if ($cancelForm->get('annulerSortie')->isClicked()) {
 
 
-                //plutot récupérer l'état en base et le modifier
-
-
-
-                $etatSortie = $sortieAAnnuler->getEtat();
-                $etatSortie->setLibelle('annulé');
-                $sortieAAnnuler->setEtat($etatSortie);
+                $etatAnnulee = $etatRepository->findOneBy(['libelle'=>'Annulée']);
+                $sortieAAnnuler->setEtat($etatAnnulee);
 
                 $em->persist($sortieAAnnuler);
                 $em->flush();
@@ -268,7 +266,6 @@ class SortiesController extends AbstractController
             }
 
         }
-
 
             return $this->render('sorties/confirmationAnnulationSortie.html.twig', [
                 'cancelForm' => $cancelForm->createView(),
