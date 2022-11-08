@@ -44,47 +44,52 @@ class SortieRepository extends ServiceEntityRepository
     }
 
 
-
-    public function findWithFilter(Filter $filter,  $userId )
+    public function findWithFilter(Filter $filter, $userId)
     {
-        if($filter->getCampus() != null){
-            $campusId = $filter->getCampus()->getId();
 
-        }
 
+        $campusId = $filter->getCampus()->getId();
         $recherche = $filter->getRecherche();
         $premiereDate = $filter->getFirstdate();
         $deuxiemeDate = $filter->getSecondDate();
         $sortieOrganisateur = $filter->getSortieOrganisateur();
-       $sortieInscrit = $filter->getSortieInscrit();
-       $sortieNonInscrit = $filter->getSortieNonInscrit();
-       $sortiesPasses = $filter->getSortiesPasses();
-       $localDate =  date("Y-m-d H:i:s");
+        $sortieInscrit = $filter->getSortieInscrit();
+        $sortieNonInscrit = $filter->getSortieNonInscrit();
+        $sortiesPasses = $filter->getSortiesPasses();
+        $localDate = date("Y-m-d H:i:s");
 
 
-        $querry = $this->createQueryBuilder('sortie ')
-            ->addSelect('sortie ')
-            ->leftJoin('sortie.participantsInscrits','p','WITH','p.id = participant');
+        $querry = $this->createQueryBuilder('sortie')
+            ->leftJoin('sortie.participantsInscrits', 'pi')
+            ->addSelect('pi')
+            ->leftJoin('sortie.campus', 'campus')
+            ->addSelect('campus')
+            ->leftJoin('sortie.lieu', 'lieu')
+            ->addSelect('lieu')
+            ->leftJoin('sortie.etat', 'etat')
+            ->addSelect('etat')
+            ->leftJoin('sortie.organisateur', 'so')
+            ->addSelect('so');
 
-//            ->where('p.sortiesParticipe = sortie.participantsInscrits');
+
+        if ($filter->getRecherche()) {
+
+            $querry->andWhere('sortie.nom = :recherche')
+                ->setParameter('recherche', $recherche);
+        }
+
+        if ($filter->getFirstdate()) {
+            $querry->andWhere('sortie.dateHeureDebut >= :startdate')
+                ->setParameter('startdate', $filter->getFirstdate());
+        }
+
+        if ($filter->getSecondDate()) {
+            $querry->andWhere('sortie.dateHeureDebut <= :endDate')
+                ->setParameter('endDate', $filter->getSecondDate());
+        }
 
 
-//        if($filter->getCampus() != null){
-//            if($campusId !=null){
-//                $querry->andWhere('sortie.campus = :campus')
-//                    ->setParameter('campus', $campusId);
-//            }
-//        }
-//
-//
-//        if (!$recherche == null){
-//
-//
-//            $querry->andWhere('sortie.nom = :recherche')
-//                ->setParameter('recher  che',$recherche);
-//        }
-//
-//        if (!$sortiesPasses == null){
+//        if ($sortiesPasses == null){
 //
 //
 //            $querry->andWhere('sortie.dateHeureDebut BETWEEN :premiereDate AND :deuxiemeDate')
@@ -98,15 +103,15 @@ class SortieRepository extends ServiceEntityRepository
 //                ->setParameter('LocalDate',$localDate);
 //
 //        }
-//
-//        if (!$sortieOrganisateur == null){
-//
-//
-//            $querry->andWhere('sortie.organisateur = :userId')
-//                ->setParameter('userId',$userId);
-//
-//        }
-//
+
+        if (!$sortieOrganisateur == null) {
+
+
+            $querry->andWhere('sortie.organisateur = :userId')
+                ->setParameter('userId', $userId);
+
+        }
+
 //        if ((!$sortieInscrit == null) and ($sortieNonInscrit == null) ){
 //
 //
@@ -125,12 +130,8 @@ class SortieRepository extends ServiceEntityRepository
 //        }
 
 
-
-
         return $querry->getQuery()->getResult();
     }
-
-
 
 
 //    /**
@@ -157,5 +158,6 @@ class SortieRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
 
 }
