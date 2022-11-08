@@ -1,34 +1,168 @@
 {% extends "base.html.twig" %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/detailSorties.css') }}">
+{% endblock %}
 
 {% block body %}
-<h1>Afficher une sortie</h1>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <div class="container-sm emp-profile">
 
 
-    <div>
-        <p>Nom de la sortie </p>
-        <p>Date et heure de la sortie</p>
-        <p>Date limite d'inscription</p>
-        <p>Nombre de places : </p>
-        <p>Durée : minutes</p>
-        <p>Description et infos</p>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="profile-img">
+
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="profile-head">
+
+            </div>
+        </div>
+
     </div>
+    <div class="row">
+    <div class="col-md-5">
+    <div class="tab-content profile-tab" id="myTabContent">
+    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <div class="row">
+            <div class="col-md-6">
+                <label>Nom de la sortie : </label>
+            </div>
+            <div class="col-md-6">
+                <p>{{ sortie.nom }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label>Date de la sortie : </label>
+            </div>
+            <div class="col-md-6">
+                <p>{{ sortie.dateHeureDebut|date('d/m/Y') }} à {{ sortie.dateHeureDebut|date('H:i:s') }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label>Date limite d'inscription : </label>
+            </div>
+            <div class="col-md-6">
+                <p>{{ sortie.dateLimiteInscription|date('d/m/Y') }} </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label>Nombre de places : </label>
+            </div>
+            <div class="col-md-6">
+                <p>{{ sortie.nbInscriptionsMax }} </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label>Durée : </label>
+            </div>
+            <div class="col-md-6">
+                <p>{{ (sortie.duree)*60 }} minutes </p>
+            </div>
+        </div>
 
-    <div>
-        <p>Campus</p>
-        <p>Lieu</p>
-        <p>Rue</p>
-        <p>Code postal</p>
-        <p>Latitude</p>
-        <p>Longitude</p>
+        <div class="row">
+            <div class="col-md-6">
+                <label>Description et infos: </label>
+            </div>
+            <div class="col-md-6">
+                <p>{{ sortie.infosSortie }}  </p>
+            </div>
+        </div>
     </div>
-
-
-    <p>Liste des participants inscrits</p>
-    <div>
-        La réalisation d'éléments web de ce type ce fait essentiellement en CSS
-        https://www.quackit.com/html/codes/html_scroll_box.cfm
     </div>
+    </div>
+        <div class="col-md-2">
+        </div>
+            <div class="col-md-5">
+                <div class="tab-content profile-tab" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Campus :</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p>{{ sortie.campus.nom }}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Ville :</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p> {{ sortie.lieu.ville.nom }}</p>
+                            </div>
+                        </div>
 
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Lieu</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p>{{ sortie.lieu.nom }} </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Rue :</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p> {{ sortie.lieu.rue }}</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Code Postal :</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p> {{ sortie.lieu.ville.codePostal }}</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Latitude :</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p> {{ sortie.lieu.latitude }}</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Longitude :</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p> {{ sortie.lieu.longitude }}</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <br>
+
+
+                </div>
+                <br>
+
+
+
+            </div>
+
+        </div>
+
+
+    </div>
 
 
 

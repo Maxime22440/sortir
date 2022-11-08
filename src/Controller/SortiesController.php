@@ -29,7 +29,7 @@ class SortiesController extends AbstractController
 
     {
         $filter = new Filter();
-        $listes = $sortieRepository->findAll();
+
         $campus = $campusRepository->findAll();
         $user = $this->getUser();
 
@@ -38,20 +38,12 @@ class SortiesController extends AbstractController
         $filterForm = $this->createForm(FilterType::class, $filter);
         $filterForm->handleRequest($request);
 
-        $filtreData = new Filter();
-        $filtreData->setCampus($filterForm->getData()->getCampus());
-        $filtreData->setRecherche($filterForm->getData()->getRecherche());
-        $filtreData->setFirstdate($filterForm->getData()->getFirstdate());
-        $filtreData->setSecondDate($filterForm->getData()->getSecondDate());
-        $filtreData->setSortieOrganisateur($filterForm->getData()->getSortieOrganisateur());
-        $filtreData->setSortieInscrit($filterForm->getData()->getSortieInscrit());
-        $filtreData->setSortieNonInscrit($filterForm->getData()->getSortieNonInscrit());
-        $filtreData->setSortiesPasses($filterForm->getData()->getSortiesPasses());
-        $listes = $sortieRepository->findAll();
+        $listes =$sortieRepository->findWithFilter($filter, $userId);
+
 
         if ($filterForm->isSubmitted() && $filterForm->isValid()) {
-            dump($sortieRepository->findWithFilter($filtreData, $userId));
-            $listes = $sortieRepository->findWithFilter($filtreData, $userId);
+            dump($sortieRepository->findWithFilter($filterForm, $userId));
+            $listes = $sortieRepository->findWithFilter($filterForm, $userId);
 
             dump($listes);
             return $this->render('sorties/sorties.html.twig', [
@@ -78,7 +70,7 @@ class SortiesController extends AbstractController
     }
 
 
-    #[Route('/sorties/detail/{id}', name: 'app_detail_sortie', requirements: ['id' => '\d+'])]
+    #[Route('/sorties/{id}', name: 'app_detail_sortie', requirements: ['id' => '\d+'])]
     public function detail(SortieRepository $sortieRepository, int $id): Response
     {
         // Récupérer la sortie à afficher en base de données
@@ -246,7 +238,7 @@ class SortiesController extends AbstractController
 
 
                 $etatSortie = $sortieAAnnuler->getEtat();
-                $etatSortie->setLibelle('annulé');
+                $etatSortie->setLibelle('Annulée');
                 $sortieAAnnuler->setEtat($etatSortie);
 
                 $em->persist($sortieAAnnuler);
