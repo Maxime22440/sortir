@@ -111,9 +111,13 @@ class CreateNewFormType extends AbstractType
 
             ])
 
-            ->add('Enregistrer', SubmitType::class, ['label' =>'Enregistrer'])
+            ->add('Enregistrer', SubmitType::class, [
+                'label' =>'Enregistrer',
+            ])
 
-            ->add('Enregistrer_et_publier', SubmitType::class, ['label' => 'Publier la sortie']);
+            ->add('Enregistrer_et_publier', SubmitType::class, [
+                'label' => 'Publier la sortie',
+            ]);
 
 
 
