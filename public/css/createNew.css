@@ -39,23 +39,18 @@ p{
     height: 10px;
 }
 
+.col-md-4{
+    margin-right: 10px;
+}
 
+.row{
+    margin-bottom: 10px;
+    margin-left: 200px;
+    margin-right: 100px;
+}
 
-.btnPublier{
-
-    display: inline-block;
-    outline: none;
-    cursor: pointer;
-    font-size: 16px;
-    line-height: 20px;
-    font-weight: 600;
-    border-radius: 8px;
-    padding: 14px 24px;
-    border: none;
-    transition: box-shadow 0.2s ease 0s, -ms-transform 0.1s ease 0s, -webkit-transform 0.1s ease 0s, transform 0.1s ease 0s;
-    background: #4078e1;
-    color: #fff;
-
+.btn{
+    margin-top: 60px;
 }
 
 .btnEnregistrer{
@@ -70,10 +65,29 @@ p{
     padding: 14px 24px;
     border: none;
     transition: box-shadow 0.2s ease 0s, -ms-transform 0.1s ease 0s, -webkit-transform 0.1s ease 0s, transform 0.1s ease 0s;
-    background: green;
+    background: #7cc27c;
     color: #fff;
+    margin-left: 250px;
 
 }
+
+.btnPublier{
+
+    display: inline-block;
+    outline: none;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 14px 24px;
+    border: none;
+    transition: box-shadow 0.2s ease 0s, -ms-transform 0.1s ease 0s, -webkit-transform 0.1s ease 0s, transform 0.1s ease 0s;
+    background: cornflowerblue;
+    color: #fff;
+    margin-left: 50px;
+}
+
 
 .btnAnnuler{
 
@@ -89,10 +103,10 @@ p{
     transition: box-shadow 0.2s ease 0s, -ms-transform 0.1s ease 0s, -webkit-transform 0.1s ease 0s, transform 0.1s ease 0s;
     background: black;
     color: #fff;
+    margin-left: 50px;
 
 }
 
-p{
-    text-align: center;
+
 
 
