@@ -15,7 +15,9 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -62,13 +64,13 @@ class CreateNewFormType extends AbstractType
             ->add('dateHeureDebut',DateTimeType::class,[
                 'label' => false
             ])
-            ->add('duree', TimeType::class,[
+            ->add('duree', IntegerType::class,[
                 'label' => false
             ])
             ->add('dateLimiteInscription',DateTimeType::class,[
                 'label'=> false
             ])
-            ->add('nbInscriptionsMax',NumberType::class,[
+            ->add('nbInscriptionsMax',IntegerType::class,[
                 'label' => false
             ])
             ->add('infosSortie',TextareaType::class,[
@@ -107,7 +109,12 @@ class CreateNewFormType extends AbstractType
                 'expanded' => false,
                 'multiple' => false
 
-            ]);
+            ])
+
+            ->add('Enregistrer', SubmitType::class, ['label' =>'Enregistrer'])
+
+            ->add('Enregistrer_et_publier', SubmitType::class, ['label' => 'Publier la sortie']);
+
 
 
     }

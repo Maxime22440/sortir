@@ -18,6 +18,7 @@ class CancelFormType extends AbstractType
         $builder
 
             ->add('infosSortie', TextareaType::class, ['label' => 'Motif'])
+
             ->add('annulerSortie', SubmitType::class, ['label' => 'Confirmer l\'annulation de la sortie'])
             ->add('garderSorite', SubmitType::class, ['label' => 'Garder la sortie'])
 

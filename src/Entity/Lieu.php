@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: LieuRepository::class)]
 class Lieu
@@ -21,18 +22,31 @@ class Lieu
     #[ORM\JoinColumn(nullable: false)]
     private ?Ville $ville = null;
 
+    #[Assert\NotBlank(message: 'Le lieu doit avoir un nom')]
     #[ORM\Column(length: 255)]
     #[Groups(['lieuxDUneVille'])]
     private ?string $nom = null;
 
+    #[Assert\NotBlank(message: 'Le lieu doit avoir une adresse')]
     #[ORM\Column(length: 255)]
     #[Groups(['lieuxDUneVille'])]
     private ?string $rue = null;
 
+
+    #[Assert\Regex(
+        pattern: '[\d]+[\.]?[\d]*',
+        match: true,
+        message: 'La latitude est une série de nombre avec éventuellement un point à un endroit.',
+    )]
     #[ORM\Column(nullable: true)]
     #[Groups(['lieuxDUneVille'])]
     private ?float $latitude = null;
 
+    #[Assert\Regex(
+        pattern: '[\d]+[\.]?[\d]*',
+        match: true,
+        message: 'La longitude est une série de nombre avec éventuellement un point à un endroit.',
+    )]
     #[ORM\Column(nullable: true)]
     #[Groups(['lieuxDUneVille'])]
     private ?float $longitude = null;

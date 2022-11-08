@@ -19,6 +19,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank(message: 'Un utilisateur a forcément un username')]
     #[ORM\Column(length: 180, unique: true)]
     private ?string $username = null;
 
@@ -41,6 +42,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(inversedBy: 'participants')]
     private ?Campus $campus = null;
 
+    #[Assert\NotBlank(message: 'Un utilisateur a forcément un prénom')]
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 

@@ -62,17 +62,13 @@
                                             <p>{{ form_row(sortieForm.lieu) }}</p>
                                     </div>
 
-                                {{ form_widget(sortieForm) }}
+                     
+
                                 <div class="button">
-                                    <ul>
-                                        <input type="button" onclick="window.location.href = '';" value="Publier" class="btnPublier"/>
-
-                                    </ul>
-
-                                    <ul>
-                                        <input type="button" onclick="window.location.href = '';" value="Enregistrer" class="btnEnregistrer"/>
-                                    </ul>
+                                    {{ form_row(sortieForm.Enregistrer) }}
+                                    {{ form_row(sortieForm.Enregistrer_et_publier) }}
                                 </div>
+
                                     {{ form_end(sortieForm) }}
                                     <ul>
                                             <input type="button" onclick="window.location.href = '{{ path('app_sorties') }}';" value="Annuler" class="btnAnnuler"/>
