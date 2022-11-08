@@ -11,6 +11,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
+#[UniqueEntity(fields: ['username'], message: 'Ce username existe déjà ')]
 #[UniqueEntity(fields: ['mail'], message: 'Cette adresse email existe déjà ')]
 #[ORM\Entity(repositoryClass: ParticipantRepository::class)]
 class Participant implements UserInterface, PasswordAuthenticatedUserInterface

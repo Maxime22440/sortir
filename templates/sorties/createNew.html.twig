@@ -7,141 +7,141 @@
 
 {% block body %}
 
-<div class="container info">
-    <title>{% block title %}Créer une sortie{% endblock %}</title>
+    <div class="container info">
+        <title>{% block title %}Créer une sortie{% endblock %}</title>
 
 
-    {{ form_start(sortieForm) }}
-    <div class="background">
-                <div class="tab-content profile-tab" id="myTabContent">
-                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        {{ form_start(sortieForm) }}
+        <div class="background">
+            <div class="tab-content profile-tab" id="myTabContent">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
 
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Nom de la sortie : </label>
-                            </div>
-                            <div class="col-md-6"  id="element1">
-                                {{ form_row(sortieForm.nom) }}
-                            </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Nom de la sortie : </label>
                         </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Date et heure de début : </label>
-                            </div>
-                            <div class="col-md-6" id="element2">
-                                {{  form_row(sortieForm.dateHeureDebut) }}
-                            </div>
+                        <div class="col-md-6"  id="element1">
+                            {{ form_row(sortieForm.nom) }}
                         </div>
+                    </div>
 
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Durée : </label></div>
-                            <div class="col-md-6" id="element3">
-                                {{ form_row(sortieForm.duree) }}
-                            </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Date et heure de début : </label>
                         </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Date limite d'inscriptions : </label>
-                            </div>
-                            <div class="col-md-6" id="element4">
-                                {{ form_row(sortieForm.dateLimiteInscription) }}
-                            </div>
+                        <div class="col-md-6" id="element2">
+                            {{  form_row(sortieForm.dateHeureDebut) }}
                         </div>
+                    </div>
 
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Nombre d'inscriptions maximum : </label>
-                            </div>
-                            <div class="col-md-6" id="element5">
-                                {{ form_row(sortieForm.nbInscriptionsMax) }}
-                            </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Durée : </label></div>
+                        <div class="col-md-6" id="element3">
+                            {{ form_row(sortieForm.duree) }}
                         </div>
+                    </div>
 
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Informations sur la sortie : </label>
-                            </div>
-                            <div class="col-md-6" id="element6">
-                                {{ form_row(sortieForm.infosSortie) }}
-                            </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Date limite d'inscriptions : </label>
                         </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Campus : </label>
-                            </div>
-                            <div class="col-md-6" id="element7">
-                                {{ form_row(sortieForm.campus) }}
-                            </div>
+                        <div class="col-md-6" id="element4">
+                            {{ form_row(sortieForm.dateLimiteInscription) }}
                         </div>
+                    </div>
 
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Ville : </label>
-                            </div>
-                            <div class="col-md-6" id="element8">
-                                {{ form_row(sortieForm.ville) }}
-                            </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Nombre d'inscriptions maximum : </label>
                         </div>
+                        <div class="col-md-6" id="element5">
+                            {{ form_row(sortieForm.nbInscriptionsMax) }}
+                        </div>
+                    </div>
 
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Lieu : </label>
-                            </div>
-                            <div class="col-md-6" id="element9">
-                                {{ form_row(sortieForm.lieu) }}
-                            </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Informations sur la sortie : </label>
+                        </div>
+                        <div class="col-md-6" id="element6">
+                            {{ form_row(sortieForm.infosSortie) }}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Campus : </label>
+                        </div>
+                        <div class="col-md-6" id="element7">
+                            {{ form_row(sortieForm.campus) }}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Ville : </label>
+                        </div>
+                        <div class="col-md-6" id="element8">
+                            {{ form_row(sortieForm.ville) }}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Lieu : </label>
+                        </div>
+                        <div class="col-md-6" id="element9">
+                            {{ form_row(sortieForm.lieu) }}
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="btn">
-                    <div class="btnEnregistrer"
+            <div class="btn">
 
+                <div class="btnEnregistrer">
                     {{ form_row(sortieForm.Enregistrer) }}
-
+                </div>
                 <div class="btnPublier">
                     {{ form_row(sortieForm.Enregistrer_et_publier) }}
                 </div>
 
-                    {{ form_end(sortieForm) }}
-                    <input type="button" onclick="window.location.href = '{{ path('app_sorties') }}';" value="Annuler" class="btnAnnuler"/>
-                </div>
-                </div>
-                </div>
+                {{ form_end(sortieForm) }}
+                <input type="button" onclick="window.location.href = '{{ path('app_sorties') }}';" value="Annuler" class="btnAnnuler"/>
+            </div>
+        </div>
+    </div>
 
     </div>{#Fin div Background#}
 
 
-    {% endblock %}
+{% endblock %}
 
 
     {#  fetch("{{ path('apiVilles') }}/" + citySelector).then(response => response.json()).then(data => { updateSelect(data) });#}
 
     {% block javascripts %}
 
-    <script>
+        <script>
 
-        function init (){
+            function init (){
 
-            let selectVille = document.getElementById('create_new_form_ville');
-            selectVille.addEventListener('change', function (){
+                let selectVille = document.getElementById('create_new_form_ville');
+                selectVille.addEventListener('change', function (){
 
-                fetch("{{ path('apiVilles') }}/" + this.value)
-                    .then(response => response.json())
-                    .then(data => { updateSelect(data) });
-            })
-        }
+                    fetch("{{ path('apiVilles') }}/" + this.value)
+                        .then(response => response.json())
+                        .then(data => { updateSelect(data) });
+                })
+            }
 
-        function updateSelect(data){
-            console.log(data);
+            function updateSelect(data){
+                console.log(data);
 
-        }
-        window.onload= init;
-    </script>
+            }
+            window.onload= init;
+        </script>
 
-</div>
-{% endblock %}
+        </div>
+    {% endblock %}
