@@ -87,8 +87,12 @@ div.formFilter{
 }
 
 .formFilter{
-    margin-left: 300px;
+    margin-left: 200px;
     margin-bottom: 10px;
+}
+
+.container{
+    background-color: ;
 }
 
 #element1{display:inline-block;margin-right:10px;}
