@@ -11,6 +11,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
+#[UniqueEntity(fields: ['username'], message: 'Ce username existe déjà ')]
 #[UniqueEntity(fields: ['mail'], message: 'Cette adresse email existe déjà ')]
 #[ORM\Entity(repositoryClass: ParticipantRepository::class)]
 class Participant implements UserInterface, PasswordAuthenticatedUserInterface
@@ -43,16 +44,25 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(inversedBy: 'participants')]
     private ?Campus $campus = null;
 
-    #[Assert\NotBlank(message: 'Un utilisateur a forcément un prénom')]
+    #[Assert\NotBlank(message: 'Un utilisateur a forcément un nom')]
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
+    #[Assert\NotBlank(message: 'Un utilisateur a forcément un prénom')]
     #[ORM\Column(length: 255)]
     private ?string $prenom = null;
 
+    #[Assert\Regex(
+        pattern: '/(\s*\d{1}\s*){10}/',
+        message: 'un numéro de téléphone doit contenir 10 nombres et rien d\'autre',
+        match: true,
+    )]
     #[ORM\Column(length: 20, nullable: true)]
     private ?string $telephone = null;
 
+    #[Assert\Email(
+        message: '{{value}} n\'est pas une adresse email valide',
+    )]
     #[ORM\Column(length: 180, nullable: true)]
     private ?string $mail = null;
 

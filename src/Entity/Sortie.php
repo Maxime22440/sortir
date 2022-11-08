@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SortieRepository::class)]
 class Sortie
@@ -16,34 +17,43 @@ class Sortie
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(cascade: ["persist"], inversedBy: 'sorties')]
+
+    #[ORM\ManyToOne(cascade: ["persist"], inversedBy: 'sorties')]       //cascade: ["persist"]  supprimé de cet endroit car c'est SYLVAIN qui l'a dit
     #[ORM\JoinColumn(nullable: false)]
     private ?Etat $etat = null;
 
+    #[Assert\NotBlank(message: 'Il n\'y a pas de lieu pour la sortie. Elle a lieu dans le néant du coup je suppose?')]
     #[ORM\ManyToOne(inversedBy: 'sorties')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Lieu $lieu = null;
 
+    //#[Assert\NotBlank(message: 'Choisissez un campus associé à cette sortie. C\'est pour des raisons juridiques')]
     #[ORM\ManyToOne(inversedBy: 'sorties')]
     private ?Campus $campus = null;
 
+    //#[Assert\NotBlank(message: 'Une sortie doit avoir un nom')]
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
+    //ça serait bien de pouvoir mettre des assert sur les dates malheureusement on ne sait pas comment le faire.
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateHeureDebut = null;
 
+    #[Assert\Positive(message: 'Une sortie dure un nombre de minutes strictement positif.')]
     #[ORM\Column]
     private ?int $duree = null;
+
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateLimiteInscription = null;
 
+    #[Assert\Positive(message: 'Un nombre négatif d\'inscrits n\'a pas de sens.')]
     #[ORM\Column]
     private ?int $nbInscriptionsMax = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $infosSortie = null;
+
 
     #[ORM\ManyToOne(inversedBy: 'sortiesOrganisees')]
     #[ORM\JoinColumn(nullable: false)]
