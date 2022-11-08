@@ -24,30 +24,70 @@
 
 <div class="formFilter">
     <div class="row">
-        <div class="col">
+        <div class="colRecherche">
             {{ form_start(filterForm) }}
-            <div id="element1">{{ form_row(filterForm.campus) }}</div>
-            <div id="element2">  {{ form_row(filterForm.recherche) }}</div>
-            <br>
-            <div id="element3"> {{ form_row(filterForm.Firstdate) }}</div>
-            <div id="element4"> {{ form_row(filterForm.SecondDate) }}</div>
 
+        <div class="recherche">
+            <div class="col-md-6">
+                <label>Campus : </label>
+                <div id="element1">{{ form_row(filterForm.campus) }}</div>
+            </div>
         </div>
 
-        <div class="col">
+            <div class="recherche">
+                <label>Le nom de la sortie contiens : </label>
+                <div id="element2">  {{ form_row(filterForm.recherche) }}</div>
 
-            <div id="element5">{{ form_row(filterForm.sortieOrganisateur) }}</div>
-            <div id="element6">{{ form_row(filterForm.sortieInscrit) }}</div>
-            <div id="element7"> {{ form_row(filterForm.sortieNonInscrit) }}</div>
-            <div id="element8">{{ form_row(filterForm.sortiesPasses) }}</div>
-            <br>
+            </div>
 
-            <button>Filtrer</button>
+            <div class="recherche">
+                <label>Entre : </label> <div id="element3"> {{ form_row(filterForm.Firstdate) }}</div>
+                <label>Et : </label> <div id="element4"> {{ form_row(filterForm.SecondDate) }}</div>
+            </div>
+        </div>
+
+
+
+        <div class="colFiltre">
+            <div class="tab-content profile-tab" id="myTabContent">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label>Sortie dont je suis l'organisateur/trice</label>
+                </div>
+                    <div class="col-md-6" id="element5">{{ form_row(filterForm.sortieOrganisateur) }}</div>
+            </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Sortie auquelles je suis inscrit</label>
+                    </div>
+                        <div class="col-md-6" id="element6">{{ form_row(filterForm.sortieInscrit) }}</div>
+                    </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Sortie auquelles je ne suis pas inscrits</label>
+                    </div>
+                        <div class="col-md-6"id="element7">{{ form_row(filterForm.sortiesPasses) }}</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Sorties pasées</label>
+                        </div>
+                            <div class="col-md-6" id="element8">{{ form_row(filterForm.sortieNonInscrit) }}</div>
+                    </div>
+                </div>
+            </div>
+                </div>
+            </div>
+        </div>
+
+            <button>Rechercher</button>
 
             {{ form_end(filterForm) }}
-
-        </div>
-    </div>
 
             </div>
             <br><br>

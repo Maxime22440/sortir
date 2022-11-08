@@ -25,36 +25,43 @@ class FilterType extends AbstractType
             ->add('campus', EntityType::class,[
                 'class'=> Campus::class,
                 'choice_label'=>'nom',
-                'label' => 'Campus'
+                'label' => false
             ])
             ->add('recherche', TextType::class,[
-                'required' => false
+                'required' => false,
+                'label' => false
             ])
             ->add('Firstdate', DateType::class,[
                 'label' => 'Entre',
                 'widget' => 'single_text',
+                'label' => false
             ])
             ->add('SecondDate', DateType::class,[
                 'label' => 'Et',
                 'widget' => 'single_text',
+                'label' => false
             ])
             ->add('sortieOrganisateur', CheckboxType::class,[
                 'label' => 'Sorties dont je suis l organisateur/trice',
-                'required' => false
+                'required' => false,
+                'label' => false
 
             ])
             ->add('sortieInscrit',CheckboxType::class,[
                 'label' => 'Sorties auxquelles je suis inscrit/e',
-                'required' => false
+                'required' => false,
+                'label' => false
             ])
             ->add('sortieNonInscrit', CheckboxType::class,[
                 'label' => 'Sorties auxquelles je ne suis pas inscrit/e',
-                'required' => false
+                'required' => false,
+                'label' => false
 
             ])
             ->add('sortiesPasses', CheckboxType::class,[
                 'label' => 'Sorties passées',
-                'required' => false
+                'required' => false,
+                'label' => false
             ])
 
         ;
