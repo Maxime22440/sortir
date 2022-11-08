@@ -146,13 +146,13 @@
 
 
                                     {% if ('now'|date('d/m/Y') < liste.dateLimiteInscription|date('d/m/Y') ) and not ( liste.participantsInscrits.contains(app.user) ) and  (liste.organisateur.id != app.user.id )%}
-                                        <a href="#">Afficher</a>
+                                        <a href="{{path('app_detail_sortie',{'id': liste.id})}}">Afficher</a>
                                         <a href="{{path('inscription',{'id': liste.id})}}">S'inscrire</a>
                                     {% endif %}
 
 
                                     {% if ('now'|date('d/m/Y') < liste.dateLimiteInscription|date('d/m/Y') )and (liste.participantsInscrits.contains(app.user)) and  ( liste.organisateur.id != app.user.id )%}
-                                        <a href="">Afficher</a>
+                                        <a href="{{path('app_detail_sortie',{'id': liste.id})}}">Afficher</a>
                                         <a href="{{path('desistement',{'id': liste.id})}}">Se désister</a>
                                     {% endif %}
 
@@ -171,7 +171,7 @@
                                     {% endif %}
 
                                     {% if liste.organisateur.id == app.user.id and liste.etat.libelle == 'Ouvert'%}
-                                        <a href="">Afficher</a>
+                                        <a href="{{path('app_detail_sortie',{'id': liste.id})}}">Afficher</a>
                                     {% endif %}
 
                                 </td>
