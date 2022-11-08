@@ -12,6 +12,7 @@ use App\Repository\CampusRepository;
 use App\Entity\Etat;
 use App\Form\CreateNewFormType;
 use App\Form\modele\formModele;
+use App\Repository\EtatRepository;
 use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
 use Container0vTxDus\getCampusRepositoryService;
@@ -29,7 +30,7 @@ class SortiesController extends AbstractController
 
     {
         $filter = new Filter();
-
+        $listes = $sortieRepository->findAll();
         $campus = $campusRepository->findAll();
         $user = $this->getUser();
 
@@ -38,12 +39,20 @@ class SortiesController extends AbstractController
         $filterForm = $this->createForm(FilterType::class, $filter);
         $filterForm->handleRequest($request);
 
-        $listes =$sortieRepository->findWithFilter($filter, $userId);
-
+        $filtreData = new Filter();
+        $filtreData->setCampus($filterForm->getData()->getCampus());
+        $filtreData->setRecherche($filterForm->getData()->getRecherche());
+        $filtreData->setFirstdate($filterForm->getData()->getFirstdate());
+        $filtreData->setSecondDate($filterForm->getData()->getSecondDate());
+        $filtreData->setSortieOrganisateur($filterForm->getData()->getSortieOrganisateur());
+        $filtreData->setSortieInscrit($filterForm->getData()->getSortieInscrit());
+        $filtreData->setSortieNonInscrit($filterForm->getData()->getSortieNonInscrit());
+        $filtreData->setSortiesPasses($filterForm->getData()->getSortiesPasses());
+        $listes = $sortieRepository->findAll();
 
         if ($filterForm->isSubmitted() && $filterForm->isValid()) {
-            dump($sortieRepository->findWithFilter($filterForm, $userId));
-            $listes = $sortieRepository->findWithFilter($filterForm, $userId);
+            dump($sortieRepository->findWithFilter($filtreData, $userId));
+            $listes = $sortieRepository->findWithFilter($filtreData, $userId);
 
             dump($listes);
             return $this->render('sorties/sorties.html.twig', [
@@ -70,7 +79,7 @@ class SortiesController extends AbstractController
     }
 
 
-    #[Route('/sorties/{id}', name: 'app_detail_sortie', requirements: ['id' => '\d+'])]
+    #[Route('/sorties/detail/{id}', name: 'app_detail_sortie', requirements: ['id' => '\d+'])]
     public function detail(SortieRepository $sortieRepository, int $id): Response
     {
         // Récupérer la sortie à afficher en base de données
@@ -87,7 +96,7 @@ class SortiesController extends AbstractController
 
 
     #[Route('/sorties/createNew', name: 'createNew')]
-    public function creationNouvelleSortie(Request $request, EntityManagerInterface $em): Response
+    public function creationNouvelleSortie(Request $request, EntityManagerInterface $em, EtatRepository $etatRepository): Response
     {
 
 
@@ -112,8 +121,10 @@ class SortiesController extends AbstractController
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
             if ($sortieForm->get('Enregistrer')->isClicked()) {
 
-                $etat = new Etat();
-                $etat->setLibelle('En Création');
+
+                //requeter le bon état en base et le setter manuellement
+                $etat = $etatRepository->findOneBy(['libelle'=>'En Création']);
+                $sortie->setEtat($etat);
 
                 $sortie->setEtat($etat);
                 $nomSortie = $sortie->getNom();
@@ -130,8 +141,8 @@ class SortiesController extends AbstractController
 
             if ($sortieForm->get('Enregistrer_et_publier')->isClicked()) {
 
-                $etat = new Etat();
-                $etat->setLibelle('Ouvert');
+                $etat = $etatRepository->findOneBy(['libelle'=>'ouvert']);
+                $sortie->setEtat($etat);
 
                 $sortie->setEtat($etat);
                 $nomSortie = $sortie->getNom();
@@ -220,7 +231,7 @@ class SortiesController extends AbstractController
 
 
     #[Route('/sorties/annulation/{id}', name: 'ecranAnnulation', requirements: ['id' => '\d+'])]
-    public function annulation(Request $request, EntityManagerInterface $em, SortieRepository $sortieRepository, int $id): Response
+    public function annulation(Request $request, EntityManagerInterface $em, SortieRepository $sortieRepository, int $id, EtatRepository $etatRepository): Response
     {
 
 
@@ -234,13 +245,8 @@ class SortiesController extends AbstractController
             if ($cancelForm->get('annulerSortie')->isClicked()) {
 
 
-                //plutot récupérer l'état en base et le modifier
-
-
-
-                $etatSortie = $sortieAAnnuler->getEtat();
-                $etatSortie->setLibelle('Annulée');
-                $sortieAAnnuler->setEtat($etatSortie);
+                $etatAnnulee = $etatRepository->findOneBy(['libelle'=>'Annulée']);
+                $sortieAAnnuler->setEtat($etatAnnulee);
 
                 $em->persist($sortieAAnnuler);
                 $em->flush();
@@ -260,7 +266,6 @@ class SortiesController extends AbstractController
             }
 
         }
-
 
             return $this->render('sorties/confirmationAnnulationSortie.html.twig', [
                 'cancelForm' => $cancelForm->createView(),
