@@ -3,7 +3,9 @@
 namespace App\Form;
 
 use App\Entity\Campus;
+use App\Entity\Etat;
 use App\Form\modele\Filter;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use http\Client\Curl\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -17,13 +19,18 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FilterType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options): void
+
+
+    public function buildForm(FormBuilderInterface $builder, array $options,): void
     {
+
+
 
 
         $builder
             ->add('campus', EntityType::class,[
                 'class'=> Campus::class,
+                'placeholder' => 'Sélection Du Campus',
                 'choice_label'=>'nom',
                 'label' => false
             ])
