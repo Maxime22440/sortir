@@ -34,18 +34,18 @@ class Lieu
 
 
     #[Assert\Regex(
-        pattern: '[\d]+[\.]?[\d]*',
+        pattern: '/[\d]+[\.]?[\d]*/',
+        message: 'La latitude est une série de nombres avec éventuellement un point à un endroit.',
         match: true,
-        message: 'La latitude est une série de nombre avec éventuellement un point à un endroit.',
     )]
     #[ORM\Column(nullable: true)]
     #[Groups(['lieuxDUneVille'])]
     private ?float $latitude = null;
 
     #[Assert\Regex(
-        pattern: '[\d]+[\.]?[\d]*',
+        pattern: '/[\d]+[\.]?[\d]*/',
+        message: 'La longitude est une série de nombres avec éventuellement un point à un endroit.',
         match: true,
-        message: 'La longitude est une série de nombre avec éventuellement un point à un endroit.',
     )]
     #[ORM\Column(nullable: true)]
     #[Groups(['lieuxDUneVille'])]

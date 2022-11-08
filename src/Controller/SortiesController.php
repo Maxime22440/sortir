@@ -245,6 +245,7 @@ class SortiesController extends AbstractController
                 //plutot récupérer l'état en base et le modifier
 
 
+
                 $etatSortie = $sortieAAnnuler->getEtat();
                 $etatSortie->setLibelle('annulé');
                 $sortieAAnnuler->setEtat($etatSortie);

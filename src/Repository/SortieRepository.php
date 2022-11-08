@@ -44,82 +44,94 @@ class SortieRepository extends ServiceEntityRepository
     }
 
 
-
-    public function findWithFilter(Filter $filter,  $userId )
+    public function findWithFilter(Filter $filter, $userId)
     {
 
 
-       $campusId = $filter->getCampus()->getId();
-       $recherche = $filter->getRecherche();
-       $premiereDate = $filter->getFirstdate();
-       $deuxiemeDate = $filter->getSecondDate();
-       $sortieOrganisateur = $filter->getSortieOrganisateur();
-       $sortieInscrit = $filter->getSortieInscrit();
-       $sortieNonInscrit = $filter->getSortieNonInscrit();
-       $sortiesPasses = $filter->getSortiesPasses();
-       $localDate =  date("Y-m-d H:i:s");
+        $campusId = $filter->getCampus()->getId();
+        $recherche = $filter->getRecherche();
+        $premiereDate = $filter->getFirstdate();
+        $deuxiemeDate = $filter->getSecondDate();
+        $sortieOrganisateur = $filter->getSortieOrganisateur();
+        $sortieInscrit = $filter->getSortieInscrit();
+        $sortieNonInscrit = $filter->getSortieNonInscrit();
+        $sortiesPasses = $filter->getSortiesPasses();
+        $localDate = date("Y-m-d H:i:s");
 
 
         $querry = $this->createQueryBuilder('sortie')
-            ->addSelect('sortie')
-            ->andWhere('sortie.campus = :campus')
-            ->setParameter('campus', $campusId);
+            ->leftJoin('sortie.participantsInscrits', 'pi')
+            ->addSelect('pi')
+            ->leftJoin('sortie.campus', 'campus')
+            ->addSelect('campus')
+            ->leftJoin('sortie.lieu', 'lieu')
+            ->addSelect('lieu')
+            ->leftJoin('sortie.etat', 'etat')
+            ->addSelect('etat')
+            ->leftJoin('sortie.organisateur', 'so')
+            ->addSelect('so');
 
 
-        if (!$recherche == null){
-
+        if ($filter->getRecherche()) {
 
             $querry->andWhere('sortie.nom = :recherche')
-                ->setParameter('recher  che',$recherche);
+                ->setParameter('recherche', $recherche);
         }
 
-        if ($sortiesPasses == null){
-
-
-            $querry->andWhere('sortie.dateHeureDebut BETWEEN :premiereDate AND :deuxiemeDate')
-                ->setParameter('premiereDate',$premiereDate)
-                ->setParameter('deuxiemeDate',$deuxiemeDate);
-        }
-        if (!$sortiesPasses == null){
-
-
-            $querry->andWhere('sortie.dateLimiteInscription <= :LocalDate')
-                ->setParameter('LocalDate',$localDate);
-
+        if ($filter->getFirstdate()) {
+            $querry->andWhere('sortie.dateHeureDebut >= :startdate')
+                ->setParameter('startdate', $filter->getFirstdate());
         }
 
-        if (!$sortieOrganisateur == null){
+        if ($filter->getSecondDate()) {
+            $querry->andWhere('sortie.dateHeureDebut <= :endDate')
+                ->setParameter('endDate', $filter->getSecondDate());
+        }
+
+
+//        if ($sortiesPasses == null){
+//
+//
+//            $querry->andWhere('sortie.dateHeureDebut BETWEEN :premiereDate AND :deuxiemeDate')
+//                ->setParameter('premiereDate',$premiereDate)
+//                ->setParameter('deuxiemeDate',$deuxiemeDate);
+//        }
+//        if (!$sortiesPasses == null){
+//
+//
+//            $querry->andWhere('sortie.dateLimiteInscription <= :LocalDate')
+//                ->setParameter('LocalDate',$localDate);
+//
+//        }
+
+        if (!$sortieOrganisateur == null) {
 
 
             $querry->andWhere('sortie.organisateur = :userId')
-                ->setParameter('userId',$userId);
+                ->setParameter('userId', $userId);
 
         }
 
-        if ((!$sortieInscrit == null) and ($sortieNonInscrit == null) ){
-
-
-            $querry->addSelect('sortie')
-                ->leftJoin('sortie.participantsInscrits','p')
-                ->andWhere('p.id = :userId2')
-            ->setParameter('userId2',$userId);
-        }
-        if ((!$sortieNonInscrit == null) and ($sortieInscrit == null)){
-
-
-            $querry->addSelect('sortie')
-                ->leftJoin('sortie.participantsInscrits','p')
-                ->andWhere('p.id NOT IN (:userId3)')
-                ->setParameter('userId3',$userId);
-        }
-
-
+//        if ((!$sortieInscrit == null) and ($sortieNonInscrit == null) ){
+//
+//
+//            $querry->addSelect('sortie')
+//                ->leftJoin('sortie.participantsInscrits','p')
+//                ->andWhere('p.id = :userId2')
+//            ->setParameter('userId2',$userId);
+//        }
+//        if ((!$sortieNonInscrit == null) and ($sortieInscrit == null)){
+//
+//
+//            $querry->addSelect('sortie')
+//                ->leftJoin('sortie.participantsInscrits','p')
+//                ->andWhere('p.id NOT IN (:userId3)')
+//                ->setParameter('userId3',$userId);
+//        }
 
 
         return $querry->getQuery()->getResult();
     }
-
-
 
 
 //    /**
@@ -146,5 +158,6 @@ class SortieRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
 
 }
