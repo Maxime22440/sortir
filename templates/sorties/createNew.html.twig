@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% block body %}
+{% include"headerNav.html.twig" %}
 
     <div class="container info">
         <title>{% block title %}Créer une sortie{% endblock %}</title>
@@ -115,6 +116,9 @@
 
     </div>{#Fin div Background#}
 
+    <div class="text-center">
+        {% include"footer.html.twig" %}
+    </div>
 
 {% endblock %}
 
@@ -157,6 +161,7 @@
             }
             window.onload= init;
         </script>
+
 
 
     {% endblock %}
