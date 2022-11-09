@@ -30,7 +30,7 @@ class SortiesController extends AbstractController
 
     {
         $filter = new Filter();
-        $listes = $sortieRepository->findAll();
+
         $campus = $campusRepository->findAll();
         $user = $this->getUser();
 
@@ -48,7 +48,7 @@ class SortiesController extends AbstractController
         $filtreData->setSortieInscrit($filterForm->getData()->getSortieInscrit());
         $filtreData->setSortieNonInscrit($filterForm->getData()->getSortieNonInscrit());
         $filtreData->setSortiesPasses($filterForm->getData()->getSortiesPasses());
-        $listes = $sortieRepository->findAll();
+       $listes= $sortieRepository->findWithFilter($filtreData, $userId);
 
         if ($filterForm->isSubmitted() && $filterForm->isValid()) {
             dump($sortieRepository->findWithFilter($filtreData, $userId));
@@ -146,7 +146,6 @@ class SortiesController extends AbstractController
                 $etat = $etatRepository->findOneBy(['libelle'=>'ouvert']);
                 $sortie->setEtat($etat);
 
-                $sortie->setEtat($etat);
                 $nomSortie = $sortie->getNom();
                 $em->persist($sortie);
                 $em->flush();
@@ -284,4 +283,41 @@ class SortiesController extends AbstractController
 
 
     }
+    #[Route('/sorties/publier/{id}', name: 'publier', requirements: ['id' => '\d+'])]
+    public function publier(Request $request, EntityManagerInterface $em, EtatRepository $etatRepository,int $id, SortieRepository $sortieRepository): Response
+    {
+
+
+        $user = $this->getUser();
+        $sortie = $sortieRepository->find($id);
+        if ($sortie === null) {
+            throw $this->createNotFoundException('Page not found');
+        }
+
+        //remplir les champs lieu, campus, organisateur, participants incscrits, etat
+        $sortie->setOrganisateur($user);
+        $sortie->addParticipantsInscrit($user);
+
+
+                $etat = $etatRepository->findOneBy(['libelle'=>'ouvert']);
+                $sortie->setEtat($etat);
+
+                $nomSortie = $sortie->getNom();
+                $em->persist($sortie);
+                $em->flush();
+
+                $this->addFlash('success', "La sortie $nomSortie a été publiée");
+
+                return $this->redirectToRoute('app_sorties');
+
+
+
+
+
+
+
+
+    }
+
+
 }

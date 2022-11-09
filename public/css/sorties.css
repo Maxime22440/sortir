@@ -22,6 +22,7 @@ h1 {
 .row{
     margin-bottom: 15px;
 }
+
 html,
 body,
 .intro {
@@ -74,6 +75,7 @@ button {
     cursor: pointer;
     margin-left: 800px;
 }
+
 button:hover {
     background-color: #0666a3;
 }
@@ -111,4 +113,50 @@ div.formFilter{
 .otherUser{
     color: #000000;
     text-decoration: none;
+}
+@media(max-width: 500px){
+
+    div.formFilter{
+        display: flex;
+        justify-content: center;
+    }
+
+    .formFilter{
+        margin-left: 50px;
+        margin-bottom: 10px;
+    }
+
+    button {
+        width: 150px;
+        padding: 10px;
+        border: none;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        background-color: #095484;
+        font-size: 16px;
+        color: #fff;
+        cursor: pointer;
+        margin-left: 160px;
+    }
+
+    table th {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        text-align: center;
+        margin: 10px;
+    }
+
+    .tab {
+        margin-right: 20px;
+        margin-left: 20px;
+        /*background-color: ;*/
+        border: 1px solid;
+    }
+
+}
+
+
+
 }

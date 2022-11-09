@@ -17,9 +17,9 @@ class Etat extends Fixture
         $this->addReference('En Cours', $enCours);
 
         $ferme = new \App\Entity\Etat();
-        $ferme->setLibelle('Fermé');
+        $ferme->setLibelle('Fermée');
         $manager->persist($ferme);
-        $this->addReference('Fermé', $ferme);
+        $this->addReference('Fermée', $ferme);
 
         $ouvert = new \App\Entity\Etat();
         $ouvert->setLibelle('Ouvert');

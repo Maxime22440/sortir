@@ -46,8 +46,13 @@ class Sortie extends Fixture implements DependentFixtureInterface
         $manager->flush();
         $this->addReference('sortiePiscine', $sortiePiscine);
 
+
+
+
         $sorties = array();
-        for($i=0;$i<50;$i++){
+        for($i=0;$i<100;$i++){
+
+            $organisateurFaker =$faker->randomElement($organisateur);
         $sorties[$i] = new \App\Entity\Sortie();
         $sorties[$i]->setNom($faker->sentence(3));
         $sorties[$i]->setDateHeureDebut($faker->dateTimeBetween('-3 months', '+3 months'));
@@ -56,10 +61,12 @@ class Sortie extends Fixture implements DependentFixtureInterface
         $sorties[$i]->setDateLimiteInscription($faker->dateTimeBetween($intervalleDebut, $sorties[$i]->getDateHeureDebut()));
         $sorties[$i]->setDuree($faker->numberBetween(10,200));
         $sorties[$i]->setInfosSortie($faker->paragraph);
-        $sorties[$i]->setNbInscriptionsMax($faker->numberBetween(1,10));
+        $sorties[$i]->setNbInscriptionsMax($faker->numberBetween(5,20));
             $sorties[$i]->setCampus($faker->randomElement($campus));
         $sorties[$i]->setEtat($faker->randomElement($etats));
-        $sorties[$i]->setOrganisateur($faker->randomElement($organisateur));
+        $sorties[$i]->setOrganisateur($organisateurFaker);
+        $sorties[$i]->addParticipantsInscrit($organisateurFaker);
+        $sorties[$i]->addParticipantsInscrit($faker->randomElement($organisateur));
         $sorties[$i]->addParticipantsInscrit($faker->randomElement($organisateur));
         $sorties[$i]->setLieu($faker->randomElement($lieu));
 
