@@ -57,7 +57,7 @@ p{
     border: 1px solid #57557A;
     border-radius: 3px;
     background: #282828;
-    margin-bottom: 20px;
+    margin-bottom: 2px;
     letter-spacing: 1px;
     color: #e0e0e0;
 
@@ -95,6 +95,14 @@ small{
     font-size: 13px;
 }
 
+.container{
+    margin-top: 250px;
+    margin-bottom: 100px;
+}
+
+.footer{
+    start
+}
 @media(min-width: 767px){
     .bn{
         text-align: right;

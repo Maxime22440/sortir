@@ -92,7 +92,7 @@
                         <div class="col-md-6">
                             <label>Lieu : </label>
                         </div>
-                        <div class="col-md-6" id="element9" hidden>
+                        <div class="col-md-6" id="element9">
                             {{ form_row(sortieForm.lieu) }}
                         </div>
                     </div>
@@ -116,6 +116,7 @@
 
     </div>{#Fin div Background#}
 
+    {% include 'footer.html.twig' %}
 
 {% endblock %}
 
@@ -129,7 +130,6 @@
             function init (){
 
                 let selectVille = document.getElementById('create_new_form_ville');
-
                 selectVille.addEventListener('change', function (){
 
                     fetch("{{ path('apiVilles') }}/" + this.value)
@@ -139,40 +139,15 @@
             }
 
             function updateSelect(data){
-
-                let div = document.getElementById("element9");
-                div.removeAttribute('hidden');
-
-
-                let leSelect = document.getElementById("create_new_form_lieu");
-                leSelect.innerHTML="";
-                // for(let y = leSelect.options.length; y>=0; y--){
-                //     leSelect.remove(y)
-                // }
-
-
-
-                // for(let lieu of data){
-                //     let nouvelleOption = document.createElement("option");
-                //     nouvelleOption.text = lieu.nom;
-                //
-
-                //
-                //     leSelect.add(nouvelleOption);
-                //
-                // }
-
-                for(let i = 0;i<data.length;i++){
-                    let nouvelleOption = document.createElement("option");
-                    nouvelleOption.text = data[i].nom;
-                    nouvelleOption.value = data[i].id;
-                    leSelect.add(nouvelleOption);
-                }
-
+                console.log(data);
 
             }
             window.onload= init;
         </script>
+
+        </div>
+
+
 
 
     {% endblock %}

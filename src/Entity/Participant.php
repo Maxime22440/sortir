@@ -57,6 +57,12 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
         message: 'un numéro de téléphone doit contenir 10 nombres et rien d\'autre',
         match: true,
     )]
+    #[Assert\Length(
+        min: 10,
+        max: 20,
+        minMessage: 'Il n\'y a assez de numéros pour faire un numéro de téléphone',
+        maxMessage: 'C\'est trop long !',
+    )]
     #[ORM\Column(length: 20, nullable: true)]
     private ?string $telephone = null;
 
