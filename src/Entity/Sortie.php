@@ -18,7 +18,7 @@ class Sortie
     private ?int $id = null;
 
 
-    #[ORM\ManyToOne(cascade: ["persist"], inversedBy: 'sorties')]       //cascade: ["persist"]  supprimé de cet endroit car c'est SYLVAIN qui l'a dit
+    #[ORM\ManyToOne(inversedBy: 'sorties')]       //cascade: ["persist"]  supprimé de cet endroit car c'est SYLVAIN qui l'a dit
     #[ORM\JoinColumn(nullable: false)]
     private ?Etat $etat = null;
 
@@ -27,11 +27,11 @@ class Sortie
     #[ORM\JoinColumn(nullable: false)]
     private ?Lieu $lieu = null;
 
-    //#[Assert\NotBlank(message: 'Choisissez un campus associé à cette sortie. C\'est pour des raisons juridiques')]
+    #[Assert\NotBlank(message: 'Choisissez un campus associé à cette sortie. C\'est pour des raisons juridiques')]
     #[ORM\ManyToOne(inversedBy: 'sorties')]
     private ?Campus $campus = null;
 
-    //#[Assert\NotBlank(message: 'Une sortie doit avoir un nom')]
+    #[Assert\NotBlank(message: 'Une sortie doit avoir un nom')]
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 

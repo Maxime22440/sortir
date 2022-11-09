@@ -71,6 +71,13 @@ class SortieRepository extends ServiceEntityRepository
             ->addSelect('so');
 
 
+        if ($filter->getCampus()) {
+            if ($filter->getCampus()->getNom() != 'Sélection Du Campus')
+            {  $querry->andWhere('sortie.campus = :recherche')
+                    ->setParameter('recherche', $filter->getCampus());
+        }
+        }
+
         if ($filter->getRecherche()) {
 
             $querry->andWhere('sortie.nom = :recherche')
