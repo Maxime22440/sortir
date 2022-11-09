@@ -121,6 +121,8 @@ class SortiesController extends AbstractController
 
 
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+
+
             if ($sortieForm->get('Enregistrer')->isClicked()) {
 
 
@@ -245,9 +247,15 @@ class SortiesController extends AbstractController
         if ($cancelForm->isSubmitted() && $cancelForm->isValid()) {
             if ($cancelForm->get('annulerSortie')->isClicked()) {
 
-
+                $infos = $sortieAAnnuler->getInfosSortie();
+                $motif = $cancelForm->getData();
+                $infos.= "\n\nMalheureusement cette sortie a dû être annulée pour le motif suivant : ";
+                $infos.= $motif['infosSortie'];
                 $etatAnnulee = $etatRepository->findOneBy(['libelle'=>'Annulée']);
                 $sortieAAnnuler->setEtat($etatAnnulee);
+
+                $sortieAAnnuler->setInfosSortie($infos);
+
 
                 $em->persist($sortieAAnnuler);
                 $em->flush();
@@ -261,7 +269,7 @@ class SortiesController extends AbstractController
             if ($cancelForm->get('garderSortie')->isClicked()) {
 
 
-                $this->addFlash('success', 'Vous n\'avez pas annulé de sortie');
+                $this->addFlash('success', 'Vous n\'avez PAS annulé de sortie');
                 return $this->redirectToRoute('app_sorties');
 
             }

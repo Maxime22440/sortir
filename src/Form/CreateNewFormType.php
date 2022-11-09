@@ -102,9 +102,13 @@ class CreateNewFormType extends AbstractType
             ->add('lieu', EntityType::class, [
                 'class' => Lieu::class,
                 'label' => false,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('l')->orderBy('l.nom', 'ASC');
-                },
+//                'query_builder' => function (EntityRepository $er) {
+//                    return $er->createQueryBuilder('l')->orderBy('l.nom', 'ASC');
+//                },
+
+                'placeholder' => 'Choisir d\'abord une ville',
+
+
                 'choice_label' => 'nom',
                 'expanded' => false,
                 'multiple' => false
