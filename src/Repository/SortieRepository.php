@@ -106,13 +106,22 @@ class SortieRepository extends ServiceEntityRepository
 
 
 
-        if ($filter->getSortieOrganisateur()) {
+        if ($filter->getSortieOrganisateur() and !$filter->getSortieNonInscrit()) {
 
 
             $querry->andWhere('sortie.organisateur = :userId')
                 ->setParameter('userId', $userId);
 
         }
+        if ($filter->getSortieOrganisateur() and $filter->getSortieNonInscrit()) {
+
+
+            $querry->andWhere('pi.id  IN (:userId3)')
+                ->setParameter('userId3',0);
+
+        }
+
+
         if ($filter->getSortieInscrit() and !$filter->getSortieNonInscrit()) {
 
             $querry->andWhere('pi.id = :user')

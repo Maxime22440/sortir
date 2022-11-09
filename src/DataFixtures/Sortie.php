@@ -53,6 +53,7 @@ class Sortie extends Fixture implements DependentFixtureInterface
         for($i=0;$i<100;$i++){
 
             $organisateurFaker =$faker->randomElement($organisateur);
+
         $sorties[$i] = new \App\Entity\Sortie();
         $sorties[$i]->setNom($faker->sentence(3));
         $sorties[$i]->setDateHeureDebut($faker->dateTimeBetween('-3 months', '+3 months'));
