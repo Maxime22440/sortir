@@ -10,6 +10,7 @@ class Ville extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
+
         $faker = Faker\Factory::create('fr_FR');
 
         // $product = new Product();
@@ -21,15 +22,15 @@ class Ville extends Fixture
         $manager->persist($rennes);
         $this->addReference('Rennes', $rennes);
 
-
+        $city = array();
         for($i=0;$i<30;$i++) {
-
             $city[$i] = new \App\Entity\Ville();
             $city[$i]->setNom($faker->city);
             $city[$i]->setCodePostal('35000');
             $manager->persist($city[$i]);
 
         }
+
 
 
 

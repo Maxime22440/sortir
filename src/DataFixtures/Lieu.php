@@ -12,7 +12,9 @@ class Lieu extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager): void
     {
 
+        $ville = $manager->getRepository(\App\Entity\Ville::class)->findAll();
         $faker = Faker\Factory::create('fr_FR');
+
         // $product = new Product();
         // $manager->persist($product);
         $mairie= new \App\Entity\Lieu;
@@ -36,7 +38,7 @@ class Lieu extends Fixture implements DependentFixtureInterface
             $lieu->setRue($faker->address);
             $lieu->setLatitude($faker->randomFloat());
             $lieu->setLongitude($faker->randomFloat());
-            $lieu->setVille($this->getReference('Rennes'));
+            $lieu->setVille($faker->randomElement($ville));
             $manager->persist($lieu);
 
 
