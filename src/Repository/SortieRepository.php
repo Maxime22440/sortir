@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Etat;
 use App\Entity\Sortie;
 use App\Form\modele\Filter;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -48,7 +49,7 @@ class SortieRepository extends ServiceEntityRepository
     {
 
 
-        $recherche = $filter->getRecherche();
+
         $premiereDate = $filter->getFirstdate();
         $deuxiemeDate = $filter->getSecondDate();
         $sortieOrganisateur = $filter->getSortieOrganisateur();
@@ -73,15 +74,15 @@ class SortieRepository extends ServiceEntityRepository
 
         if ($filter->getCampus()) {
             if ($filter->getCampus()->getNom() != 'Sélection Du Campus')
-            {  $querry->andWhere('sortie.campus = :recherche')
-                    ->setParameter('recherche', $filter->getCampus());
+            {  $querry->andWhere('sortie.campus = :campus')
+                    ->setParameter('campus', $filter->getCampus());
         }
         }
 
         if ($filter->getRecherche()) {
 
-            $querry->andWhere('sortie.nom = :recherche')
-                ->setParameter('recherche', $recherche);
+            $querry->andWhere('sortie.nom like :recherche')
+                ->setParameter('recherche', '%'.$filter->getRecherche().'%');
         }
 
         if ($filter->getFirstdate()) {
@@ -102,38 +103,46 @@ class SortieRepository extends ServiceEntityRepository
 //                ->setParameter('premiereDate',$premiereDate)
 //                ->setParameter('deuxiemeDate',$deuxiemeDate);
 //        }
-//        if (!$sortiesPasses == null){
-//
-//
-//            $querry->andWhere('sortie.dateLimiteInscription <= :LocalDate')
-//                ->setParameter('LocalDate',$localDate);
-//
-//        }
 
-        if (!$sortieOrganisateur == null) {
+
+
+        if ($filter->getSortieOrganisateur()) {
 
 
             $querry->andWhere('sortie.organisateur = :userId')
                 ->setParameter('userId', $userId);
 
         }
+        if ($filter->getSortieInscrit() and !$filter->getSortieNonInscrit()) {
 
-//        if ((!$sortieInscrit == null) and ($sortieNonInscrit == null) ){
-//
-//
-//            $querry->addSelect('sortie')
-//                ->leftJoin('sortie.participantsInscrits','p')
-//                ->andWhere('p.id = :userId2')
-//            ->setParameter('userId2',$userId);
-//        }
-//        if ((!$sortieNonInscrit == null) and ($sortieInscrit == null)){
-//
-//
-//            $querry->addSelect('sortie')
-//                ->leftJoin('sortie.participantsInscrits','p')
-//                ->andWhere('p.id NOT IN (:userId3)')
-//                ->setParameter('userId3',$userId);
-//        }
+            $querry->andWhere('pi.id = :user')
+                ->setParameter('user', $userId);
+
+        }
+
+
+
+        if ($filter->getSortieNonInscrit() and !$filter->getSortieInscrit() ){
+            $querry->andWhere('pi.id NOT IN (:userId3)')
+                ->setParameter('userId3',$userId);
+        }
+
+        if ($filter->getSortieNonInscrit() and $filter->getSortieInscrit() ){
+            $querry->andWhere('pi.id  IN (:userId3)')
+                ->setParameter('userId3',0);
+        }
+
+        if ($filter->getSortiesPasses()){
+
+
+            $querry->andWhere('etat.libelle IN (:etat)')
+                ->setParameter('etat','Fermé');
+
+        }
+
+
+
+
 
 
         return $querry->getQuery()->getResult();
