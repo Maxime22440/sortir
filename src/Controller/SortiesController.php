@@ -84,13 +84,15 @@ class SortiesController extends AbstractController
     {
         // Récupérer la sortie à afficher en base de données
         $sortie = $sortieRepository->find($id);
+       $listeParticipant = $sortie->getParticipantsInscrits();
 
         if ($sortie === null) {
             throw $this->createNotFoundException('Page not found');
         }
 
         return $this->render('sorties/detail.html.twig', [
-            'sortie' => $sortie
+            'sortie' => $sortie,
+            'listeParticipant' => $listeParticipant
         ]);
     }
 
