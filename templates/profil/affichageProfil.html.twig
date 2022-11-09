@@ -11,16 +11,12 @@
 {% endblock %}
 
 {% block body %}
-
     {% include 'headerNav.html.twig'%}
-
     {% for message in app.flashes('success') %}
         <div class="alert alert-success">
             {{ message }}
         </div>
     {% endfor %}
-
-
 
     <div class="container-sm emp-profile">
 

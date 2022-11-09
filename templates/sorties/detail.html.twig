@@ -4,6 +4,7 @@
 {% endblock %}
 
 {% block body %}
+    {% include 'headerNav.html.twig'%}
     {% for message in app.flashes('success') %}
         <div class="alert alert-success">
             {{ message }}

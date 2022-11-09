@@ -2,7 +2,7 @@
 
 <div class="container-fluid px-0">
     <nav class="navbar navbar-expand-sm navbar-dark bg-black py-0 px-0">
-        <a class="navbar-brand" href="#"><img id="logo" src="https://thumbs.dreamstime.com/b/ic-ne-v%C3%A9rifi%C3%A9e-de-calendrier-logo-solide-d-%C3%A9v%C3%A9nement-isolat-de-pictogramme-90234676.jpg"> &nbsp;&nbsp;&nbsp;Sortir</a>
+        <a class="navbar-brand" href="{{  path('app_sorties') }}"><img id="logo" src="https://thumbs.dreamstime.com/b/ic-ne-v%C3%A9rifi%C3%A9e-de-calendrier-logo-solide-d-%C3%A9v%C3%A9nement-isolat-de-pictogramme-90234676.jpg"> &nbsp;&nbsp;&nbsp;Sortir</a>
         <span class="v-line"></span>
 
         {#        <button class="navbar-toggler mr-3" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">#}
@@ -20,10 +20,11 @@
                     <li class="nav-item"><a href="{{ path('app_login') }}" class="nav-link">Se connecter</a></li>
                 {% endif %}
                 <div class="img-profile">
-                    <img src="https://www.kindpng.com/picc/m/311-3119342_werner-heisenberg-png-download-transparent-png.png" alt=""/>
+                    <a href="{{ path('app_profil_affichage') }}"> <img src="https://www.kindpng.com/picc/m/311-3119342_werner-heisenberg-png-download-transparent-png.png" alt=""/></a>
                 </div>
 
-{#                <li class="navProfil">{{ app.user.userIdentifier }}</li>#}
+               <li class="navProfil">{{ app.user.userIdentifier }}</li>
+
             </ul>
         </div>
     </nav>

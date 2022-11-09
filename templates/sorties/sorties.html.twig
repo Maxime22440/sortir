@@ -13,6 +13,7 @@
 
 
         {% block body %}
+            {% include 'headerNav.html.twig'%}
 
             {% include 'headerNav.html.twig'%}
 
@@ -35,7 +36,7 @@
                         </div>
 
                         <div class="recherche">
-                            <label>Le nom de la sortie contiens : </label>
+                            <label>Le nom de la sortie : </label>
                             <div id="element2">  {{ form_row(filterForm.recherche) }}</div>
 
                         </div>
@@ -54,30 +55,30 @@
 
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <label>Sortie dont je suis l'organisateur/trice</label>
+                                        <label>Sorties dont je suis l'organisateur/trice</label>
                                     </div>
                                     <div class="col-md-6" id="element5">{{ form_row(filterForm.sortieOrganisateur) }}</div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <label>Sortie auquelles je suis inscrit</label>
+                                        <label>Sorties auxquelles je suis inscrit/e</label>
                                     </div>
                                     <div class="col-md-6" id="element6">{{ form_row(filterForm.sortieInscrit) }}</div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <label>Sortie auquelles je ne suis pas inscrits</label>
+                                        <label>Sorties auxquelles je ne suis pas inscrit/e</label>
                                     </div>
-                                    <div class="col-md-6"id="element7">{{ form_row(filterForm.sortiesPasses) }}</div>
+                                    <div class="col-md-6"id="element7">{{ form_row(filterForm.sortieNonInscrit) }}</div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <label>Sorties pasées</label>
+                                        <label>Sorties passées</label>
                                     </div>
-                                    <div class="col-md-6" id="element8">{{ form_row(filterForm.sortieNonInscrit) }}</div>
+                                    <div class="col-md-6" id="element8">{{ form_row(filterForm.sortiesPasses) }}</div>
                                 </div>
                             </div>
                         </div>
@@ -100,7 +101,7 @@
                         <tr>
                             <th scope="col">Nom de la sortie</th>
                             <th scope="col">Date de la sortie</th>
-                            <th scope="col">Clôture</th>
+                            <th scope="col">Date limite Inscription</th>
                             <th scope="col">Inscrits / Places</th>
                             <th scope="col">Etat</th>
                             <th scope="col">Inscrit</th>
@@ -145,34 +146,54 @@
                                 <td>
 
 
-                                    {% if ('now'|date('d/m/Y') < liste.dateLimiteInscription|date('d/m/Y') ) and not ( liste.participantsInscrits.contains(app.user) ) and  (liste.organisateur.id != app.user.id )%}
+                                    {% if ('now'|date('d/m/Y') < liste.dateLimiteInscription|date('d/m/Y') ) and not ( liste.participantsInscrits.contains(app.user) ) and  (liste.organisateur.id != app.user.id ) and liste.etat.libelle == 'Ouvert'%}
                                         <a href="{{path('app_detail_sortie',{'id': liste.id})}}">Afficher</a>
                                         <a href="{{path('inscription',{'id': liste.id})}}">S'inscrire</a>
                                     {% endif %}
 
 
-                                    {% if ('now'|date('d/m/Y') < liste.dateLimiteInscription|date('d/m/Y') )and (liste.participantsInscrits.contains(app.user)) and  ( liste.organisateur.id != app.user.id )%}
+                                    {% if ('now'|date('d/m/Y') < liste.dateLimiteInscription|date('d/m/Y') )and (liste.participantsInscrits.contains(app.user)) and  ( liste.organisateur.id != app.user.id )and liste.etat.libelle == 'Ouvert'%}
                                         <a href="{{path('app_detail_sortie',{'id': liste.id})}}">Afficher</a>
                                         <a href="{{path('desistement',{'id': liste.id})}}">Se désister</a>
                                     {% endif %}
 
 
 
-                                    {% if ('now'|date('d/m/Y') < liste.dateHeureDebut|date('d/m/Y') ) and ( liste.organisateur.id == app.user.id )%}
+                                    {% if ('now'|date('d/m/Y') < liste.dateHeureDebut|date('d/m/Y') ) and ( liste.organisateur.id == app.user.id ) and not liste.etat.libelle == 'Annulée'%}
 
                                         <a href="{{path('ecranAnnulation',{'id': liste.id})}}">Annuler</a>
                                     {% endif %}
 
 
 
-                                    {% if liste.organisateur.id == app.user.id and liste.etat.libelle == 'En Cours'%}
-                                        <a href="">Mofifier</a>
-                                        <a href="">Publier</a>
+                                    {% if liste.organisateur.id == app.user.id and liste.etat.libelle == 'En Création'%}
+                                        <a href="">Modifier</a>
+                                        <a href="{{path('publier',{'id': liste.id})}}">Publier</a>
                                     {% endif %}
 
                                     {% if liste.organisateur.id == app.user.id and liste.etat.libelle == 'Ouvert'%}
                                         <a href="{{path('app_detail_sortie',{'id': liste.id})}}">Afficher</a>
+                                        <a href="{{path('ecranAnnulation',{'id': liste.id})}}">Annuler</a>
                                     {% endif %}
+
+                                    {% if  liste.etat.libelle == 'Annulée'%}
+                                        <a href="{{path('app_detail_sortie',{'id': liste.id})}}">Afficher</a>
+
+                                    {% endif %}
+
+                                    {% if liste.organisateur.id != app.user.id and liste.etat.libelle == 'Fermée'%}
+                                        <a href="{{path('app_detail_sortie',{'id': liste.id})}}">Afficher</a>
+
+                                    {% endif %}
+
+                                    {% if liste.organisateur.id != app.user.id and liste.etat.libelle == 'En Cours'%}
+                                        <a href="{{path('app_detail_sortie',{'id': liste.id})}}">Afficher</a>
+
+                                    {% endif %}
+
+
+
+
 
                                 </td>
 
