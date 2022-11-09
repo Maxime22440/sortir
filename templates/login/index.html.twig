@@ -10,7 +10,7 @@
 
 {% block body %}
     {% block nav %}
-        
+        {% include 'headerNavLogin.html.twig'%}
     {% endblock %}
 
 
@@ -51,5 +51,7 @@
             </div>
         </div>
     </div>
-
+    <div class="footer">
+        {% include 'footer.html.twig' %}
+    </div>
 {% endblock %}
