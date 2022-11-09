@@ -67,7 +67,7 @@ class Participant extends Fixture
             $user->setPrenom($faker->firstName);
             $user->setUsername($faker->userName);
             $user->setMail($faker->email);
-            $user->setPassword($this->hasher->hashPassword($user, 'faker'.$i));
+            $user->setPassword($this->hasher->hashPassword($user, 'faker'));
             $user->setTelephone($faker->phoneNumber);
             $user->setActif(true);
             if ($i % 2==0) $user->setCampus($this->getReference('Chartres-de-Bretagne'));

@@ -79,7 +79,7 @@
                 <label>Description et infos: </label>
             </div>
             <div class="col-md-6">
-                <p>{{ sortie.infosSortie }}  </p>
+                <p>{{ sortie.infosSortie|nl2br }}  </p>
             </div>
         </div>
     </div>
@@ -165,6 +165,32 @@
         </div>
 
 
+    </div>
+   <div>
+       <h3 class="text-center">Liste des participants inscrits </h3>
+   </div>
+
+    <div class="container table-responsive py-5">
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Username</th>
+                <th scope="col">Nom</th>
+
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for participant in listeParticipant %}
+
+                <tr>
+                    <th scope="row">{{ participant.username }}</th>
+                    <td>{{ participant.nom }} {{ participant.prenom }}</td>
+                </tr>
+
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
 
     {% include 'footer.html.twig' %}
