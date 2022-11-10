@@ -24,11 +24,11 @@ class Participant extends Fixture
         // $product = new Product();
         // $manager->persist($product);
         $roman = new \App\Entity\Participant();
-        $roman->setNom('Sueur');
-        $roman->setUsername('roro');
-        $roman->setPrenom('roman');
-        $roman->setMail('roman@gmail.com');
-        $roman->setPassword($this->hasher->hashPassword($roman, 'roman'));
+        $roman->setNom('Turing');
+        $roman->setUsername('mrt');
+        $roman->setPrenom('alan');
+        $roman->setMail('mrt@email.com');
+        $roman->setPassword($this->hasher->hashPassword($roman, 'mrt123'));
         $roman->setTelephone('06 56 44 21 78');
         $roman->setActif(true);
         $roman->setCampus($this->getReference('Chartres-de-Bretagne'));

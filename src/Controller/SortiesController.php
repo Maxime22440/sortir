@@ -51,10 +51,10 @@ class SortiesController extends AbstractController
        $listes= $sortieRepository->findWithFilter($filtreData, $userId);
 
         if ($filterForm->isSubmitted() && $filterForm->isValid()) {
-            dump($sortieRepository->findWithFilter($filtreData, $userId));
+
             $listes = $sortieRepository->findWithFilter($filtreData, $userId);
 
-            dump($listes);
+
             return $this->render('sorties/sorties.html.twig', [
                 'controller_name' => 'LoginController',
                 'listes' => $listes,

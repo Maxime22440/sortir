@@ -50,13 +50,6 @@ class SortieRepository extends ServiceEntityRepository
 
 
 
-        $premiereDate = $filter->getFirstdate();
-        $deuxiemeDate = $filter->getSecondDate();
-        $sortieOrganisateur = $filter->getSortieOrganisateur();
-        $sortieInscrit = $filter->getSortieInscrit();
-        $sortieNonInscrit = $filter->getSortieNonInscrit();
-        $sortiesPasses = $filter->getSortiesPasses();
-        $localDate = date("Y-m-d H:i:s");
 
 
         $querry = $this->createQueryBuilder('sortie')
@@ -96,15 +89,6 @@ class SortieRepository extends ServiceEntityRepository
         }
 
 
-//        if ($sortiesPasses == null){
-//
-//
-//            $querry->andWhere('sortie.dateHeureDebut BETWEEN :premiereDate AND :deuxiemeDate')
-//                ->setParameter('premiereDate',$premiereDate)
-//                ->setParameter('deuxiemeDate',$deuxiemeDate);
-//        }
-
-
 
         if ($filter->getSortieOrganisateur() and !$filter->getSortieNonInscrit()) {
 
@@ -136,10 +120,13 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('userId3',$userId);
         }
 
+
         if ($filter->getSortieNonInscrit() and $filter->getSortieInscrit() ){
             $querry->andWhere('pi.id  IN (:userId3)')
                 ->setParameter('userId3',0);
         }
+
+
 
         if ($filter->getSortiesPasses()){
 
@@ -148,11 +135,6 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('etat','Fermé');
 
         }
-
-
-
-
-
 
         return $querry->getQuery()->getResult();
     }
